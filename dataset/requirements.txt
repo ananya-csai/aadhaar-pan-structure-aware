@@ -1,0 +1,10 @@
+# Pinned to the versions the released corpus was built with.  Any deviation may
+# change JPEG encoding or interpolation by a few least-significant bits and so
+# break bit-exact reproduction; the dataset content (values, labels, splits) is
+# unaffected because it derives from the seed, not from the pixels.
+numpy==2.4.4
+opencv-python==4.13.0
+pillow==12.2.0
+matplotlib==3.10.9
+# External binary, not a Python package:
+#   tesseract-ocr 5.3.4  (leptonica 1.82.0), English model only.

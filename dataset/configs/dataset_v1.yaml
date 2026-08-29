@@ -1,0 +1,14 @@
+# Dataset v1 configuration.  Read by a minimal parser in build.py, so keep this
+# to flat "key: value" lines (no nesting, no anchors).
+version: v1
+n_persons: 300
+seed: 20260828
+stratum_weights: [1, 1, 1]
+honorific_rate: 0.18
+# MODELLING ASSUMPTION, not a measurement: the fraction of initial-first records
+# whose PAN fifth character derives from the abbreviated LEADING token rather
+# than from the expanded given name.  Results conditioned on pan_fifth_source
+# are independent of this value; see docs/DATASHEET.md.
+initial_first_p5_from_lead: 0.35
+tiers: ["clean", "mild", "severe"]
+workers: 2

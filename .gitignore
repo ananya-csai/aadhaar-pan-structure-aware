@@ -1,0 +1,29 @@
+# The image corpus is a deterministic function of the code and the seed in
+# configs/dataset_v1.yaml. Committing ~0.9 GiB of derived JPEGs would make the
+# repository permanently expensive to clone and would add nothing the seed does
+# not already determine. Everything needed to REGENERATE the images is tracked;
+# a curated sample is committed under docs/samples/ so a reviewer can see the
+# corpus without building it.
+dataset/data/**/images/
+dataset/data/**/_crops/
+
+# 21 MB per rebuild, and fully regenerated. manifest.csv (2.3 MB) IS tracked and
+# carries the same index in a form you can open in a spreadsheet.
+dataset/data/**/manifest.jsonl
+
+# build noise
+dataset/logs/
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.DS_Store
+
+# LaTeX build products
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.pdf
+!paper/figures/*.pdf

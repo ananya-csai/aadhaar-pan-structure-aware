@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+title: "idforge: a controlled synthetic benchmark for Aadhaar- and PAN-format document forgery"
+message: "If you use this dataset or code, please cite both this repository and the paper."
+type: dataset
+authors:
+  - family-names: Shukla
+    given-names: Ananya
+    affiliation: Manipal University Jaipur
+  - family-names: Phulwaria
+    given-names: Soham
+    affiliation: Manipal University Jaipur
+  - family-names: Saini
+    given-names: Dinesh
+    affiliation: Manipal University Jaipur
+license: MIT
+version: "1.0"
+date-released: "2026-08-28"
+keywords:
+  - identity document forgery
+  - synthetic dataset
+  - Aadhaar
+  - PAN
+  - structural validation
+  - OCR
+preferred-citation:
+  type: article
+  title: "Structure-Aware Forgery Detection for Aadhaar and PAN: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion"
+  authors:
+    - family-names: Shukla
+      given-names: Ananya
+    - family-names: Phulwaria
+      given-names: Soham
+    - family-names: Saini
+      given-names: Dinesh
+  year: 2026
