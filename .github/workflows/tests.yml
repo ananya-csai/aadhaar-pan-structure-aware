@@ -1,5 +1,6 @@
 name: tests
 on: [push, pull_request]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -8,16 +9,44 @@ jobs:
         working-directory: dataset
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install Tesseract
-        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr
+          tesseract --version
+
       - name: Install Python dependencies
         run: pip install -r requirements.txt
-      - name: Unit tests (Verhoeff, validators, generator invariants)
+
+      - name: Record the resolved environment
+        # Printed so that a future dependency failure can be diagnosed from the
+        # log alone, and so the environment behind a CI run is recoverable.
+        run: |
+          python -c "import sys; print('python', sys.version)"
+          pip list
+          python -c "import cv2, numpy, PIL, matplotlib; print('cv2 library', cv2.__version__)"
+
+      - name: Unit tests (Verhoeff, validators, generator invariants, seed stability)
         run: make test
-      - name: Smoke build (6 persons, end to end)
+
+      - name: Smoke build, end to end
         run: |
           PYTHONPATH=src python3 -m idforge.build --out data/smoke --n-persons 6 --workers 2
           PYTHONPATH=src python3 -m idforge.report --out data/smoke
+
+      - name: Determinism — same seed, different worker counts, identical bytes
+        # The reproducibility claim in Section IV-L is that the corpus is a
+        # deterministic function of the seed. This asserts it on every push
+        # rather than leaving it to be discovered broken later, which is how
+        # the salted-hash() defect recorded in docs/DECISIONS.md (D15) was
+        # found in the first place.
+        run: |
+          PYTHONPATH=src python3 -m idforge.build --out data/det_a --n-persons 3 --workers 1 --skip-ocr
+          PYTHONPATH=src python3 -m idforge.build --out data/det_b --n-persons 3 --workers 2 --skip-ocr
+          diff -r data/det_a/images data/det_b/images
+          echo "byte-identical across worker counts"

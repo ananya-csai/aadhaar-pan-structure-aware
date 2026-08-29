@@ -1,10 +1,30 @@
-# Pinned to the versions the released corpus was built with.  Any deviation may
-# change JPEG encoding or interpolation by a few least-significant bits and so
-# break bit-exact reproduction; the dataset content (values, labels, splits) is
-# unaffected because it derives from the seed, not from the pixels.
+# Python dependencies, pinned to the versions the released corpus was built
+# with.  Any deviation may change JPEG encoding or interpolation by a few
+# least-significant bits and so break bit-exact reproduction; the dataset
+# CONTENT (values, labels, splits, ground truth) is unaffected because it
+# derives from the seed, not from the pixels.  scripts/corpus_checksum.py
+# --verify is the check that tells the two cases apart.
+
 numpy==2.4.4
-opencv-python==4.13.0
 pillow==12.2.0
 matplotlib==3.10.9
-# External binary, not a Python package:
-#   tesseract-ocr 5.3.4  (leptonica 1.82.0), English model only.
+
+# OpenCV.  Note the FOUR-component version: opencv-python releases are
+# <opencv-version>.<packaging-build>, so the PyPI package that provides OpenCV
+# 4.13.0 is 4.13.0.92.  `cv2.__version__` reports only the three-component
+# OpenCV library version, so reading a pin off `cv2.__version__` produces
+# `4.13.0`, which is not a release on PyPI and cannot be installed on any
+# Python version.  That was the cause of the CI failure fixed in this commit.
+#
+# The headless build is the default here.  It is byte-identical to the full
+# build for every function this pipeline uses -- only GUI support (highgui)
+# differs, and the pipeline makes no GUI calls -- and it needs no system
+# OpenGL libraries, so it installs cleanly on CI runners and in containers.
+# The released corpus was built with the full build, opencv-python==4.13.0.92;
+# substitute that line if you want to match the build environment exactly.
+opencv-python-headless==4.13.0.92
+
+# External binary, NOT a Python package and therefore not pinnable here:
+#   tesseract-ocr 5.3.4 (leptonica 1.82.0), English model only.
+# It determines every OCR number reported in Section IV, so record its version
+# alongside the commit hash when citing the dataset.
