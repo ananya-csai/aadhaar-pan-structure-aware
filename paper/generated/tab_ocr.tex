@@ -1,0 +1,42 @@
+\begin{table}[t]
+\caption{Per-field OCR extraction quality by capture quality tier:
+exact-match rate with a 95\% Wilson interval, and mean character
+error rate. Raw Tesseract output, with only the parsing step of
+Section~\ref{subsec:ocr} applied.}
+\label{tab:ocr}
+\centering
+\footnotesize
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Field & Tier & $n$ & Exact match \% [95\% CI] & CER \% \\
+\midrule
+A: number & clean & 1800 & 99.8 [99.5, 99.9] & 0.01 \\
+ & mild & 1800 & 99.4 [99.0, 99.7] & 0.07 \\
+ & severe & 1800 & 88.3 [86.8, 89.7] & 2.50 \\
+\addlinespace[1.5pt]
+A: name & clean & 1800 & 98.8 [98.2, 99.2] & 0.10 \\
+ & mild & 1800 & 98.7 [98.1, 99.2] & 0.10 \\
+ & severe & 1800 & 64.7 [62.5, 66.9] & 22.22 \\
+\addlinespace[1.5pt]
+A: DOB & clean & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
+ & mild & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
+ & severe & 1800 & 41.5 [39.2, 43.8] & 45.33 \\
+\addlinespace[1.5pt]
+P: number & clean & 1800 & 85.2 [83.5, 86.7] & 1.57 \\
+ & mild & 1800 & 84.9 [83.2, 86.5] & 1.57 \\
+ & severe & 1800 & 67.7 [65.5, 69.8] & 7.30 \\
+\addlinespace[1.5pt]
+P: name & clean & 1800 & 99.7 [99.3, 99.8] & 0.04 \\
+ & mild & 1800 & 99.6 [99.2, 99.8] & 0.06 \\
+ & severe & 1800 & 53.8 [51.5, 56.1] & 31.78 \\
+\addlinespace[1.5pt]
+P: father & clean & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
+ & mild & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
+ & severe & 1800 & 44.7 [42.4, 47.0] & 43.68 \\
+\addlinespace[1.5pt]
+P: DOB & clean & 1800 & 99.7 [99.3, 99.9] & 0.03 \\
+ & mild & 1800 & 99.9 [99.7, 100.0] & 0.01 \\
+ & severe & 1800 & 33.8 [31.7, 36.0] & 50.84 \\
+\bottomrule
+\end{tabular}
+\end{table}

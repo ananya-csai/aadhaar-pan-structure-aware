@@ -1,0 +1,27 @@
+\begin{table}[t]
+\caption{Leakage audit performed on the released splits. Each check is
+run on the corpus and its outcome reported, rather than asserted. The
+first four checks are exact and all pass. The fifth, near-duplicate
+detection by perceptual hashing, is reported as a \emph{diagnostic}
+rather than a gate: on a corpus in which every document shares one
+of six layout templates, the same-document and different-person
+distance distributions overlap, so no threshold can separate a
+leaked duplicate from two unrelated documents. See
+Section~\ref{subsec:leakage} and Fig.~\ref{fig:phash}.}
+\label{tab:leakage}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}p{1.15cm}p{3.0cm}ll@{}}
+\toprule
+Leakage mode & Check & Required & Observed \\
+\midrule
+Identity & person-id intersection across splits & empty & 0 \\
+Identifier & Aadhaar/PAN string intersection & empty & 0 \\
+Template & every layout variant in every split & all & 6/6 \\
+Near-duplicate & \dsPhashBits-bit perceptual-hash distance & (diagnostic) & see Sec.~\ref{subsec:leakage} \\
+Augment\-ation & degradation draws of one document & one split & 0 span splits \\
+Printed values & identical field-value set in two splits & none & 0 of 2100 \\
+\bottomrule
+\end{tabular}
+\end{table}

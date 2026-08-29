@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\caption{Forgery categories, their intended
+detectability, and the realised image counts per document type.
+$\dsCellControls$ control images per document type comprise two
+unmodified renders of every record at $\dsNq$ quality tiers. C2, C3
+and C4 are produced by re-rendering from a modified record, so they
+carry no pixel-level trace; C1 is the only category in which pixels
+are edited after rendering, and it leaves every printed value valid.}
+\label{tab:forgery}
+\centering
+\footnotesize
+\begin{tabular}{@{}l p{7.2cm} l p{2.7cm} r r@{}}
+\toprule
+Cat. & Construction & Visual branch & Rule branch & Aadhaar & PAN \\
+\midrule
+C0 & Unmodified render & pass & pass & 1800 & 1800 \\
+C1 & Post-render pixel edit; every printed value remains valid & detect & pass & 900 & 900 \\
+C2 & Re-render with a structurally invalid identifier: Aadhaar checksum broken, or PAN format or category character broken & miss & detect & 900 & 900 \\
+C3 & Re-render with a semantically inconsistent field pair: PAN fifth character against the name, Aadhaar Latin against Devanagari name & miss & detect (PAN only) & 900 & 900 \\
+C4 & Re-render with a fabricated identifier that satisfies every rule & miss & miss & 900 & 900 \\
+\bottomrule
+\end{tabular}
+\end{table*}

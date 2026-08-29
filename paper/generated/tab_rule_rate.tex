@@ -1,0 +1,28 @@
+\begin{table}[t]
+\caption{Rule-branch flag rate by forgery category (\% of images on
+which an applicable rule evaluated \textsc{false}), on ground-truth
+text and on OCR-extracted text, with 95\% Wilson intervals. On C0 a
+flag is a false positive. On C4 both branches are expected to miss by
+construction, so a flag there is an OCR-induced false alarm and not
+detection of the fabrication.}
+\label{tab:rulerate}
+\centering
+\footnotesize
+\begin{tabular}{@{}llll@{}}
+\toprule
+Document & Cat. & Ground-truth text & OCR text \\
+\midrule
+Aadhaar & C0 & 0.0 [0.0, 0.2] & 4.1 [3.3, 5.1] \\
+ & C1 & 0.0 [0.0, 0.4] & 4.1 [3.0, 5.6] \\
+ & C2 & 100.0 [99.6, 100.0] & 99.8 [99.2, 99.9] \\
+ & C3 & 0.0 [0.0, 0.4] & 3.9 [2.8, 5.4] \\
+ & C4 & 0.0 [0.0, 0.4] & 4.0 [2.9, 5.5] \\
+\midrule
+PAN & C0 & 0.0 [0.0, 0.2] & 18.9 [17.1, 20.8] \\
+ & C1 & 0.0 [0.0, 0.4] & 20.8 [18.3, 23.5] \\
+ & C2 & 100.0 [99.6, 100.0] & 97.1 [95.8, 98.0] \\
+ & C3 & 100.0 [99.6, 100.0] & 96.2 [94.8, 97.3] \\
+ & C4 & 0.0 [0.0, 0.4] & 23.2 [20.6, 26.1] \\
+\bottomrule
+\end{tabular}
+\end{table}
