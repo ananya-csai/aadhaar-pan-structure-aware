@@ -1,0 +1,987 @@
+{
+ "totals": {
+  "persons": 300,
+  "documents": 3600,
+  "images": 10800,
+  "images_genuine": 3600,
+  "images_forged": 7200
+ },
+ "composition": {
+  "aadhaar/C0/clean": 600,
+  "aadhaar/C0/mild": 600,
+  "aadhaar/C0/severe": 600,
+  "aadhaar/C1/clean": 300,
+  "aadhaar/C1/mild": 300,
+  "aadhaar/C1/severe": 300,
+  "aadhaar/C2/clean": 300,
+  "aadhaar/C2/mild": 300,
+  "aadhaar/C2/severe": 300,
+  "aadhaar/C3/clean": 300,
+  "aadhaar/C3/mild": 300,
+  "aadhaar/C3/severe": 300,
+  "aadhaar/C4/clean": 300,
+  "aadhaar/C4/mild": 300,
+  "aadhaar/C4/severe": 300,
+  "pan/C0/clean": 600,
+  "pan/C0/mild": 600,
+  "pan/C0/severe": 600,
+  "pan/C1/clean": 300,
+  "pan/C1/mild": 300,
+  "pan/C1/severe": 300,
+  "pan/C2/clean": 300,
+  "pan/C2/mild": 300,
+  "pan/C2/severe": 300,
+  "pan/C3/clean": 300,
+  "pan/C3/mild": 300,
+  "pan/C3/severe": 300,
+  "pan/C4/clean": 300,
+  "pan/C4/mild": 300,
+  "pan/C4/severe": 300
+ },
+ "composition_by_cell": {
+  "aadhaar/C0": 1800,
+  "aadhaar/C1": 900,
+  "aadhaar/C2": 900,
+  "aadhaar/C3": 900,
+  "aadhaar/C4": 900,
+  "pan/C0": 1800,
+  "pan/C1": 900,
+  "pan/C2": 900,
+  "pan/C3": 900,
+  "pan/C4": 900
+ },
+ "split_sizes": {
+  "train": 7560,
+  "val": 1620,
+  "test": 1620
+ },
+ "split_persons": {
+  "test": 45,
+  "train": 210,
+  "val": 45
+ },
+ "naming_strata_persons": {
+  "surname_last": 108,
+  "initial_first": 92,
+  "mononymic": 100
+ },
+ "pan_fifth_source_persons": {
+  "surname": 108,
+  "given_name": 63,
+  "mononym": 100,
+  "leading_initial": 29
+ },
+ "template_variants": {
+  "aadhaar/v2": 1818,
+  "pan/v2": 2070,
+  "aadhaar/v0": 1944,
+  "pan/v0": 1458,
+  "aadhaar/v1": 1638,
+  "pan/v1": 1872
+ },
+ "honorific_rate_persons": 0.17,
+ "storage": {
+  "total_bytes": 938517904,
+  "total_gib": 0.874,
+  "mean_kib_by_tier": {
+   "clean": 156.4,
+   "mild": 73.2,
+   "severe": 25.0
+  },
+  "mean_pixels_by_tier": {
+   "clean": 595583,
+   "mild": 413650,
+   "severe": 234144
+  }
+ },
+ "rule_on_ground_truth": {
+  "aadhaar/C0": {
+   "PASS": 1800
+  },
+  "aadhaar/C1": {
+   "PASS": 900
+  },
+  "aadhaar/C2": {
+   "FAIL": 900
+  },
+  "aadhaar/C3": {
+   "PASS": 900
+  },
+  "aadhaar/C4": {
+   "PASS": 900
+  },
+  "pan/C0": {
+   "PASS": 1800
+  },
+  "pan/C1": {
+   "PASS": 900
+  },
+  "pan/C2": {
+   "FAIL": 900
+  },
+  "pan/C3": {
+   "FAIL": 900
+  },
+  "pan/C4": {
+   "PASS": 900
+  }
+ },
+ "ocr": {
+  "aadhaar/aadhaar_number/clean": {
+   "n": 1800,
+   "exact_match_pct": 99.83,
+   "ci95": [
+    99.51,
+    99.94
+   ],
+   "mean_cer_pct": 0.014,
+   "empty_extraction_pct": 0.0
+  },
+  "aadhaar/aadhaar_number/mild": {
+   "n": 1800,
+   "exact_match_pct": 99.44,
+   "ci95": [
+    98.98,
+    99.7
+   ],
+   "mean_cer_pct": 0.069,
+   "empty_extraction_pct": 0.0
+  },
+  "aadhaar/aadhaar_number/severe": {
+   "n": 1800,
+   "exact_match_pct": 88.33,
+   "ci95": [
+    86.77,
+    89.74
+   ],
+   "mean_cer_pct": 2.505,
+   "empty_extraction_pct": 0.56
+  },
+  "aadhaar/dob/clean": {
+   "n": 1800,
+   "exact_match_pct": 100.0,
+   "ci95": [
+    99.79,
+    100.0
+   ],
+   "mean_cer_pct": 0.0,
+   "empty_extraction_pct": 0.0
+  },
+  "aadhaar/dob/mild": {
+   "n": 1800,
+   "exact_match_pct": 100.0,
+   "ci95": [
+    99.79,
+    100.0
+   ],
+   "mean_cer_pct": 0.0,
+   "empty_extraction_pct": 0.0
+  },
+  "aadhaar/dob/severe": {
+   "n": 1800,
+   "exact_match_pct": 41.5,
+   "ci95": [
+    39.24,
+    43.79
+   ],
+   "mean_cer_pct": 45.328,
+   "empty_extraction_pct": 33.67
+  },
+  "aadhaar/name/clean": {
+   "n": 1800,
+   "exact_match_pct": 98.83,
+   "ci95": [
+    98.22,
+    99.24
+   ],
+   "mean_cer_pct": 0.098,
+   "empty_extraction_pct": 0.0
+  },
+  "aadhaar/name/mild": {
+   "n": 1800,
+   "exact_match_pct": 98.72,
+   "ci95": [
+    98.09,
+    99.15
+   ],
+   "mean_cer_pct": 0.103,
+   "empty_extraction_pct": 0.0
+  },
+  "aadhaar/name/severe": {
+   "n": 1800,
+   "exact_match_pct": 64.72,
+   "ci95": [
+    62.49,
+    66.9
+   ],
+   "mean_cer_pct": 22.216,
+   "empty_extraction_pct": 10.78
+  },
+  "pan/dob/clean": {
+   "n": 1800,
+   "exact_match_pct": 99.72,
+   "ci95": [
+    99.35,
+    99.88
+   ],
+   "mean_cer_pct": 0.028,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/dob/mild": {
+   "n": 1800,
+   "exact_match_pct": 99.94,
+   "ci95": [
+    99.69,
+    99.99
+   ],
+   "mean_cer_pct": 0.006,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/dob/severe": {
+   "n": 1800,
+   "exact_match_pct": 33.83,
+   "ci95": [
+    31.68,
+    36.05
+   ],
+   "mean_cer_pct": 50.844,
+   "empty_extraction_pct": 36.67
+  },
+  "pan/father_name/clean": {
+   "n": 1800,
+   "exact_match_pct": 100.0,
+   "ci95": [
+    99.79,
+    100.0
+   ],
+   "mean_cer_pct": 0.0,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/father_name/mild": {
+   "n": 1800,
+   "exact_match_pct": 100.0,
+   "ci95": [
+    99.79,
+    100.0
+   ],
+   "mean_cer_pct": 0.0,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/father_name/severe": {
+   "n": 1800,
+   "exact_match_pct": 44.72,
+   "ci95": [
+    42.44,
+    47.03
+   ],
+   "mean_cer_pct": 43.684,
+   "empty_extraction_pct": 26.5
+  },
+  "pan/name/clean": {
+   "n": 1800,
+   "exact_match_pct": 99.67,
+   "ci95": [
+    99.27,
+    99.85
+   ],
+   "mean_cer_pct": 0.042,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/name/mild": {
+   "n": 1800,
+   "exact_match_pct": 99.61,
+   "ci95": [
+    99.2,
+    99.81
+   ],
+   "mean_cer_pct": 0.064,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/name/severe": {
+   "n": 1800,
+   "exact_match_pct": 53.83,
+   "ci95": [
+    51.52,
+    56.13
+   ],
+   "mean_cer_pct": 31.778,
+   "empty_extraction_pct": 18.33
+  },
+  "pan/pan_number/clean": {
+   "n": 1800,
+   "exact_match_pct": 85.17,
+   "ci95": [
+    83.45,
+    86.73
+   ],
+   "mean_cer_pct": 1.568,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/pan_number/mild": {
+   "n": 1800,
+   "exact_match_pct": 84.94,
+   "ci95": [
+    83.22,
+    86.52
+   ],
+   "mean_cer_pct": 1.568,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/pan_number/severe": {
+   "n": 1800,
+   "exact_match_pct": 67.67,
+   "ci95": [
+    65.47,
+    69.79
+   ],
+   "mean_cer_pct": 7.301,
+   "empty_extraction_pct": 1.28
+  }
+ },
+ "identifier_character_confusions_top20": {
+  "0->O": 297,
+  "O->0": 189,
+  "I->1": 116,
+  "0->6": 83,
+  "J->I": 69,
+  "0->8": 55,
+  "5->S": 27,
+  "9->S": 25,
+  "J->3": 21,
+  "9->0": 18,
+  "3->2": 18,
+  "8->S": 17,
+  "G->6": 17,
+  "8->B": 16,
+  "8->6": 16,
+  "Q->0": 13,
+  "5->6": 12,
+  "0->9": 11,
+  "Q->O": 11,
+  "9->O": 10
+ },
+ "rule_on_ocr": {
+  "aadhaar/C0/clean": {
+   "PASS": 598,
+   "FAIL": 2
+  },
+  "aadhaar/C0/mild": {
+   "PASS": 598,
+   "FAIL": 2
+  },
+  "aadhaar/C0/severe": {
+   "PASS": 530,
+   "FAIL": 70
+  },
+  "aadhaar/C1/clean": {
+   "PASS": 299,
+   "FAIL": 1
+  },
+  "aadhaar/C1/mild": {
+   "PASS": 299,
+   "FAIL": 1
+  },
+  "aadhaar/C1/severe": {
+   "FAIL": 35,
+   "PASS": 265
+  },
+  "aadhaar/C2/clean": {
+   "FAIL": 300
+  },
+  "aadhaar/C2/mild": {
+   "FAIL": 300
+  },
+  "aadhaar/C2/severe": {
+   "FAIL": 298,
+   "PASS": 2
+  },
+  "aadhaar/C3/clean": {
+   "PASS": 300
+  },
+  "aadhaar/C3/mild": {
+   "PASS": 298,
+   "FAIL": 2
+  },
+  "aadhaar/C3/severe": {
+   "PASS": 267,
+   "FAIL": 33
+  },
+  "aadhaar/C4/clean": {
+   "PASS": 300
+  },
+  "aadhaar/C4/mild": {
+   "PASS": 296,
+   "FAIL": 4
+  },
+  "aadhaar/C4/severe": {
+   "PASS": 268,
+   "FAIL": 32
+  },
+  "pan/C0/clean": {
+   "PASS": 524,
+   "FAIL": 76
+  },
+  "pan/C0/mild": {
+   "PASS": 527,
+   "FAIL": 73
+  },
+  "pan/C0/severe": {
+   "PASS": 409,
+   "FAIL": 191
+  },
+  "pan/C1/clean": {
+   "PASS": 263,
+   "FAIL": 37
+  },
+  "pan/C1/mild": {
+   "PASS": 260,
+   "FAIL": 40
+  },
+  "pan/C1/severe": {
+   "FAIL": 110,
+   "PASS": 190
+  },
+  "pan/C2/clean": {
+   "FAIL": 290,
+   "PASS": 10
+  },
+  "pan/C2/mild": {
+   "FAIL": 292,
+   "PASS": 8
+  },
+  "pan/C2/severe": {
+   "FAIL": 292,
+   "PASS": 8
+  },
+  "pan/C3/clean": {
+   "FAIL": 300
+  },
+  "pan/C3/mild": {
+   "FAIL": 300
+  },
+  "pan/C3/severe": {
+   "FAIL": 266,
+   "PASS": 34
+  },
+  "pan/C4/clean": {
+   "PASS": 250,
+   "FAIL": 50
+  },
+  "pan/C4/mild": {
+   "PASS": 253,
+   "FAIL": 47
+  },
+  "pan/C4/severe": {
+   "PASS": 188,
+   "FAIL": 112
+  }
+ },
+ "ocr_induced_verdict_flips": {
+  "aadhaar/C0/clean": {
+   "stable": 598,
+   "ocr_induced_failure": 2
+  },
+  "aadhaar/C0/mild": {
+   "stable": 598,
+   "ocr_induced_failure": 2
+  },
+  "aadhaar/C0/severe": {
+   "stable": 530,
+   "ocr_induced_failure": 70
+  },
+  "aadhaar/C1/clean": {
+   "stable": 299,
+   "ocr_induced_failure": 1
+  },
+  "aadhaar/C1/mild": {
+   "stable": 299,
+   "ocr_induced_failure": 1
+  },
+  "aadhaar/C1/severe": {
+   "ocr_induced_failure": 35,
+   "stable": 265
+  },
+  "aadhaar/C2/clean": {
+   "stable": 300
+  },
+  "aadhaar/C2/mild": {
+   "stable": 300
+  },
+  "aadhaar/C2/severe": {
+   "stable": 298,
+   "ocr_masked_failure": 2
+  },
+  "aadhaar/C3/clean": {
+   "stable": 300
+  },
+  "aadhaar/C3/mild": {
+   "stable": 298,
+   "ocr_induced_failure": 2
+  },
+  "aadhaar/C3/severe": {
+   "stable": 267,
+   "ocr_induced_failure": 33
+  },
+  "aadhaar/C4/clean": {
+   "stable": 300
+  },
+  "aadhaar/C4/mild": {
+   "stable": 296,
+   "ocr_induced_failure": 4
+  },
+  "aadhaar/C4/severe": {
+   "stable": 268,
+   "ocr_induced_failure": 32
+  },
+  "pan/C0/clean": {
+   "stable": 524,
+   "ocr_induced_failure": 76
+  },
+  "pan/C0/mild": {
+   "stable": 527,
+   "ocr_induced_failure": 73
+  },
+  "pan/C0/severe": {
+   "stable": 409,
+   "ocr_induced_failure": 191
+  },
+  "pan/C1/clean": {
+   "stable": 263,
+   "ocr_induced_failure": 37
+  },
+  "pan/C1/mild": {
+   "stable": 260,
+   "ocr_induced_failure": 40
+  },
+  "pan/C1/severe": {
+   "ocr_induced_failure": 110,
+   "stable": 190
+  },
+  "pan/C2/clean": {
+   "stable": 290,
+   "ocr_masked_failure": 10
+  },
+  "pan/C2/mild": {
+   "stable": 292,
+   "ocr_masked_failure": 8
+  },
+  "pan/C2/severe": {
+   "stable": 292,
+   "ocr_masked_failure": 8
+  },
+  "pan/C3/clean": {
+   "stable": 300
+  },
+  "pan/C3/mild": {
+   "stable": 300
+  },
+  "pan/C3/severe": {
+   "stable": 266,
+   "ocr_masked_failure": 34
+  },
+  "pan/C4/clean": {
+   "stable": 250,
+   "ocr_induced_failure": 50
+  },
+  "pan/C4/mild": {
+   "stable": 253,
+   "ocr_induced_failure": 47
+  },
+  "pan/C4/severe": {
+   "stable": 188,
+   "ocr_induced_failure": 112
+  }
+ },
+ "rule_false_positive_on_genuine_ocr": {
+  "aadhaar/clean": {
+   "n": 600,
+   "fp": 2,
+   "pct_ci": "0.3 [0.1, 1.2]"
+  },
+  "aadhaar/mild": {
+   "n": 600,
+   "fp": 2,
+   "pct_ci": "0.3 [0.1, 1.2]"
+  },
+  "aadhaar/severe": {
+   "n": 600,
+   "fp": 70,
+   "pct_ci": "11.7 [9.3, 14.5]"
+  },
+  "aadhaar/ALL": {
+   "n": 1800,
+   "fp": 74,
+   "pct_ci": "4.1 [3.3, 5.1]"
+  },
+  "pan/clean": {
+   "n": 600,
+   "fp": 76,
+   "pct_ci": "12.7 [10.2, 15.6]"
+  },
+  "pan/mild": {
+   "n": 600,
+   "fp": 73,
+   "pct_ci": "12.2 [9.8, 15.0]"
+  },
+  "pan/severe": {
+   "n": 600,
+   "fp": 191,
+   "pct_ci": "31.8 [28.2, 35.7]"
+  },
+  "pan/ALL": {
+   "n": 1800,
+   "fp": 340,
+   "pct_ci": "18.9 [17.1, 20.8]"
+  }
+ },
+ "rule_false_positive_on_genuine_groundtruth": {
+  "aadhaar": {
+   "n": 1800,
+   "fp": 0,
+   "pct_ci": "0.0 [0.0, 0.2]"
+  },
+  "pan": {
+   "n": 1800,
+   "fp": 0,
+   "pct_ci": "0.0 [0.0, 0.2]"
+  }
+ },
+ "pan_false_positive_by_naming_stratum_ocr": {
+  "initial_first": {
+   "n": 552,
+   "fp": 119,
+   "pct_ci": "21.6 [18.3, 25.2]"
+  },
+  "mononymic": {
+   "n": 600,
+   "fp": 104,
+   "pct_ci": "17.3 [14.5, 20.6]"
+  },
+  "surname_last": {
+   "n": 648,
+   "fp": 117,
+   "pct_ci": "18.1 [15.3, 21.2]"
+  }
+ },
+ "pan_semantic_permissive_vs_strict_on_genuine": {
+  "ALL/gt": {
+   "n": 1800,
+   "permissive_fail_pct_ci": "0.0 [0.0, 0.2]",
+   "strict_fail_pct_ci": "9.0 [7.8, 10.4]",
+   "skipped_pct_ci": "0.0 [0.0, 0.2]"
+  },
+  "ALL/ocr": {
+   "n": 1800,
+   "permissive_fail_pct_ci": "1.9 [1.4, 2.6]",
+   "strict_fail_pct_ci": "9.4 [8.2, 10.9]",
+   "skipped_pct_ci": "20.2 [18.4, 22.1]"
+  },
+  "surname_last/gt": {
+   "n": 648,
+   "permissive_fail_pct_ci": "0.0 [0.0, 0.6]",
+   "strict_fail_pct_ci": "0.0 [0.0, 0.6]",
+   "skipped_pct_ci": "0.0 [0.0, 0.6]"
+  },
+  "surname_last/ocr": {
+   "n": 648,
+   "permissive_fail_pct_ci": "1.1 [0.5, 2.2]",
+   "strict_fail_pct_ci": "1.4 [0.7, 2.6]",
+   "skipped_pct_ci": "21.0 [18.0, 24.3]"
+  },
+  "initial_first/gt": {
+   "n": 552,
+   "permissive_fail_pct_ci": "0.0 [0.0, 0.7]",
+   "strict_fail_pct_ci": "29.3 [25.7, 33.3]",
+   "skipped_pct_ci": "0.0 [0.0, 0.7]"
+  },
+  "initial_first/ocr": {
+   "n": 552,
+   "permissive_fail_pct_ci": "3.8 [2.5, 5.7]",
+   "strict_fail_pct_ci": "27.4 [23.8, 31.2]",
+   "skipped_pct_ci": "19.4 [16.3, 22.9]"
+  },
+  "mononymic/gt": {
+   "n": 600,
+   "permissive_fail_pct_ci": "0.0 [0.0, 0.6]",
+   "strict_fail_pct_ci": "0.0 [0.0, 0.6]",
+   "skipped_pct_ci": "0.0 [0.0, 0.6]"
+  },
+  "mononymic/ocr": {
+   "n": 600,
+   "permissive_fail_pct_ci": "1.0 [0.5, 2.2]",
+   "strict_fail_pct_ci": "1.7 [0.9, 3.0]",
+   "skipped_pct_ci": "20.2 [17.2, 23.6]"
+  },
+  "p5src:leading_initial/gt": {
+   "n": 174,
+   "permissive_fail_pct_ci": "0.0 [0.0, 2.2]",
+   "strict_fail_pct_ci": "93.1 [88.3, 96.0]",
+   "skipped_pct_ci": "0.0 [0.0, 2.2]"
+  },
+  "p5src:leading_initial/ocr": {
+   "n": 174,
+   "permissive_fail_pct_ci": "6.9 [4.0, 11.7]",
+   "strict_fail_pct_ci": "81.0 [74.6, 86.2]",
+   "skipped_pct_ci": "13.2 [9.0, 19.1]"
+  },
+  "p5src:given_name/gt": {
+   "n": 378,
+   "permissive_fail_pct_ci": "0.0 [0.0, 1.0]",
+   "strict_fail_pct_ci": "0.0 [0.0, 1.0]",
+   "skipped_pct_ci": "0.0 [0.0, 1.0]"
+  },
+  "p5src:given_name/ocr": {
+   "n": 378,
+   "permissive_fail_pct_ci": "2.4 [1.3, 4.5]",
+   "strict_fail_pct_ci": "2.6 [1.4, 4.8]",
+   "skipped_pct_ci": "22.2 [18.3, 26.7]"
+  }
+ },
+ "rule_flag_rate_by_category": {
+  "aadhaar/C0/gt": {
+   "n": 1800,
+   "flagged": 0,
+   "pct_ci": "0.0 [0.0, 0.2]"
+  },
+  "aadhaar/C0/ocr": {
+   "n": 1800,
+   "flagged": 74,
+   "pct_ci": "4.1 [3.3, 5.1]"
+  },
+  "aadhaar/C1/gt": {
+   "n": 900,
+   "flagged": 0,
+   "pct_ci": "0.0 [0.0, 0.4]"
+  },
+  "aadhaar/C1/ocr": {
+   "n": 900,
+   "flagged": 37,
+   "pct_ci": "4.1 [3.0, 5.6]"
+  },
+  "aadhaar/C2/gt": {
+   "n": 900,
+   "flagged": 900,
+   "pct_ci": "100.0 [99.6, 100.0]"
+  },
+  "aadhaar/C2/ocr": {
+   "n": 900,
+   "flagged": 898,
+   "pct_ci": "99.8 [99.2, 99.9]"
+  },
+  "aadhaar/C3/gt": {
+   "n": 900,
+   "flagged": 0,
+   "pct_ci": "0.0 [0.0, 0.4]"
+  },
+  "aadhaar/C3/ocr": {
+   "n": 900,
+   "flagged": 35,
+   "pct_ci": "3.9 [2.8, 5.4]"
+  },
+  "aadhaar/C4/gt": {
+   "n": 900,
+   "flagged": 0,
+   "pct_ci": "0.0 [0.0, 0.4]"
+  },
+  "aadhaar/C4/ocr": {
+   "n": 900,
+   "flagged": 36,
+   "pct_ci": "4.0 [2.9, 5.5]"
+  },
+  "pan/C0/gt": {
+   "n": 1800,
+   "flagged": 0,
+   "pct_ci": "0.0 [0.0, 0.2]"
+  },
+  "pan/C0/ocr": {
+   "n": 1800,
+   "flagged": 340,
+   "pct_ci": "18.9 [17.1, 20.8]"
+  },
+  "pan/C1/gt": {
+   "n": 900,
+   "flagged": 0,
+   "pct_ci": "0.0 [0.0, 0.4]"
+  },
+  "pan/C1/ocr": {
+   "n": 900,
+   "flagged": 187,
+   "pct_ci": "20.8 [18.3, 23.5]"
+  },
+  "pan/C2/gt": {
+   "n": 900,
+   "flagged": 900,
+   "pct_ci": "100.0 [99.6, 100.0]"
+  },
+  "pan/C2/ocr": {
+   "n": 900,
+   "flagged": 874,
+   "pct_ci": "97.1 [95.8, 98.0]"
+  },
+  "pan/C3/gt": {
+   "n": 900,
+   "flagged": 900,
+   "pct_ci": "100.0 [99.6, 100.0]"
+  },
+  "pan/C3/ocr": {
+   "n": 900,
+   "flagged": 866,
+   "pct_ci": "96.2 [94.8, 97.3]"
+  },
+  "pan/C4/gt": {
+   "n": 900,
+   "flagged": 0,
+   "pct_ci": "0.0 [0.0, 0.4]"
+  },
+  "pan/C4/ocr": {
+   "n": 900,
+   "flagged": 209,
+   "pct_ci": "23.2 [20.6, 26.1]"
+  }
+ },
+ "leakage": {
+  "identity": {
+   "pairwise_person_id_intersections": {
+    "test|train": 0,
+    "test|val": 0,
+    "train|val": 0
+   },
+   "required": "empty",
+   "passed": true
+  },
+  "identifier": {
+   "pairwise_identifier_intersections": {
+    "test|train": 0,
+    "test|val": 0,
+    "train|val": 0
+   },
+   "required": "empty",
+   "passed": true
+  },
+  "template": {
+   "variants_per_split": {
+    "train": 6,
+    "val": 6,
+    "test": 6
+   },
+   "total_variants": 6,
+   "missing": {
+    "train": [],
+    "val": [],
+    "test": []
+   },
+   "required": "every layout variant present in every split",
+   "passed": true
+  },
+  "augmentation": {
+   "documents_spanning_splits": 0,
+   "required": "no document's degradation draws span splits",
+   "passed": true
+  },
+  "printed_values": {
+   "distinct_printed_value_sets": 2100,
+   "sets_spanning_splits": 0,
+   "required": "no printed value set occurs in more than one split",
+   "passed": true
+  },
+  "near_duplicate": {
+   "gating": false,
+   "hash_bits": 256,
+   "n_images": 10800,
+   "distinct_hashes_64bit": 5824,
+   "distinct_hashes_used": 10757,
+   "within_document": {
+    "n": 10800,
+    "min": 2,
+    "p1": 8.0,
+    "median": 30.0,
+    "mean": 32.08962962962963,
+    "max": 92
+   },
+   "same_person_other_document": {
+    "n": 1137,
+    "min": 0,
+    "p1": 6.0,
+    "median": 104.0,
+    "mean": 77.31222515391381,
+    "max": 146
+   },
+   "cross_person_same_split": {
+    "n": 80000,
+    "min": 6,
+    "p1": 26.0,
+    "median": 108.0,
+    "mean": 96.044875,
+    "max": 152
+   },
+   "cross_person_pairs_closer_than_median_within_document": 0.0226,
+   "separability_auc_within_vs_crossperson": 0.9511,
+   "cross_split_min_distance_to_train": {
+    "val": {
+     "min": 6,
+     "p1": 10.0,
+     "median": 18.0,
+     "n_images": 1620
+    },
+    "test": {
+     "min": 8,
+     "p1": 10.0,
+     "median": 18.0,
+     "n_images": 1620
+    }
+   },
+   "worst_cross_split_min": 6,
+   "verdict": "INCONCLUSIVE BY THIS MEASURE. The same-document and different-person distance distributions overlap (AUC 0.951; 2.3% of different-person pairs are closer than the median same-document pair), so a distance threshold cannot distinguish a leaked duplicate from two unrelated documents on the same template. The leakage verdict rests on the exact identity, identifier, printed-value and augmentation checks, all of which pass. The cross-split minimum distances reported here are a minimum taken over every training image and are small for that reason alone; because the splits are person-disjoint by the exact identity audit, every cross-split neighbour is necessarily a different person, so these distances carry no leakage information beyond what that audit establishes.",
+   "passed": null
+  }
+ },
+ "leakage_gating_checks": [
+  "identity",
+  "identifier",
+  "template",
+  "augmentation",
+  "printed_values"
+ ],
+ "leakage_all_passed": true,
+ "coincidence": {
+  "note": "Expected number of GENERATED identifiers that coincide with an issued one under uniform sampling.  No identifier was resolved against any service; see docs/DATASHEET.md.",
+  "aadhaar": {
+   "1000000000.0": {
+    "n_generated": 1083,
+    "issued_population": 1000000000.0,
+    "space": 80000000000,
+    "p_single": 0.0125,
+    "expected_coincidences": 13.537500000000001,
+    "p_at_least_one": 0.9999987874938355
+   },
+   "1420000000.0": {
+    "n_generated": 1083,
+    "issued_population": 1420000000.0,
+    "space": 80000000000,
+    "p_single": 0.01775,
+    "expected_coincidences": 19.223249999999997,
+    "p_at_least_one": 0.9999999962289127
+   }
+  },
+  "pan": {
+   "700000000.0": {
+    "n_generated": 1200,
+    "issued_population": 700000000.0,
+    "space": 45697600000,
+    "p_single": 0.015318091103252687,
+    "expected_coincidences": 18.381709323903223,
+    "p_at_least_one": 0.99999999098116
+   },
+   "800000000.0": {
+    "n_generated": 1200,
+    "issued_population": 800000000.0,
+    "space": 45697600000,
+    "p_single": 0.017506389832288784,
+    "expected_coincidences": 21.00766779874654,
+    "p_at_least_one": 0.9999999993752857
+   }
+  },
+  "n_distinct_aadhaar_strings": 1083,
+  "n_distinct_pan_strings": 1200
+ }
+}

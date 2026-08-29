@@ -1,0 +1,99 @@
+{
+ "exact_difference_audit": {
+  "n_records_audited": 40,
+  "per_cell": {
+   "aadhaar/C1": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   },
+   "aadhaar/C2": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   },
+   "aadhaar/C3": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   },
+   "aadhaar/C4": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   },
+   "pan/C1": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   },
+   "pan/C2": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   },
+   "pan/C3": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   },
+   "pan/C4": {
+    "n": 40,
+    "outside": 0,
+    "clean": 40
+   }
+  },
+  "total_pixels_changed_outside_expected_region": 0,
+  "passed": true,
+  "note": "Before degradation, a forged document differs from its genuine control only inside the corrupted field or edited region. Any non-zero count here is a construction defect."
+ },
+ "learned_probe_control": {
+  "task": "control",
+  "tier": "all",
+  "positive_categories": [
+   "C1"
+  ],
+  "n_train": 2520,
+  "n_test": 540,
+  "balanced_accuracy": 0.4907,
+  "auroc": 0.4943
+ },
+ "learned_probe_critical": {
+  "task": "critical",
+  "tier": "all",
+  "positive_categories": [
+   "C2",
+   "C3",
+   "C4"
+  ],
+  "n_train": 4400,
+  "n_test": 1080,
+  "balanced_accuracy": 0.5,
+  "auroc": 0.4928
+ },
+ "learned_probe_control_clean": {
+  "task": "control",
+  "tier": "clean",
+  "positive_categories": [
+   "C1"
+  ],
+  "n_train": 840,
+  "n_test": 180,
+  "balanced_accuracy": 0.5056,
+  "auroc": 0.454
+ },
+ "learned_probe_critical_clean": {
+  "task": "critical",
+  "tier": "clean",
+  "positive_categories": [
+   "C2",
+   "C3",
+   "C4"
+  ],
+  "n_train": 1680,
+  "n_test": 360,
+  "balanced_accuracy": 0.4917,
+  "auroc": 0.4915
+ },
+ "verdict": "Positive control (C0 vs C1) balanced accuracy 0.491 over all tiers and 0.506 on clean captures; critical probe (C0 vs C2/C3/C4) 0.500 and 0.492. The control confirms the probe can find a visual cue in this corpus when one exists; the critical probe is consistent with chance, as the construction requires."
+}

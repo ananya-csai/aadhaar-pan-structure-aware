@@ -1,0 +1,48 @@
+[
+ {
+  "figure": "fig_specimens",
+  "person_id": "P000000",
+  "tier": "clean",
+  "image_ids": [
+   "P000000_aadhaar_C00_clean",
+   "P000000_aadhaar_C1_clean",
+   "P000000_aadhaar_C2_clean",
+   "P000000_aadhaar_C3_clean",
+   "P000000_aadhaar_C4_clean",
+   "P000000_pan_C00_clean",
+   "P000000_pan_C1_clean",
+   "P000000_pan_C2_clean",
+   "P000000_pan_C3_clean",
+   "P000000_pan_C4_clean"
+  ]
+ },
+ {
+  "figure": "fig_quality_tiers",
+  "person_id": "P000000",
+  "image_ids": [
+   "P000000_aadhaar_C00_clean",
+   "P000000_aadhaar_C00_mild",
+   "P000000_aadhaar_C00_severe",
+   "P000000_pan_C00_clean",
+   "P000000_pan_C00_mild",
+   "P000000_pan_C00_severe"
+  ]
+ },
+ {
+  "figure": "fig_templates",
+  "image_ids": [
+   "P000002_aadhaar_C00_clean",
+   "P000003_aadhaar_C00_clean",
+   "P000000_aadhaar_C00_clean",
+   "P000002_pan_C00_clean",
+   "P000006_pan_C00_clean",
+   "P000000_pan_C00_clean"
+  ]
+ },
+ {
+  "figure": "fig_ocr_quality"
+ },
+ {
+  "figure": "fig_phash_leakage"
+ }
+]

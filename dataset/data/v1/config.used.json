@@ -1,0 +1,54 @@
+{
+ "config": {
+  "n_persons": 300,
+  "seed": 20260828,
+  "stratum_weights": [
+   1,
+   1,
+   1
+  ],
+  "honorific_rate": 0.18,
+  "initial_first_p5_from_lead": 0.35,
+  "tiers": [
+   "clean",
+   "mild",
+   "severe"
+  ],
+  "jpeg_dir_quality": null,
+  "workers": 2,
+  "version": "v1"
+ },
+ "preflight": {
+  "aadhaar/C0": {
+   "PASS": 300
+  },
+  "aadhaar/C1": {
+   "PASS": 300
+  },
+  "aadhaar/C2": {
+   "FAIL": 300
+  },
+  "aadhaar/C3": {
+   "PASS": 300
+  },
+  "aadhaar/C4": {
+   "PASS": 300
+  },
+  "pan/C0": {
+   "PASS": 300
+  },
+  "pan/C1": {
+   "PASS": 300
+  },
+  "pan/C2": {
+   "FAIL": 300
+  },
+  "pan/C3": {
+   "FAIL": 300
+  },
+  "pan/C4": {
+   "PASS": 300
+  }
+ },
+ "build_seconds": 982.6
+}
