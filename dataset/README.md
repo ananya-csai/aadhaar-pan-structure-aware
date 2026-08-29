@@ -420,6 +420,23 @@ bits of the JPEG encoding may move.
 
 ---
 
+## 9a. Verifying your rebuild against the released corpus
+
+`dataset/data/v1/CORPUS_SHA256.txt` holds a deterministic hash over every image
+in the corpus the paper reports on — each file's path and its exact bytes, in
+sorted path order. After rebuilding:
+
+```bash
+python3 scripts/corpus_checksum.py data/v1 --verify
+```
+
+A match proves your images are byte-identical to the ones behind every number
+in Section IV, without anyone having to transfer a gigabyte. A mismatch is
+usually a library version differing from `requirements.txt`: the dataset
+*content* — values, labels, splits, ground truth — still derives from the seed
+and is unaffected, but the JPEG encoding can move by a few least-significant
+bits.
+
 ## 10. Known limitations
 
 Stated here rather than discovered by a reviewer.
