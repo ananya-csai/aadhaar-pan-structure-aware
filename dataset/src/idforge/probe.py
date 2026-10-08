@@ -235,8 +235,12 @@ def learned_probe(out_dir: str, task: str, max_per_class: int = 2200,
     from sklearn.ensemble import HistGradientBoostingClassifier
     from sklearn.metrics import balanced_accuracy_score, roc_auc_score
 
-    rows = [json.loads(l) for l in open(os.path.join(out_dir,
-                                                     "manifest.jsonl"))]
+    import pandas as pd
+
+    rows = pd.read_csv(
+    os.path.join(out_dir, "manifest.csv")
+    ).to_dict("records")
+    
     pos = {"critical": {"C2", "C3", "C4"}, "control": {"C1"}}[task]
     rng = random.Random(seed)
 
