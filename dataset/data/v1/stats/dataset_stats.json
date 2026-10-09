@@ -81,12 +81,12 @@
  },
  "honorific_rate_persons": 0.17,
  "storage": {
-  "total_bytes": 938517904,
-  "total_gib": 0.874,
+  "total_bytes": 941456686,
+  "total_gib": 0.877,
   "mean_kib_by_tier": {
-   "clean": 156.4,
-   "mild": 73.2,
-   "severe": 25.0
+   "clean": 157.0,
+   "mild": 73.3,
+   "severe": 25.1
   },
   "mean_pixels_by_tier": {
    "clean": 595583,
@@ -129,22 +129,22 @@
  "ocr": {
   "aadhaar/aadhaar_number/clean": {
    "n": 1800,
-   "exact_match_pct": 99.83,
+   "exact_match_pct": 99.94,
    "ci95": [
-    99.51,
-    99.94
+    99.69,
+    99.99
    ],
-   "mean_cer_pct": 0.014,
+   "mean_cer_pct": 0.005,
    "empty_extraction_pct": 0.0
   },
   "aadhaar/aadhaar_number/mild": {
    "n": 1800,
-   "exact_match_pct": 99.44,
+   "exact_match_pct": 99.78,
    "ci95": [
-    98.98,
-    99.7
+    99.43,
+    99.91
    ],
-   "mean_cer_pct": 0.069,
+   "mean_cer_pct": 0.023,
    "empty_extraction_pct": 0.0
   },
   "aadhaar/aadhaar_number/severe": {
@@ -154,236 +154,233 @@
     86.77,
     89.74
    ],
-   "mean_cer_pct": 2.505,
-   "empty_extraction_pct": 0.56
+   "mean_cer_pct": 2.741,
+   "empty_extraction_pct": 0.83
   },
   "aadhaar/dob/clean": {
-   "n": 1800,
-   "exact_match_pct": 100.0,
-   "ci95": [
-    99.79,
-    100.0
-   ],
-   "mean_cer_pct": 0.0,
-   "empty_extraction_pct": 0.0
-  },
-  "aadhaar/dob/mild": {
-   "n": 1800,
-   "exact_match_pct": 100.0,
-   "ci95": [
-    99.79,
-    100.0
-   ],
-   "mean_cer_pct": 0.0,
-   "empty_extraction_pct": 0.0
-  },
-  "aadhaar/dob/severe": {
-   "n": 1800,
-   "exact_match_pct": 41.5,
-   "ci95": [
-    39.24,
-    43.79
-   ],
-   "mean_cer_pct": 45.328,
-   "empty_extraction_pct": 33.67
-  },
-  "aadhaar/name/clean": {
-   "n": 1800,
-   "exact_match_pct": 98.83,
-   "ci95": [
-    98.22,
-    99.24
-   ],
-   "mean_cer_pct": 0.098,
-   "empty_extraction_pct": 0.0
-  },
-  "aadhaar/name/mild": {
-   "n": 1800,
-   "exact_match_pct": 98.72,
-   "ci95": [
-    98.09,
-    99.15
-   ],
-   "mean_cer_pct": 0.103,
-   "empty_extraction_pct": 0.0
-  },
-  "aadhaar/name/severe": {
-   "n": 1800,
-   "exact_match_pct": 64.72,
-   "ci95": [
-    62.49,
-    66.9
-   ],
-   "mean_cer_pct": 22.216,
-   "empty_extraction_pct": 10.78
-  },
-  "pan/dob/clean": {
-   "n": 1800,
-   "exact_match_pct": 99.72,
-   "ci95": [
-    99.35,
-    99.88
-   ],
-   "mean_cer_pct": 0.028,
-   "empty_extraction_pct": 0.0
-  },
-  "pan/dob/mild": {
    "n": 1800,
    "exact_match_pct": 99.94,
    "ci95": [
     99.69,
     99.99
    ],
-   "mean_cer_pct": 0.006,
+   "mean_cer_pct": 0.011,
    "empty_extraction_pct": 0.0
   },
-  "pan/dob/severe": {
+  "aadhaar/dob/mild": {
    "n": 1800,
-   "exact_match_pct": 33.83,
+   "exact_match_pct": 99.83,
    "ci95": [
-    31.68,
-    36.05
+    99.51,
+    99.94
    ],
-   "mean_cer_pct": 50.844,
-   "empty_extraction_pct": 36.67
-  },
-  "pan/father_name/clean": {
-   "n": 1800,
-   "exact_match_pct": 100.0,
-   "ci95": [
-    99.79,
-    100.0
-   ],
-   "mean_cer_pct": 0.0,
+   "mean_cer_pct": 0.017,
    "empty_extraction_pct": 0.0
   },
-  "pan/father_name/mild": {
+  "aadhaar/dob/severe": {
    "n": 1800,
-   "exact_match_pct": 100.0,
+   "exact_match_pct": 43.06,
    "ci95": [
-    99.79,
-    100.0
+    40.79,
+    45.36
    ],
-   "mean_cer_pct": 0.0,
+   "mean_cer_pct": 45.45,
+   "empty_extraction_pct": 33.5
+  },
+  "aadhaar/name/clean": {
+   "n": 1800,
+   "exact_match_pct": 98.94,
+   "ci95": [
+    98.36,
+    99.32
+   ],
+   "mean_cer_pct": 0.087,
    "empty_extraction_pct": 0.0
   },
-  "pan/father_name/severe": {
+  "aadhaar/name/mild": {
    "n": 1800,
-   "exact_match_pct": 44.72,
+   "exact_match_pct": 98.67,
    "ci95": [
-    42.44,
-    47.03
+    98.02,
+    99.1
    ],
-   "mean_cer_pct": 43.684,
-   "empty_extraction_pct": 26.5
+   "mean_cer_pct": 0.102,
+   "empty_extraction_pct": 0.0
   },
-  "pan/name/clean": {
+  "aadhaar/name/severe": {
+   "n": 1800,
+   "exact_match_pct": 64.44,
+   "ci95": [
+    62.2,
+    66.62
+   ],
+   "mean_cer_pct": 23.935,
+   "empty_extraction_pct": 14.17
+  },
+  "pan/dob/clean": {
    "n": 1800,
    "exact_match_pct": 99.67,
    "ci95": [
     99.27,
     99.85
    ],
-   "mean_cer_pct": 0.042,
+   "mean_cer_pct": 0.033,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/dob/mild": {
+   "n": 1800,
+   "exact_match_pct": 99.78,
+   "ci95": [
+    99.43,
+    99.91
+   ],
+   "mean_cer_pct": 0.022,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/dob/severe": {
+   "n": 1800,
+   "exact_match_pct": 34.94,
+   "ci95": [
+    32.78,
+    37.18
+   ],
+   "mean_cer_pct": 51.933,
+   "empty_extraction_pct": 39.61
+  },
+  "pan/father_name/clean": {
+   "n": 1800,
+   "exact_match_pct": 99.89,
+   "ci95": [
+    99.6,
+    99.97
+   ],
+   "mean_cer_pct": 0.007,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/father_name/mild": {
+   "n": 1800,
+   "exact_match_pct": 99.94,
+   "ci95": [
+    99.69,
+    99.99
+   ],
+   "mean_cer_pct": 0.004,
+   "empty_extraction_pct": 0.0
+  },
+  "pan/father_name/severe": {
+   "n": 1800,
+   "exact_match_pct": 46.67,
+   "ci95": [
+    44.37,
+    48.98
+   ],
+   "mean_cer_pct": 42.117,
+   "empty_extraction_pct": 27.72
+  },
+  "pan/name/clean": {
+   "n": 1800,
+   "exact_match_pct": 99.78,
+   "ci95": [
+    99.43,
+    99.91
+   ],
+   "mean_cer_pct": 0.017,
    "empty_extraction_pct": 0.0
   },
   "pan/name/mild": {
    "n": 1800,
-   "exact_match_pct": 99.61,
+   "exact_match_pct": 99.33,
    "ci95": [
-    99.2,
-    99.81
+    98.84,
+    99.62
    ],
-   "mean_cer_pct": 0.064,
+   "mean_cer_pct": 0.097,
    "empty_extraction_pct": 0.0
   },
   "pan/name/severe": {
    "n": 1800,
-   "exact_match_pct": 53.83,
+   "exact_match_pct": 54.61,
    "ci95": [
-    51.52,
-    56.13
+    52.3,
+    56.9
    ],
-   "mean_cer_pct": 31.778,
-   "empty_extraction_pct": 18.33
+   "mean_cer_pct": 31.812,
+   "empty_extraction_pct": 19.78
   },
   "pan/pan_number/clean": {
    "n": 1800,
-   "exact_match_pct": 85.17,
+   "exact_match_pct": 84.5,
    "ci95": [
-    83.45,
-    86.73
+    82.75,
+    86.1
    ],
-   "mean_cer_pct": 1.568,
+   "mean_cer_pct": 1.612,
    "empty_extraction_pct": 0.0
   },
   "pan/pan_number/mild": {
    "n": 1800,
-   "exact_match_pct": 84.94,
+   "exact_match_pct": 85.33,
    "ci95": [
-    83.22,
-    86.52
+    83.62,
+    86.89
    ],
-   "mean_cer_pct": 1.568,
+   "mean_cer_pct": 1.563,
    "empty_extraction_pct": 0.0
   },
   "pan/pan_number/severe": {
    "n": 1800,
-   "exact_match_pct": 67.67,
+   "exact_match_pct": 66.67,
    "ci95": [
-    65.47,
-    69.79
+    64.46,
+    68.81
    ],
-   "mean_cer_pct": 7.301,
-   "empty_extraction_pct": 1.28
+   "mean_cer_pct": 8.001,
+   "empty_extraction_pct": 1.94
   }
  },
  "identifier_character_confusions_top20": {
-  "0->O": 297,
-  "O->0": 189,
-  "I->1": 116,
-  "0->6": 83,
-  "J->I": 69,
-  "0->8": 55,
-  "5->S": 27,
-  "9->S": 25,
-  "J->3": 21,
-  "9->0": 18,
-  "3->2": 18,
-  "8->S": 17,
-  "G->6": 17,
+  "0->O": 308,
+  "O->0": 188,
+  "I->1": 103,
+  "J->I": 73,
+  "0->6": 64,
+  "0->8": 58,
+  "5->S": 26,
+  "9->S": 21,
+  "8->S": 18,
+  "0->9": 16,
+  "9->0": 16,
   "8->B": 16,
   "8->6": 16,
-  "Q->0": 13,
+  "Q->0": 16,
+  "G->6": 16,
+  "3->2": 15,
+  "8->2": 13,
+  "9->O": 12,
   "5->6": 12,
-  "0->9": 11,
-  "Q->O": 11,
-  "9->O": 10
+  "3->S": 10
  },
  "rule_on_ocr": {
   "aadhaar/C0/clean": {
-   "PASS": 598,
-   "FAIL": 2
+   "PASS": 600
   },
   "aadhaar/C0/mild": {
-   "PASS": 598,
-   "FAIL": 2
+   "PASS": 600
   },
   "aadhaar/C0/severe": {
-   "PASS": 530,
-   "FAIL": 70
+   "PASS": 531,
+   "FAIL": 69
   },
   "aadhaar/C1/clean": {
-   "PASS": 299,
-   "FAIL": 1
+   "PASS": 300
   },
   "aadhaar/C1/mild": {
    "PASS": 299,
    "FAIL": 1
   },
   "aadhaar/C1/severe": {
-   "FAIL": 35,
-   "PASS": 265
+   "FAIL": 29,
+   "PASS": 271
   },
   "aadhaar/C2/clean": {
    "FAIL": 300
@@ -392,66 +389,67 @@
    "FAIL": 300
   },
   "aadhaar/C2/severe": {
-   "FAIL": 298,
-   "PASS": 2
+   "FAIL": 299,
+   "PASS": 1
   },
   "aadhaar/C3/clean": {
    "PASS": 300
   },
   "aadhaar/C3/mild": {
+   "PASS": 299,
+   "FAIL": 1
+  },
+  "aadhaar/C3/severe": {
+   "PASS": 258,
+   "FAIL": 42
+  },
+  "aadhaar/C4/clean": {
+   "PASS": 299,
+   "FAIL": 1
+  },
+  "aadhaar/C4/mild": {
    "PASS": 298,
    "FAIL": 2
   },
-  "aadhaar/C3/severe": {
-   "PASS": 267,
-   "FAIL": 33
-  },
-  "aadhaar/C4/clean": {
-   "PASS": 300
-  },
-  "aadhaar/C4/mild": {
-   "PASS": 296,
-   "FAIL": 4
-  },
   "aadhaar/C4/severe": {
-   "PASS": 268,
-   "FAIL": 32
+   "PASS": 271,
+   "FAIL": 29
   },
   "pan/C0/clean": {
-   "PASS": 524,
-   "FAIL": 76
+   "PASS": 518,
+   "FAIL": 82
   },
   "pan/C0/mild": {
-   "PASS": 527,
-   "FAIL": 73
+   "PASS": 528,
+   "FAIL": 72
   },
   "pan/C0/severe": {
-   "PASS": 409,
-   "FAIL": 191
+   "PASS": 400,
+   "FAIL": 200
   },
   "pan/C1/clean": {
-   "PASS": 263,
-   "FAIL": 37
+   "PASS": 259,
+   "FAIL": 41
   },
   "pan/C1/mild": {
-   "PASS": 260,
-   "FAIL": 40
+   "PASS": 265,
+   "FAIL": 35
   },
   "pan/C1/severe": {
-   "FAIL": 110,
-   "PASS": 190
+   "PASS": 179,
+   "FAIL": 121
   },
   "pan/C2/clean": {
-   "FAIL": 290,
-   "PASS": 10
+   "FAIL": 291,
+   "PASS": 9
   },
   "pan/C2/mild": {
-   "FAIL": 292,
-   "PASS": 8
+   "FAIL": 293,
+   "PASS": 7
   },
   "pan/C2/severe": {
-   "FAIL": 292,
-   "PASS": 8
+   "FAIL": 291,
+   "PASS": 9
   },
   "pan/C3/clean": {
    "FAIL": 300
@@ -460,46 +458,43 @@
    "FAIL": 300
   },
   "pan/C3/severe": {
-   "FAIL": 266,
-   "PASS": 34
+   "FAIL": 265,
+   "PASS": 35
   },
   "pan/C4/clean": {
+   "PASS": 249,
+   "FAIL": 51
+  },
+  "pan/C4/mild": {
    "PASS": 250,
    "FAIL": 50
   },
-  "pan/C4/mild": {
-   "PASS": 253,
-   "FAIL": 47
-  },
   "pan/C4/severe": {
-   "PASS": 188,
-   "FAIL": 112
+   "PASS": 198,
+   "FAIL": 102
   }
  },
  "ocr_induced_verdict_flips": {
   "aadhaar/C0/clean": {
-   "stable": 598,
-   "ocr_induced_failure": 2
+   "stable": 600
   },
   "aadhaar/C0/mild": {
-   "stable": 598,
-   "ocr_induced_failure": 2
+   "stable": 600
   },
   "aadhaar/C0/severe": {
-   "stable": 530,
-   "ocr_induced_failure": 70
+   "stable": 531,
+   "ocr_induced_failure": 69
   },
   "aadhaar/C1/clean": {
-   "stable": 299,
-   "ocr_induced_failure": 1
+   "stable": 300
   },
   "aadhaar/C1/mild": {
    "stable": 299,
    "ocr_induced_failure": 1
   },
   "aadhaar/C1/severe": {
-   "ocr_induced_failure": 35,
-   "stable": 265
+   "ocr_induced_failure": 29,
+   "stable": 271
   },
   "aadhaar/C2/clean": {
    "stable": 300
@@ -508,66 +503,67 @@
    "stable": 300
   },
   "aadhaar/C2/severe": {
-   "stable": 298,
-   "ocr_masked_failure": 2
+   "stable": 299,
+   "ocr_masked_failure": 1
   },
   "aadhaar/C3/clean": {
    "stable": 300
   },
   "aadhaar/C3/mild": {
+   "stable": 299,
+   "ocr_induced_failure": 1
+  },
+  "aadhaar/C3/severe": {
+   "stable": 258,
+   "ocr_induced_failure": 42
+  },
+  "aadhaar/C4/clean": {
+   "stable": 299,
+   "ocr_induced_failure": 1
+  },
+  "aadhaar/C4/mild": {
    "stable": 298,
    "ocr_induced_failure": 2
   },
-  "aadhaar/C3/severe": {
-   "stable": 267,
-   "ocr_induced_failure": 33
-  },
-  "aadhaar/C4/clean": {
-   "stable": 300
-  },
-  "aadhaar/C4/mild": {
-   "stable": 296,
-   "ocr_induced_failure": 4
-  },
   "aadhaar/C4/severe": {
-   "stable": 268,
-   "ocr_induced_failure": 32
+   "stable": 271,
+   "ocr_induced_failure": 29
   },
   "pan/C0/clean": {
-   "stable": 524,
-   "ocr_induced_failure": 76
+   "stable": 518,
+   "ocr_induced_failure": 82
   },
   "pan/C0/mild": {
-   "stable": 527,
-   "ocr_induced_failure": 73
+   "stable": 528,
+   "ocr_induced_failure": 72
   },
   "pan/C0/severe": {
-   "stable": 409,
-   "ocr_induced_failure": 191
+   "stable": 400,
+   "ocr_induced_failure": 200
   },
   "pan/C1/clean": {
-   "stable": 263,
-   "ocr_induced_failure": 37
+   "stable": 259,
+   "ocr_induced_failure": 41
   },
   "pan/C1/mild": {
-   "stable": 260,
-   "ocr_induced_failure": 40
+   "stable": 265,
+   "ocr_induced_failure": 35
   },
   "pan/C1/severe": {
-   "ocr_induced_failure": 110,
-   "stable": 190
+   "stable": 179,
+   "ocr_induced_failure": 121
   },
   "pan/C2/clean": {
-   "stable": 290,
-   "ocr_masked_failure": 10
+   "stable": 291,
+   "ocr_masked_failure": 9
   },
   "pan/C2/mild": {
-   "stable": 292,
-   "ocr_masked_failure": 8
+   "stable": 293,
+   "ocr_masked_failure": 7
   },
   "pan/C2/severe": {
-   "stable": 292,
-   "ocr_masked_failure": 8
+   "stable": 291,
+   "ocr_masked_failure": 9
   },
   "pan/C3/clean": {
    "stable": 300
@@ -576,62 +572,62 @@
    "stable": 300
   },
   "pan/C3/severe": {
-   "stable": 266,
-   "ocr_masked_failure": 34
+   "stable": 265,
+   "ocr_masked_failure": 35
   },
   "pan/C4/clean": {
+   "stable": 249,
+   "ocr_induced_failure": 51
+  },
+  "pan/C4/mild": {
    "stable": 250,
    "ocr_induced_failure": 50
   },
-  "pan/C4/mild": {
-   "stable": 253,
-   "ocr_induced_failure": 47
-  },
   "pan/C4/severe": {
-   "stable": 188,
-   "ocr_induced_failure": 112
+   "stable": 198,
+   "ocr_induced_failure": 102
   }
  },
  "rule_false_positive_on_genuine_ocr": {
   "aadhaar/clean": {
    "n": 600,
-   "fp": 2,
-   "pct_ci": "0.3 [0.1, 1.2]"
+   "fp": 0,
+   "pct_ci": "0.0 [0.0, 0.6]"
   },
   "aadhaar/mild": {
    "n": 600,
-   "fp": 2,
-   "pct_ci": "0.3 [0.1, 1.2]"
+   "fp": 0,
+   "pct_ci": "0.0 [0.0, 0.6]"
   },
   "aadhaar/severe": {
    "n": 600,
-   "fp": 70,
-   "pct_ci": "11.7 [9.3, 14.5]"
+   "fp": 69,
+   "pct_ci": "11.5 [9.2, 14.3]"
   },
   "aadhaar/ALL": {
    "n": 1800,
-   "fp": 74,
-   "pct_ci": "4.1 [3.3, 5.1]"
+   "fp": 69,
+   "pct_ci": "3.8 [3.0, 4.8]"
   },
   "pan/clean": {
    "n": 600,
-   "fp": 76,
-   "pct_ci": "12.7 [10.2, 15.6]"
+   "fp": 82,
+   "pct_ci": "13.7 [11.1, 16.6]"
   },
   "pan/mild": {
    "n": 600,
-   "fp": 73,
-   "pct_ci": "12.2 [9.8, 15.0]"
+   "fp": 72,
+   "pct_ci": "12.0 [9.6, 14.8]"
   },
   "pan/severe": {
    "n": 600,
-   "fp": 191,
-   "pct_ci": "31.8 [28.2, 35.7]"
+   "fp": 200,
+   "pct_ci": "33.3 [29.7, 37.2]"
   },
   "pan/ALL": {
    "n": 1800,
-   "fp": 340,
-   "pct_ci": "18.9 [17.1, 20.8]"
+   "fp": 354,
+   "pct_ci": "19.7 [17.9, 21.6]"
   }
  },
  "rule_false_positive_on_genuine_groundtruth": {
@@ -654,13 +650,13 @@
   },
   "mononymic": {
    "n": 600,
-   "fp": 104,
-   "pct_ci": "17.3 [14.5, 20.6]"
+   "fp": 109,
+   "pct_ci": "18.2 [15.3, 21.5]"
   },
   "surname_last": {
    "n": 648,
-   "fp": 117,
-   "pct_ci": "18.1 [15.3, 21.2]"
+   "fp": 126,
+   "pct_ci": "19.4 [16.6, 22.7]"
   }
  },
  "pan_semantic_permissive_vs_strict_on_genuine": {
@@ -672,9 +668,9 @@
   },
   "ALL/ocr": {
    "n": 1800,
-   "permissive_fail_pct_ci": "1.9 [1.4, 2.6]",
-   "strict_fail_pct_ci": "9.4 [8.2, 10.9]",
-   "skipped_pct_ci": "20.2 [18.4, 22.1]"
+   "permissive_fail_pct_ci": "1.9 [1.4, 2.7]",
+   "strict_fail_pct_ci": "9.7 [8.4, 11.1]",
+   "skipped_pct_ci": "21.1 [19.3, 23.1]"
   },
   "surname_last/gt": {
    "n": 648,
@@ -684,9 +680,9 @@
   },
   "surname_last/ocr": {
    "n": 648,
-   "permissive_fail_pct_ci": "1.1 [0.5, 2.2]",
-   "strict_fail_pct_ci": "1.4 [0.7, 2.6]",
-   "skipped_pct_ci": "21.0 [18.0, 24.3]"
+   "permissive_fail_pct_ci": "2.0 [1.2, 3.4]",
+   "strict_fail_pct_ci": "2.2 [1.3, 3.6]",
+   "skipped_pct_ci": "21.8 [18.8, 25.1]"
   },
   "initial_first/gt": {
    "n": 552,
@@ -696,9 +692,9 @@
   },
   "initial_first/ocr": {
    "n": 552,
-   "permissive_fail_pct_ci": "3.8 [2.5, 5.7]",
-   "strict_fail_pct_ci": "27.4 [23.8, 31.2]",
-   "skipped_pct_ci": "19.4 [16.3, 22.9]"
+   "permissive_fail_pct_ci": "2.4 [1.4, 4.0]",
+   "strict_fail_pct_ci": "26.6 [23.1, 30.5]",
+   "skipped_pct_ci": "20.8 [17.7, 24.4]"
   },
   "mononymic/gt": {
    "n": 600,
@@ -708,9 +704,9 @@
   },
   "mononymic/ocr": {
    "n": 600,
-   "permissive_fail_pct_ci": "1.0 [0.5, 2.2]",
-   "strict_fail_pct_ci": "1.7 [0.9, 3.0]",
-   "skipped_pct_ci": "20.2 [17.2, 23.6]"
+   "permissive_fail_pct_ci": "1.5 [0.8, 2.8]",
+   "strict_fail_pct_ci": "2.2 [1.3, 3.7]",
+   "skipped_pct_ci": "20.7 [17.6, 24.1]"
   },
   "p5src:leading_initial/gt": {
    "n": 174,
@@ -720,7 +716,7 @@
   },
   "p5src:leading_initial/ocr": {
    "n": 174,
-   "permissive_fail_pct_ci": "6.9 [4.0, 11.7]",
+   "permissive_fail_pct_ci": "4.0 [2.0, 8.1]",
    "strict_fail_pct_ci": "81.0 [74.6, 86.2]",
    "skipped_pct_ci": "13.2 [9.0, 19.1]"
   },
@@ -732,9 +728,9 @@
   },
   "p5src:given_name/ocr": {
    "n": 378,
-   "permissive_fail_pct_ci": "2.4 [1.3, 4.5]",
-   "strict_fail_pct_ci": "2.6 [1.4, 4.8]",
-   "skipped_pct_ci": "22.2 [18.3, 26.7]"
+   "permissive_fail_pct_ci": "1.6 [0.7, 3.4]",
+   "strict_fail_pct_ci": "1.6 [0.7, 3.4]",
+   "skipped_pct_ci": "24.3 [20.3, 28.9]"
   }
  },
  "rule_flag_rate_by_category": {
@@ -745,8 +741,8 @@
   },
   "aadhaar/C0/ocr": {
    "n": 1800,
-   "flagged": 74,
-   "pct_ci": "4.1 [3.3, 5.1]"
+   "flagged": 69,
+   "pct_ci": "3.8 [3.0, 4.8]"
   },
   "aadhaar/C1/gt": {
    "n": 900,
@@ -755,8 +751,8 @@
   },
   "aadhaar/C1/ocr": {
    "n": 900,
-   "flagged": 37,
-   "pct_ci": "4.1 [3.0, 5.6]"
+   "flagged": 30,
+   "pct_ci": "3.3 [2.3, 4.7]"
   },
   "aadhaar/C2/gt": {
    "n": 900,
@@ -765,8 +761,8 @@
   },
   "aadhaar/C2/ocr": {
    "n": 900,
-   "flagged": 898,
-   "pct_ci": "99.8 [99.2, 99.9]"
+   "flagged": 899,
+   "pct_ci": "99.9 [99.4, 100.0]"
   },
   "aadhaar/C3/gt": {
    "n": 900,
@@ -775,8 +771,8 @@
   },
   "aadhaar/C3/ocr": {
    "n": 900,
-   "flagged": 35,
-   "pct_ci": "3.9 [2.8, 5.4]"
+   "flagged": 43,
+   "pct_ci": "4.8 [3.6, 6.4]"
   },
   "aadhaar/C4/gt": {
    "n": 900,
@@ -785,8 +781,8 @@
   },
   "aadhaar/C4/ocr": {
    "n": 900,
-   "flagged": 36,
-   "pct_ci": "4.0 [2.9, 5.5]"
+   "flagged": 32,
+   "pct_ci": "3.6 [2.5, 5.0]"
   },
   "pan/C0/gt": {
    "n": 1800,
@@ -795,8 +791,8 @@
   },
   "pan/C0/ocr": {
    "n": 1800,
-   "flagged": 340,
-   "pct_ci": "18.9 [17.1, 20.8]"
+   "flagged": 354,
+   "pct_ci": "19.7 [17.9, 21.6]"
   },
   "pan/C1/gt": {
    "n": 900,
@@ -805,8 +801,8 @@
   },
   "pan/C1/ocr": {
    "n": 900,
-   "flagged": 187,
-   "pct_ci": "20.8 [18.3, 23.5]"
+   "flagged": 197,
+   "pct_ci": "21.9 [19.3, 24.7]"
   },
   "pan/C2/gt": {
    "n": 900,
@@ -815,8 +811,8 @@
   },
   "pan/C2/ocr": {
    "n": 900,
-   "flagged": 874,
-   "pct_ci": "97.1 [95.8, 98.0]"
+   "flagged": 875,
+   "pct_ci": "97.2 [95.9, 98.1]"
   },
   "pan/C3/gt": {
    "n": 900,
@@ -825,8 +821,8 @@
   },
   "pan/C3/ocr": {
    "n": 900,
-   "flagged": 866,
-   "pct_ci": "96.2 [94.8, 97.3]"
+   "flagged": 865,
+   "pct_ci": "96.1 [94.6, 97.2]"
   },
   "pan/C4/gt": {
    "n": 900,
@@ -835,8 +831,8 @@
   },
   "pan/C4/ocr": {
    "n": 900,
-   "flagged": 209,
-   "pct_ci": "23.2 [20.6, 26.1]"
+   "flagged": 203,
+   "pct_ci": "22.6 [19.9, 25.4]"
   }
  },
  "leakage": {
@@ -886,52 +882,52 @@
   },
   "near_duplicate": {
    "gating": false,
-   "hash_bits": 256,
+   "hash_bits": 64,
    "n_images": 10800,
-   "distinct_hashes_64bit": 5824,
-   "distinct_hashes_used": 10757,
+   "distinct_hashes_64bit": 5848,
+   "distinct_hashes_used": 5848,
    "within_document": {
     "n": 10800,
-    "min": 2,
-    "p1": 8.0,
-    "median": 30.0,
-    "mean": 32.08962962962963,
-    "max": 92
+    "min": 0,
+    "p1": 0.0,
+    "median": 6.0,
+    "mean": 6.012222222222222,
+    "max": 20
    },
    "same_person_other_document": {
     "n": 1137,
     "min": 0,
-    "p1": 6.0,
-    "median": 104.0,
-    "mean": 77.31222515391381,
-    "max": 146
+    "p1": 0.0,
+    "median": 20.0,
+    "mean": 16.353562005277045,
+    "max": 34
    },
    "cross_person_same_split": {
     "n": 80000,
-    "min": 6,
-    "p1": 26.0,
-    "median": 108.0,
-    "mean": 96.044875,
-    "max": 152
+    "min": 0,
+    "p1": 2.0,
+    "median": 24.0,
+    "mean": 20.622875,
+    "max": 38
    },
-   "cross_person_pairs_closer_than_median_within_document": 0.0226,
-   "separability_auc_within_vs_crossperson": 0.9511,
+   "cross_person_pairs_closer_than_median_within_document": 0.0989,
+   "separability_auc_within_vs_crossperson": 0.9142,
    "cross_split_min_distance_to_train": {
     "val": {
-     "min": 6,
-     "p1": 10.0,
-     "median": 18.0,
+     "min": 0,
+     "p1": 0.0,
+     "median": 2.0,
      "n_images": 1620
     },
     "test": {
-     "min": 8,
-     "p1": 10.0,
-     "median": 18.0,
+     "min": 0,
+     "p1": 0.0,
+     "median": 2.0,
      "n_images": 1620
     }
    },
-   "worst_cross_split_min": 6,
-   "verdict": "INCONCLUSIVE BY THIS MEASURE. The same-document and different-person distance distributions overlap (AUC 0.951; 2.3% of different-person pairs are closer than the median same-document pair), so a distance threshold cannot distinguish a leaked duplicate from two unrelated documents on the same template. The leakage verdict rests on the exact identity, identifier, printed-value and augmentation checks, all of which pass. The cross-split minimum distances reported here are a minimum taken over every training image and are small for that reason alone; because the splits are person-disjoint by the exact identity audit, every cross-split neighbour is necessarily a different person, so these distances carry no leakage information beyond what that audit establishes.",
+   "worst_cross_split_min": 0,
+   "verdict": "INCONCLUSIVE BY THIS MEASURE. The same-document and different-person distance distributions overlap (AUC 0.914; 9.9% of different-person pairs are closer than the median same-document pair), so a distance threshold cannot distinguish a leaked duplicate from two unrelated documents on the same template. The leakage verdict rests on the exact identity, identifier, printed-value and augmentation checks, all of which pass. The cross-split minimum distances reported here are a minimum taken over every training image and are small for that reason alone; because the splits are person-disjoint by the exact identity audit, every cross-split neighbour is necessarily a different person, so these distances carry no leakage information beyond what that audit establishes.",
    "passed": null
   }
  },
