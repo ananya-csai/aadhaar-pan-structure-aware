@@ -11,9 +11,11 @@ build_resize_cache.py and rerun this script: if the aggregate hash matches the
 committed one, the two caches are byte-identical.
 
 Run from the repository root:
-    python experiments/fingerprint_resize_cache.py
+    python experiments/fingerprint_resize_cache.py                       # 384x256
+    python experiments/fingerprint_resize_cache.py --width 768 --height 512
 """
 
+import argparse
 import csv
 import hashlib
 import platform
@@ -23,16 +25,22 @@ from pathlib import Path
 import PIL
 from PIL import Image
 
+ap = argparse.ArgumentParser()
+ap.add_argument("--width", type=int, default=384)
+ap.add_argument("--height", type=int, default=256)
+_args = ap.parse_args()
+SIZE = f"{_args.width}x{_args.height}"
+
 ROOT = Path.cwd()
-CACHE_DIR = ROOT / "experiments" / "cache" / "384x256"
+CACHE_DIR = ROOT / "experiments" / "cache" / SIZE
 CACHE_MANIFEST = CACHE_DIR / "cache_manifest.csv"
 DATASET_MANIFEST = ROOT / "dataset" / "data" / "v1" / "manifest.csv"
 CORPUS_SHA_FILE = ROOT / "dataset" / "data" / "v1" / "CORPUS_SHA256.txt"
 OUT_DIR = ROOT / "experiments" / "cache_fingerprints"
-OUT_MANIFEST = OUT_DIR / "384x256_manifest.csv"
-OUT_SUMMARY = OUT_DIR / "384x256_SHA256.txt"
+OUT_MANIFEST = OUT_DIR / f"{SIZE}_manifest.csv"
+OUT_SUMMARY = OUT_DIR / f"{SIZE}_SHA256.txt"
 
-EXPECTED_SIZE = (384, 256)
+EXPECTED_SIZE = (_args.width, _args.height)
 
 
 def sha256_file(path):
@@ -107,7 +115,7 @@ def main():
     OUT_SUMMARY.write_text(
         f"cache_sha256: {aggregate}\n"
         f"images: {len(out_rows)}\n"
-        f"canvas: 384x256 RGB PNG, aspect-preserving LANCZOS resize, white pad, centred\n"
+        f"canvas: {SIZE} RGB PNG, aspect-preserving LANCZOS resize, white pad, centred\n"
         f"built_by: experiments/build_resize_cache.py\n"
         f"source_corpus_sha256_file: {corpus_sha}\n"
         f"python: {platform.python_version()}\n"

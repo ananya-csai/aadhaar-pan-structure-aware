@@ -19,8 +19,8 @@
 
 ## 2. Image preprocessing
 
-- Primary input canvas: 384 × 256 pixels (width × height).
-- Sensitivity canvas: 224 × 160 pixels (width × height).
+- Primary input canvas: 768 × 512 pixels (width × height). Changed from 384 × 256 by Amendment A1 (Section 12).
+- Sensitivity canvas: 384 × 256 pixels (width × height). The 224 × 160 arm is dropped (Amendment A1).
 - Preserve aspect ratio and pad to the target canvas.
 - Padding color: white before normalization.
 - Image channels: RGB.
@@ -84,7 +84,7 @@ Before full training:
 1. Confirm collaborator/mentor agreement on the protocol.
 2. Verify dataset tags, manifest hashes and repository state.
 3. Validate the manifest-driven loader and split counts.
-4. Run a GPU forward/backward smoke test.
+4. Run a GPU forward/backward smoke test at 768 × 512. Choose the batch size by memory only: the largest of 32, 16 or 8 that trains without running out of GPU memory under mixed precision. If it is below 32, use gradient accumulation to an effective batch of 32. Record GPU model, VRAM, batch size and seconds per epoch.
 5. Run a tiny-overfit test on a small, fixed training subset containing C0 and C1 examples.
 6. Save configurations and logs needed to reproduce the experiment.
 
@@ -96,3 +96,40 @@ Do not use test-set results to choose preprocessing, checkpoints, calibration, t
 - Collaborator/mentor approval: pending.
 - Approval date and names: to be recorded after agreement.
 - Protocol amendment commit: to be recorded after the approved files are committed.
+
+## 12. Amendment A1 — input resolution (before any model training)
+
+**Status:** proposed by lead researcher; collaborator/mentor agreement pending.
+
+**What changed**
+
+- Primary canvas: 384 × 256 → **768 × 512**.
+- Sensitivity canvas: 224 × 160 → **384 × 256** (the existing, fingerprinted cache).
+- Same resize policy for both: aspect-preserving LANCZOS, white pad, centred.
+- New pre-registered reporting rule: C1 recall is reported **per `c1_op`**, and for two pre-declared groups:
+  - *fine-trace edits*: `local_recompression`, `resample_patch`;
+  - *coarse edits*: `font_substitution`, `field_displacement`, `patch_splice`.
+- Results by quality tier within each operation are exploratory (about 18 test images per operation and tier).
+
+**Why**
+
+`experiments/measure_edit_survival.py` re-creates matched C0/C1 pairs from the generator (same render seed, same degradation seed, train-split persons only), so each pair differs only by the edit. It measures how much of the edit's pixel energy survives resizing, relative to the native image. Median retention (60 train persons, 360 pairs):
+
+| C1 operation | 1024×640 | 768×512 | 384×256 | 224×160 |
+|---|---|---|---|---|
+| field_displacement | 0.97 | 0.97 | 0.89 | 0.69 |
+| font_substitution | 0.98 | 0.96 | 0.90 | 0.75 |
+| patch_splice | 0.98 | 0.97 | 0.91 | 0.84 |
+| local_recompression | 0.89 | 0.82 | 0.30 | 0.15 |
+| resample_patch | 0.89 | 0.87 | 0.26 | 0.10 |
+
+On clean-tier images at 384 × 256, retention falls to 0.10 (recompression) and 0.03 (resampling). These two operations make up about 41% of C1 (747 of 1,800 images). At 384 × 256, a visual-baseline miss on them would mainly reflect our preprocessing, not the detector, and that would bias RQ1 and RQ3 in favour of the rule branch. 768 × 512 keeps most of the evidence with 60% of the pixels of 1024 × 640 (and 4× the pixels of 384 × 256). Going up to 1024 × 640 adds little (0.89 vs 0.82–0.87 for the fine-trace edits).
+
+**Limits of this evidence**
+
+- Retention is an upper bound on usable evidence. The detector never sees the reference C0, so high retention does not mean a model will detect the edit.
+- The measurement environment's library versions are recorded with its output. Values may differ slightly from the pinned corpus build; the conclusion does not depend on small differences.
+
+**Why this is a legitimate change**
+
+The decision uses only the data generator and train-split persons. No model has been trained and no validation or test score has been seen. C2–C4 are re-rendered without pixel edits (docs/DECISIONS.md, D1), so the rule branch is unaffected.

@@ -1,4 +1,9 @@
+"""Build an aspect-preserving, white-padded PNG resize cache of the frozen corpus.
 
+    python experiments/build_resize_cache.py                       # 384x256 (sensitivity arm)
+    python experiments/build_resize_cache.py --width 768 --height 512   # primary arm (Amendment A1)
+"""
+import argparse
 import csv
 from pathlib import Path
 
@@ -8,11 +13,12 @@ from PIL import Image, ImageOps
 ROOT = Path.cwd()
 DATASET_DIR = ROOT / "dataset" / "data" / "v1"
 MANIFEST = DATASET_DIR / "manifest.csv"
-CACHE_DIR = ROOT / "experiments" / "cache" / "384x256"
-METADATA = CACHE_DIR / "cache_manifest.csv"
 
+# Set in main() from --width/--height. Defaults reproduce the committed 384x256 cache.
 TARGET_WIDTH = 384
 TARGET_HEIGHT = 256
+CACHE_DIR = ROOT / "experiments" / "cache" / f"{TARGET_WIDTH}x{TARGET_HEIGHT}"
+METADATA = CACHE_DIR / "cache_manifest.csv"
 BACKGROUND = (255, 255, 255)
 
 
@@ -52,6 +58,15 @@ def resize_and_pad(source_path, output_path):
 
 
 def main():
+    global TARGET_WIDTH, TARGET_HEIGHT, CACHE_DIR, METADATA
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--width", type=int, default=384)
+    ap.add_argument("--height", type=int, default=256)
+    args = ap.parse_args()
+    TARGET_WIDTH, TARGET_HEIGHT = args.width, args.height
+    CACHE_DIR = ROOT / "experiments" / "cache" / f"{TARGET_WIDTH}x{TARGET_HEIGHT}"
+    METADATA = CACHE_DIR / "cache_manifest.csv"
+
     if not MANIFEST.is_file():
         raise FileNotFoundError(
             f"Manifest not found: {MANIFEST}\n"
