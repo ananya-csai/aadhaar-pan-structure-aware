@@ -27,3 +27,16 @@ paper/*.out
 paper/*.toc
 paper/*.pdf
 !paper/figures/*.pdf
+
+# Experiment artefacts that are derived and too large for git.
+# Resize cache (~1.4 GB of PNGs) is rebuilt by experiments/build_resize_cache.py;
+# its per-image SHA-256 list and aggregate hash ARE tracked in
+# experiments/cache_fingerprints/ so a rebuilt cache can be verified.
+experiments/cache/
+# 224 MB pHash pair list; exceeds GitHub's 100 MB per-file limit.
+# Regenerate with experiments/verify_near_duplicates.py; summary is in NEAR_DUPLICATE_AUDIT.md.
+experiments/near_duplicate_candidates.csv
+# Local smoke-test builds of the generator (6 persons), not the frozen corpus.
+dataset/data/sample/
+# Local virtual environments
+.venv-*/

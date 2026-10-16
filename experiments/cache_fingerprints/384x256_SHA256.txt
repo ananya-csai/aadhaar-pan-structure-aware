@@ -1,0 +1,9 @@
+cache_sha256: a9c0ba03f33f960a0887ee53129104d79ed0d9ef02ec45563ed529411d59cf49
+images: 10800
+canvas: 384x256 RGB PNG, aspect-preserving LANCZOS resize, white pad, centred
+built_by: experiments/build_resize_cache.py
+source_corpus_sha256_file: f3302cc72561a46ca869788bd4f31f3fcbbf562a2d65fc750b157df12d700394  10800 images  938517904 bytes
+python: 3.12.7
+pillow: 12.3.0
+platform: Windows-11-10.0.26200-SP0
+aggregate_definition: sha256 over lines 'image_id:sha256\n' sorted by image_id
