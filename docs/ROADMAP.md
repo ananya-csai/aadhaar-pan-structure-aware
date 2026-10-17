@@ -4,7 +4,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A st
 
 **Owners:** [GPU] GPU-laptop owner · [CPU] partner without a GPU · [BOTH] joint.
 **Status:** ✅ done and committed · 🟡 started or needs checking · ⬜ not started.
-**Status checked against:** commit `16a867d`, 17 Oct 2026.
+**Status checked against:** commit `f76bdfb`, 18 Oct 2026.
 
 ## Ground rules
 
@@ -40,13 +40,13 @@ Do not cross a gate until everything before it is ✅.
 
 ## Phase 0 — Protocol and project state
 
-### Step 1. Agree and freeze the protocol [BOTH] — 🟡
+### Step 1. Agree and freeze the protocol [BOTH] — 🟡 (✅ once the approval commit is tagged)
 - ✅ Protocol drafted: input size, normalisation, splits, operating point, seed averaging (`DECISIONS.md` Sections 1–10).
 - ✅ Input-resolution decision measured and recorded (Section 12). At 384 × 256, most of the evidence for the two fine-trace edits is lost: on clean images only 3–11% survives. At 768 × 512, 83–86% survives. So 768 × 512 is primary and 384 × 256 is the sensitivity arm.
-- ⬜ Decide the training settings in Section 13 (weights, augmentation, class weighting, optimizer, learning rate, epochs, early stopping).
-- ⬜ Settle the definition of mechanism-aware recall (Section 6): which cases are eligible and what the denominator is.
-- ⬜ Partner and mentor approve. Record names and date in Section 11.
-- ⬜ Tag the approved commit and push: `git tag -a protocol-e2-final -m "E2 protocol, approved"` then `git push --tags`.
+- ✅ Training settings decided (Section 13) and implemented in `experiments/e2_visual/train.py`.
+- 🟡 Mechanism-aware recall defined (Section 6); confirm it in Section 11.
+- 🟡 Partner and mentor approved. Write names and dates into Section 11 (the `[[FILL]]` fields).
+- 🟡 Re-create `protocol-e2-final` on the approval commit. The first tag pointed at a commit where approval still read "pending". `train.py` refuses to run until this is done.
 - ⬜ Check ICDAR 2027 dates, page limit and anonymity rules on the official site. Planning targets: abstract 31 Jan 2027, full paper 20 Feb 2027.
 
 **Done when:** Sections 6, 11 and 13 are filled in and `protocol-e2-final` is pushed.
@@ -103,13 +103,10 @@ One script computes every metric in the paper, so all systems are scored the sam
 
 ## Phase 3 — Visual baseline (GPU)
 
-### Step 8. GPU environment and pre-training checks [GPU] — 🟡
+### Step 8. GPU environment and pre-training checks [GPU] — ✅
 - ✅ Environment recorded: Python 3.12.7, torch 2.14.1+cu130, CUDA 13.0, RTX 4060 Laptop 8 GB (`experiments/requirements-vision.txt`).
 - ✅ Loader checks, one real batch, and tiny-overfit (50 images, 100% accuracy) passed (`experiments/e2_visual/logs/smoke_768x512.json`).
-- ⬜ **Batch size must be re-measured.** The first probe accepted batch 32 at 10.78 GB peak on an 8 GB GPU. Windows spilled into system RAM, which made it about 10× slower (13.4 s per step, about 26 minutes per epoch). The probe now rejects any batch that exceeds physical VRAM.
-  1. In NVIDIA Control Panel → Manage 3D settings → *CUDA – Sysmem Fallback Policy*, choose **Prefer No Sysmem Fallback**. A real out-of-memory error is then raised instead of a silent slowdown.
-  2. Re-run `python experiments/e2_visual/smoke_test.py --size 768x512` and commit the new log.
-- ⬜ Run the same smoke test at `--size 384x256` for the sensitivity arm.
+- ✅ Batch size measured inside physical VRAM, with NVIDIA system-memory fallback turned off. 768 × 512: batch 16 × 2 accumulation, 6.6 GB peak, about 1.5 minutes per epoch of compute. 384 × 256: batch 32, 3.5 GB, about 22 seconds per epoch. Both tiny-overfit tests reached 100%.
 
 ### Step 9. Resize caches and loader [GPU; CPU reviews] — ✅
 - ✅ Both caches built from the manifest, fingerprinted, and inspected beside the originals (contact sheets committed).

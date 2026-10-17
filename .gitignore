@@ -40,3 +40,6 @@ experiments/near_duplicate_candidates.csv
 dataset/data/sample/
 # Local virtual environments
 .venv-*/
+
+# E2 checkpoints (~95 MB each); configs, logs and scores ARE tracked.
+experiments/e2_visual/runs/**/*.pt

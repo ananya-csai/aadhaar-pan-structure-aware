@@ -1,6 +1,6 @@
 # Experiment Protocol Decisions
 
-**Status:** Draft — initial defaults approved by lead researcher; collaborator/mentor agreement pending.
+**Status:** Approved (see Section 11).
 
 **Dataset:** Synthetic Aadhaar/PAN-format forgery detection
 
@@ -52,9 +52,13 @@
 
 ## 6. Mechanism-aware recall
 
-Proposed definition: count a detection as mechanism-aware only when the rule flag matches the known corrupted mechanism or field.
+Definition (needed from roadmap Step 12; not used during training):
 
-**Pending agreement:** Confirm the precise definition, eligible cases and denominator with the research collaborator/mentor before reporting this metric.
+- **Eligible images:** those the rules are designed to catch (`expected_rule = FAIL`): Aadhaar C2, PAN C2 and PAN C3. Aadhaar C3 is reported separately as an expected miss (no rule reads the Devanagari line). C1 and C4 are not eligible.
+- **Counted as mechanism-aware:** the image is flagged **and** the failing check is the one tied to the corrupted field: Aadhaar C2 → length/checksum check on the Aadhaar number; PAN C2 → format/category check on the PAN; PAN C3 → fifth-character cross-field check.
+- **Mechanism-aware recall** = mechanism-aware detections / eligible images, reported by document type and category, for GT text and OCR text.
+- A flag raised for a different reason counts toward ordinary detection recall but not toward this metric; such cases are reported as over-attribution.
+
 
 ## 7. Reference OCR environment
 
@@ -92,15 +96,18 @@ Do not use test-set results to choose preprocessing, checkpoints, calibration, t
 
 ## 11. Approval record
 
-- Lead researcher initial approval: approved.
-- Collaborator/mentor approval: pending.
-- Approval date and names: to be recorded after agreement.
-- Protocol amendment commit: to be recorded after the approved files are committed.
+- Lead researcher: [Soham Phulwaria , Ananya Shukla] — approved on [2026-10-3].
+- Collaborator: [Soham Phulwaria , Ananya Shukla] — approved on [2026-10-3].
+- Faculty mentor: [Dinesh Saini] — approved on [2026-10-3].
+- Scope of approval: Sections 1–5, 7–10, 12 (Amendment A1) and 13.
+- Section 6 definition (written 18 Oct 2026) confirmed by all three: [yes].
+- Protocol commit: the commit tagged `protocol-e2-final`.
 - Tag `protocol-e2-v1` (commit `16a867d`) marks Amendment A1 and the first pre-training checks. It was created before the approval above was recorded and before the training settings in Section 13 were decided. The protocol used for E2 will be tagged `protocol-e2-final` once Section 13 is filled in and approved.
+- Tag `protocol-e2-final` was first created on 17 Oct 2026 at commit `f76bdfb`, where this section still read "pending". It was deleted and re-created on the commit that records the approvals above, before any E2 training run. No model had been trained at either point.
 
 ## 12. Amendment A1 — input resolution (before any model training)
 
-**Status:** proposed by lead researcher; collaborator/mentor agreement pending.
+**Status:** Approved (see Section 11).
 
 **What changed**
 
@@ -137,7 +144,7 @@ The decision uses only the data generator and train-split persons. No model has 
 
 ## 13. Training settings for E2 (to decide before any full training run)
 
-**Status:** open. If the GPU guide already fixes a setting, copy it here. Otherwise the proposal stands unless the team changes it. Record the final value and who agreed.
+**Status:** Approved as proposed in the table below (see Section 11). `experiments/e2_visual/train.py` implements exactly these settings.
 
 | Setting | Proposal | Reason |
 |---|---|---|
