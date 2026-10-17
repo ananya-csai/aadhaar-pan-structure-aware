@@ -84,7 +84,7 @@ Before full training:
 1. Confirm collaborator/mentor agreement on the protocol.
 2. Verify dataset tags, manifest hashes and repository state.
 3. Validate the manifest-driven loader and split counts.
-4. Run a GPU forward/backward smoke test at 768 × 512. Choose the batch size by memory only: the largest of 32, 16 or 8 that trains without running out of GPU memory under mixed precision. If it is below 32, use gradient accumulation to an effective batch of 32. Record GPU model, VRAM, batch size and seconds per epoch.
+4. Run a GPU forward/backward smoke test at 768 × 512. Choose the batch size by memory only: the largest of 32, 16 or 8 that trains under mixed precision with peak reserved memory at most 92% of physical VRAM. (Correction, 17 Oct 2026: the first rule said "without running out of memory". On Windows the driver can silently spill GPU memory into system RAM, so batch 32 "fitted" on the 8 GB RTX 4060 Laptop GPU at 10.78 GB peak and 13.4 s per step. That is not a usable configuration, so the rule now requires the batch to stay inside physical VRAM.) If it is below 32, use gradient accumulation to an effective batch of 32. Record GPU model, VRAM, batch size and seconds per epoch.
 5. Run a tiny-overfit test on a small, fixed training subset containing C0 and C1 examples.
 6. Save configurations and logs needed to reproduce the experiment.
 
@@ -96,6 +96,7 @@ Do not use test-set results to choose preprocessing, checkpoints, calibration, t
 - Collaborator/mentor approval: pending.
 - Approval date and names: to be recorded after agreement.
 - Protocol amendment commit: to be recorded after the approved files are committed.
+- Tag `protocol-e2-v1` (commit `16a867d`) marks Amendment A1 and the first pre-training checks. It was created before the approval above was recorded and before the training settings in Section 13 were decided. The protocol used for E2 will be tagged `protocol-e2-final` once Section 13 is filled in and approved.
 
 ## 12. Amendment A1 — input resolution (before any model training)
 
@@ -133,3 +134,23 @@ On clean-tier images at 384 × 256, retention falls to 0.10 (recompression) and 
 **Why this is a legitimate change**
 
 The decision uses only the data generator and train-split persons. No model has been trained and no validation or test score has been seen. C2–C4 are re-rendered without pixel edits (docs/DECISIONS.md, D1), so the rule branch is unaffected.
+
+## 13. Training settings for E2 (to decide before any full training run)
+
+**Status:** open. If the GPU guide already fixes a setting, copy it here. Otherwise the proposal stands unless the team changes it. Record the final value and who agreed.
+
+| Setting | Proposal | Reason |
+|---|---|---|
+| Pretrained weights | torchvision `IMAGENET1K_V2` | Standard ImageNet ResNet-50 weights; used in the smoke test |
+| Augmentation | None | Flips and rotations produce documents that cannot exist; the three quality tiers already vary the images |
+| Class weighting | None (plain BCE) | The decision threshold is set on validation at 5% C0 FPR, so loss weighting is not needed to handle the 2:1 imbalance |
+| Optimizer | AdamW, weight decay 1e-4 | Common, stable default for fine-tuning |
+| Learning rate | 1e-4, cosine decay, 1 warm-up epoch | Passed the tiny-overfit check at 1e-4 |
+| Batch size | From the corrected smoke test; gradient accumulation to an effective 32 | Section 10, item 4 |
+| Maximum epochs | 30 | Upper bound; early stopping decides the actual length |
+| Early stopping | Validation PR-AUC (C0 vs C1), patience 5 epochs, keep the best epoch | PR-AUC fits the 2:1 imbalance and does not depend on a threshold |
+| Mixed precision | float16 autocast with gradient scaling | Needed to fit 768 × 512 in 8 GB |
+| Seeds | 0, 1, 2, 3, 4 for both canvases | Section 5 |
+| Determinism | Fixed seeds; cuDNN benchmark off | Results are averaged over seeds, so exact bit-level repeatability is not required |
+| Data loader | Shuffle the training set each epoch with a seeded generator | Reproducible order per seed |
+

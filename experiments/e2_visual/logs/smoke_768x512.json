@@ -52,17 +52,23 @@
     "C_batch_probe": {
       "probe": {
         "32": {
+          "fits": false,
+          "reason": "CUDA out of memory"
+        },
+        "16": {
           "fits": true,
-          "peak_gb": 10.78,
-          "sec_per_step": 13.397
+          "peak_allocated_gb": 5.56,
+          "peak_reserved_gb": 6.57,
+          "vram_gb": 8.0,
+          "sec_per_step": 0.363
         }
       },
-      "chosen_batch": 32,
-      "grad_accumulation": 1,
-      "est_sec_per_epoch_compute_only": 1582.5
+      "chosen_batch": 16,
+      "grad_accumulation": 2,
+      "est_sec_per_epoch_compute_only": 85.8
     },
     "D_real_batch": {
-      "loss": 0.6723,
+      "loss": 0.6686,
       "grads_finite": true
     },
     "E_tiny_overfit": {

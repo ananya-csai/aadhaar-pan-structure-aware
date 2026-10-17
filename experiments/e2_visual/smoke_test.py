@@ -4,6 +4,8 @@ Stages, in order. The script stops at the first failure.
   A  environment record (GPU, VRAM, versions)
   B  loader checks on train/val (test is counted from the manifest, never loaded)
   C  batch-size probe at the cache size: largest of 32/16/8 that trains under AMP
+     AND stays inside physical GPU memory (Windows can silently spill into
+     system RAM, which "fits" but runs about 10x slower; that counts as not fitting)
   D  one real batch: forward, backward, finite loss and gradients
   E  tiny-overfit: 25 C0 + 25 C1 fixed train images; must reach >= 96% accuracy
 
@@ -35,6 +37,7 @@ LOG_DIR = ROOT / "experiments" / "e2_visual" / "logs"
 PRIMARY = ("C0", "C1")
 BATCH_CANDIDATES = (32, 16, 8)
 EFFECTIVE_BATCH = 32
+VRAM_FRACTION = 0.92        # a batch "fits" only if peak reserved memory <= 92% of physical VRAM
 
 
 def fail(msg, log, path):
@@ -60,7 +63,7 @@ def train_step(model, opt, scaler, x, y, loss_fn):
     scaler.scale(loss).backward()
     scaler.step(opt)
     scaler.update()
-    return loss
+    return loss.detach()
 
 
 def main():
@@ -153,6 +156,7 @@ def main():
 
     # ---- C. batch-size probe (memory only, never accuracy) ----------------
     chosen, probe = None, {}
+    vram_bytes = torch.cuda.get_device_properties(0).total_memory
     for bs in BATCH_CANDIDATES:
         model = opt = scaler = x = y = None
         torch.cuda.empty_cache()
@@ -170,12 +174,19 @@ def main():
                 train_step(model, opt, scaler, x, y, loss_fn)
             torch.cuda.synchronize()
             sec_per_step = (time.time() - t0) / 3
-            probe[bs] = {"fits": True,
-                         "peak_gb": round(torch.cuda.max_memory_allocated() / 2**30, 2),
+            peak_reserved = torch.cuda.max_memory_reserved()
+            in_vram = peak_reserved <= VRAM_FRACTION * vram_bytes
+            probe[bs] = {"fits": in_vram,
+                         "peak_allocated_gb": round(torch.cuda.max_memory_allocated() / 2**30, 2),
+                         "peak_reserved_gb": round(peak_reserved / 2**30, 2),
+                         "vram_gb": round(vram_bytes / 2**30, 2),
                          "sec_per_step": round(sec_per_step, 3)}
-            chosen = bs
+            if not in_vram:
+                probe[bs]["reason"] = "exceeds physical VRAM (system-memory fallback)"
+            else:
+                chosen = bs
         except torch.cuda.OutOfMemoryError:
-            probe[bs] = {"fits": False}
+            probe[bs] = {"fits": False, "reason": "CUDA out of memory"}
         finally:
             del model, opt, scaler, x, y
             torch.cuda.empty_cache()

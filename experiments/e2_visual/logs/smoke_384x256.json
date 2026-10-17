@@ -1,0 +1,173 @@
+{
+  "size": "384x256",
+  "weights": "IMAGENET1K_V2",
+  "seed": 0,
+  "stages": {
+    "A_environment": {
+      "python": "3.12.7",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "torch": "2.14.1+cu130",
+      "torchvision": "0.29.1+cu130",
+      "cuda_available": true,
+      "torch_cuda": "13.0",
+      "cudnn": 92400,
+      "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "vram_gb": 8.0
+    },
+    "B_loader": {
+      "counts_C0_C1": {
+        "train": {
+          "C0": 2520,
+          "C1": 1260
+        },
+        "val": {
+          "C0": 540,
+          "C1": 270
+        },
+        "test": {
+          "C0": 540,
+          "C1": 270
+        }
+      },
+      "c1_fraction": {
+        "train": 0.3333,
+        "val": 0.3333,
+        "test": 0.3333
+      },
+      "persons": {
+        "train": 210,
+        "val": 45,
+        "test": 45
+      },
+      "train_len": 3780,
+      "val_len": 810,
+      "batch_shape": [
+        8,
+        3,
+        256,
+        384
+      ],
+      "test_images_loaded": 0
+    },
+    "C_batch_probe": {
+      "probe": {
+        "32": {
+          "fits": true,
+          "peak_allocated_gb": 2.94,
+          "peak_reserved_gb": 3.46,
+          "vram_gb": 8.0,
+          "sec_per_step": 0.183
+        }
+      },
+      "chosen_batch": 32,
+      "grad_accumulation": 1,
+      "est_sec_per_epoch_compute_only": 21.6
+    },
+    "D_real_batch": {
+      "loss": 0.6543,
+      "grads_finite": true
+    },
+    "E_tiny_overfit": {
+      "n_images": 50,
+      "image_ids": [
+        "P000000_aadhaar_C1_severe",
+        "P000006_pan_C1_mild",
+        "P000017_pan_C01_clean",
+        "P000032_aadhaar_C1_mild",
+        "P000032_aadhaar_C1_severe",
+        "P000038_aadhaar_C00_severe",
+        "P000044_pan_C1_severe",
+        "P000045_aadhaar_C01_mild",
+        "P000047_pan_C00_severe",
+        "P000048_aadhaar_C1_severe",
+        "P000070_pan_C00_clean",
+        "P000070_pan_C00_severe",
+        "P000073_aadhaar_C00_mild",
+        "P000101_pan_C1_mild",
+        "P000107_pan_C00_clean",
+        "P000122_aadhaar_C1_mild",
+        "P000124_pan_C00_clean",
+        "P000128_aadhaar_C01_mild",
+        "P000128_pan_C1_severe",
+        "P000139_aadhaar_C00_severe",
+        "P000148_pan_C00_clean",
+        "P000151_pan_C01_mild",
+        "P000153_pan_C1_severe",
+        "P000159_aadhaar_C1_clean",
+        "P000162_pan_C00_severe",
+        "P000163_pan_C1_mild",
+        "P000172_pan_C1_mild",
+        "P000175_aadhaar_C00_severe",
+        "P000188_aadhaar_C01_severe",
+        "P000201_aadhaar_C1_clean",
+        "P000203_aadhaar_C00_severe",
+        "P000209_pan_C00_clean",
+        "P000216_aadhaar_C1_mild",
+        "P000219_aadhaar_C1_clean",
+        "P000234_aadhaar_C1_clean",
+        "P000235_pan_C00_severe",
+        "P000235_pan_C1_mild",
+        "P000239_pan_C01_mild",
+        "P000243_aadhaar_C1_severe",
+        "P000247_aadhaar_C01_clean",
+        "P000249_pan_C00_clean",
+        "P000253_pan_C1_severe",
+        "P000261_pan_C01_clean",
+        "P000268_aadhaar_C1_mild",
+        "P000270_pan_C1_clean",
+        "P000273_aadhaar_C1_clean",
+        "P000282_aadhaar_C00_mild",
+        "P000294_aadhaar_C01_severe",
+        "P000298_pan_C1_clean",
+        "P000298_pan_C1_severe"
+      ],
+      "epochs": 40,
+      "lr": 0.0001,
+      "batch": 16,
+      "loss_history": [
+        0.6988,
+        0.5883,
+        0.5096,
+        0.4527,
+        0.376,
+        0.3639,
+        0.2529,
+        0.2071,
+        0.1735,
+        0.1529,
+        0.1192,
+        0.0795,
+        0.0649,
+        0.0576,
+        0.0395,
+        0.0636,
+        0.0472,
+        0.0369,
+        0.0412,
+        0.0243,
+        0.0418,
+        0.0246,
+        0.0324,
+        0.0399,
+        0.0298,
+        0.0552,
+        0.0306,
+        0.0369,
+        0.0773,
+        0.0347,
+        0.033,
+        0.1031,
+        0.0574,
+        0.0382,
+        0.0258,
+        0.0205,
+        0.0158,
+        0.0107,
+        0.0287,
+        0.0204
+      ],
+      "eval_mode_accuracy": 1.0
+    }
+  },
+  "result": "PASS"
+}
