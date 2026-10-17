@@ -1,0 +1,171 @@
+{
+  "size": "768x512",
+  "weights": "IMAGENET1K_V2",
+  "seed": 0,
+  "stages": {
+    "A_environment": {
+      "python": "3.12.7",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "torch": "2.14.1+cu130",
+      "torchvision": "0.29.1+cu130",
+      "cuda_available": true,
+      "torch_cuda": "13.0",
+      "cudnn": 92400,
+      "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "vram_gb": 8.0
+    },
+    "B_loader": {
+      "counts_C0_C1": {
+        "train": {
+          "C0": 2520,
+          "C1": 1260
+        },
+        "val": {
+          "C0": 540,
+          "C1": 270
+        },
+        "test": {
+          "C0": 540,
+          "C1": 270
+        }
+      },
+      "c1_fraction": {
+        "train": 0.3333,
+        "val": 0.3333,
+        "test": 0.3333
+      },
+      "persons": {
+        "train": 210,
+        "val": 45,
+        "test": 45
+      },
+      "train_len": 3780,
+      "val_len": 810,
+      "batch_shape": [
+        8,
+        3,
+        512,
+        768
+      ],
+      "test_images_loaded": 0
+    },
+    "C_batch_probe": {
+      "probe": {
+        "32": {
+          "fits": true,
+          "peak_gb": 10.78,
+          "sec_per_step": 13.397
+        }
+      },
+      "chosen_batch": 32,
+      "grad_accumulation": 1,
+      "est_sec_per_epoch_compute_only": 1582.5
+    },
+    "D_real_batch": {
+      "loss": 0.6723,
+      "grads_finite": true
+    },
+    "E_tiny_overfit": {
+      "n_images": 50,
+      "image_ids": [
+        "P000000_aadhaar_C1_severe",
+        "P000006_pan_C1_mild",
+        "P000017_pan_C01_clean",
+        "P000032_aadhaar_C1_mild",
+        "P000032_aadhaar_C1_severe",
+        "P000038_aadhaar_C00_severe",
+        "P000044_pan_C1_severe",
+        "P000045_aadhaar_C01_mild",
+        "P000047_pan_C00_severe",
+        "P000048_aadhaar_C1_severe",
+        "P000070_pan_C00_clean",
+        "P000070_pan_C00_severe",
+        "P000073_aadhaar_C00_mild",
+        "P000101_pan_C1_mild",
+        "P000107_pan_C00_clean",
+        "P000122_aadhaar_C1_mild",
+        "P000124_pan_C00_clean",
+        "P000128_aadhaar_C01_mild",
+        "P000128_pan_C1_severe",
+        "P000139_aadhaar_C00_severe",
+        "P000148_pan_C00_clean",
+        "P000151_pan_C01_mild",
+        "P000153_pan_C1_severe",
+        "P000159_aadhaar_C1_clean",
+        "P000162_pan_C00_severe",
+        "P000163_pan_C1_mild",
+        "P000172_pan_C1_mild",
+        "P000175_aadhaar_C00_severe",
+        "P000188_aadhaar_C01_severe",
+        "P000201_aadhaar_C1_clean",
+        "P000203_aadhaar_C00_severe",
+        "P000209_pan_C00_clean",
+        "P000216_aadhaar_C1_mild",
+        "P000219_aadhaar_C1_clean",
+        "P000234_aadhaar_C1_clean",
+        "P000235_pan_C00_severe",
+        "P000235_pan_C1_mild",
+        "P000239_pan_C01_mild",
+        "P000243_aadhaar_C1_severe",
+        "P000247_aadhaar_C01_clean",
+        "P000249_pan_C00_clean",
+        "P000253_pan_C1_severe",
+        "P000261_pan_C01_clean",
+        "P000268_aadhaar_C1_mild",
+        "P000270_pan_C1_clean",
+        "P000273_aadhaar_C1_clean",
+        "P000282_aadhaar_C00_mild",
+        "P000294_aadhaar_C01_severe",
+        "P000298_pan_C1_clean",
+        "P000298_pan_C1_severe"
+      ],
+      "epochs": 40,
+      "lr": 0.0001,
+      "batch": 16,
+      "loss_history": [
+        0.6943,
+        0.6214,
+        0.5548,
+        0.4805,
+        0.4215,
+        0.404,
+        0.2892,
+        0.2584,
+        0.1988,
+        0.165,
+        0.1241,
+        0.0968,
+        0.0652,
+        0.0491,
+        0.0555,
+        0.1123,
+        0.0818,
+        0.0432,
+        0.0544,
+        0.0295,
+        0.0677,
+        0.0458,
+        0.0578,
+        0.0611,
+        0.0537,
+        0.0714,
+        0.0345,
+        0.0338,
+        0.0832,
+        0.0173,
+        0.0248,
+        0.0871,
+        0.0387,
+        0.0687,
+        0.0337,
+        0.0192,
+        0.0216,
+        0.0262,
+        0.041,
+        0.0425
+      ],
+      "eval_mode_accuracy": 1.0
+    }
+  },
+  "result": "PASS"
+}
