@@ -116,7 +116,8 @@ One script computes every metric in the paper, so all systems are scored the sam
 ### Step 10. Train E2 [GPU] — 🟡
 - Task: C0 vs C1 on the train split, with settings from `DECISIONS.md` Section 13 (variant `base`) or Amendment A2 (Section 14).
 - ✅ Pilot: `base`, 768 × 512, seed 0. Ran correctly but overfitted: validation AUROC 0.578, PR-AUC 0.448 (chance 0.333).
-- ⬜ Variant `reg` (A2), 768 × 512, seed 0. Pick between `base` and `reg` with the Section 14 rule. If both are near chance, specify and run the tile-based candidate first.
+- ✅ Variant `reg` (A2), 768 × 512, seed 0: validation AUROC 0.564, PR-AUC 0.435. No better than `base`.
+- 🟡 Variant `tiles` (A2): 15 tiles of 256 × 256 from the un-resized image, document score = highest tile. Specified in Section 14. Seed 0 next; it is selected only if validation PR-AUC ≥ 0.478.
 - ⬜ Selected variant: **primary** 768 × 512, seeds 0–4; **sensitivity** 384 × 256, the same seeds and settings.
 - All variants tried are kept and reported with their validation metrics.
 - Early stopping on validation PR-AUC. Never compute test metrics during development.

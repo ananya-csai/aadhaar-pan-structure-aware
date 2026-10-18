@@ -184,3 +184,23 @@ No pipeline fault was found: labels and splits match the manifest, and the model
 
 **If `reg` is also near chance** (validation AUROC below 0.65), the next candidate is a tile-based detector at native resolution: overlapping tiles scored by the same ResNet-50, with the document score taken as the maximum over tiles. It will be specified here before it is run. If no candidate generalises, the paper reports a weak visual baseline as a finding and limits RQ3 claims to it.
 
+### A2 results so far (validation only, 768 × 512, seed 0)
+
+| Variant | Best epoch | Val PR-AUC | Val AUROC | Note |
+|---|---|---|---|---|
+| `base` | 18 | 0.448 | 0.578 | memorised training set (train loss 0.002) |
+| `reg` | 5 | 0.435 | 0.564 | no memorisation, no generalisation (train loss 0.58) |
+
+`reg` is below 0.65 AUROC, so by the rule above the tile-based candidate is specified next and then run.
+
+### Candidate `tiles` — specification (fixed before it is run)
+
+- **Input:** the released JPEG at its original size (at most 1012 × 638), placed top-left on a white 1024 × 640 canvas. No resizing, so every pixel of evidence is kept (Section 12).
+- **Tiles:** fixed grid of 15 overlapping 256 × 256 tiles (x = 0, 192, 384, 576, 768; y = 0, 192, 384).
+- **Tile labels (training only):** all tiles of C0 images are negative. For C1, a tile is positive if it holds at least 25% of the edit region's area, ignored if it overlaps less, and negative otherwise. Edit regions come from `c1_region` in `manifest.jsonl`, mapped into released-image coordinates by recomputing the generator's homography from `degrade_seed` (`experiments/e2_visual/map_c1_regions.py`). The mapping reproduces the stored layout-independent boxes exactly. Every C1 image has at least one positive tile; train has 2,751 positive and 52,929 negative tiles.
+- **Sampling:** each epoch uses all positive tiles plus 8 times as many negative tiles, drawn afresh with a seeded generator.
+- **Model and training:** as `base`. ResNet-50 IMAGENET1K_V2 with a one-logit head, plain BCE, no augmentation, AdamW lr 1e-4 and weight decay 1e-4, 1 warm-up epoch then cosine decay over 30 epochs, fp16, batch 32, patience 5.
+- **Document score:** maximum tile logit. No region information is used at validation or test time. Early stopping uses document-level validation PR-AUC (C0 vs C1).
+- **Selection:** `tiles` replaces `base` only if its validation PR-AUC (seed 0) is at least 0.03 higher (0.478 or more).
+- **If `tiles` is selected:** the resolution analysis (E-res) and the use of the 384 × 256 arm are re-specified as Amendment A3 before any test scoring.
+
