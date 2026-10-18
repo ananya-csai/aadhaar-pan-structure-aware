@@ -22,8 +22,8 @@ This is the single plan for finishing the paper. Follow the steps in order. A st
 | Corpus SHA-256 | `f3302cc7…0394` |
 | Splits (people) | train 210 · val 45 · test 45 |
 | C0 / C1 images | train 2,520 / 1,260 · val 540 / 270 · test 540 / 270 |
-| Primary cache | 768 × 512, SHA-256 `8229b7d9…0bcc` |
-| Sensitivity cache | 384 × 256, SHA-256 `a9c0ba03…cf49` |
+| Visual-branch input | Original images, 15 tiles of 256 × 256 (no resizing); edit regions `c1_regions.csv`, SHA-256 `b0138b52…7c91` |
+| Caches (comparison model / measurement) | 768 × 512 `8229b7d9…0bcc` · 384 × 256 `a9c0ba03…cf49` |
 | Visual model | ResNet-50, ImageNet-pretrained, one-logit head |
 | GPU | NVIDIA GeForce RTX 4060 Laptop GPU, 8 GB |
 | Protocol | `DECISIONS.md` and `experiments/EXPERIMENT_PLAN.md`; tag `protocol-e2-final` when Gate G1 passes |
@@ -42,7 +42,7 @@ Do not cross a gate until everything before it is ✅.
 
 ### Step 1. Agree and freeze the protocol [BOTH] — ✅
 - ✅ Protocol drafted: input size, normalisation, splits, operating point, seed averaging (`DECISIONS.md` Sections 1–10).
-- ✅ Input-resolution decision measured and recorded (Section 12). At 384 × 256, most of the evidence for the two fine-trace edits is lost: on clean images only 3–11% survives. At 768 × 512, 83–86% survives. So 768 × 512 is primary and 384 × 256 is the sensitivity arm.
+- ✅ Input-resolution decision measured and recorded (Section 12). At 384 × 256, most of the evidence for the two fine-trace edits is lost: on clean images only 3–11% survives. At 768 × 512, 83–86% survives. This led to 768 × 512 for whole-document models (A1) and then to the native-resolution tile model (A2, A3).
 - ✅ Training settings decided (Section 13) and implemented in `experiments/e2_visual/train.py`.
 - ✅ Mechanism-aware recall defined (Section 6) and confirmed (Section 11).
 - ✅ Approval by lead researcher, collaborator and mentor recorded (Section 11).
@@ -117,8 +117,8 @@ One script computes every metric in the paper, so all systems are scored the sam
 - Task: C0 vs C1 on the train split, with settings from `DECISIONS.md` Section 13 (variant `base`) or Amendment A2 (Section 14).
 - ✅ Pilot: `base`, 768 × 512, seed 0. Ran correctly but overfitted: validation AUROC 0.578, PR-AUC 0.448 (chance 0.333).
 - ✅ Variant `reg` (A2), 768 × 512, seed 0: validation AUROC 0.564, PR-AUC 0.435. No better than `base`.
-- 🟡 Variant `tiles` (A2): 15 tiles of 256 × 256 from the un-resized image, document score = highest tile. Specified in Section 14. Seed 0 next; it is selected only if validation PR-AUC ≥ 0.478.
-- ⬜ Selected variant: **primary** 768 × 512, seeds 0–4; **sensitivity** 384 × 256, the same seeds and settings.
+- ✅ Variant `tiles` (A2), seed 0: validation PR-AUC 0.627, AUROC 0.699. **Selected as the visual branch** (Amendment A3, Section 15).
+- ⬜ `tiles` seeds 1–4 (primary). Then `base` 768 × 512 seeds 1–4, used only for the E-vis comparison. The 384 × 256 training arm is dropped (A3).
 - All variants tried are kept and reported with their validation metrics.
 - Early stopping on validation PR-AUC. Never compute test metrics during development.
 - Save for every run: config, checkpoint, per-epoch train loss and validation PR-AUC/AUROC, runtime, environment, git commit.
@@ -127,7 +127,7 @@ One script computes every metric in the paper, so all systems are scored the sam
 ### Step 11. Validate outputs and freeze [GPU + CPU] — ⬜
 - [CPU] Run `evaluate.py` on validation logits only. Check the prediction schema, IDs and split membership.
 - [GPU] For each seed, choose the checkpoint from validation. Save validation scores and config hashes.
-- [BOTH] Commit the final configuration. Do not compare the two resolutions until both are frozen.
+- [BOTH] Commit the final configuration. Do not compare `tiles` and `base` until both are frozen.
 
 ---
 
@@ -153,7 +153,7 @@ One script computes every metric in the paper, so all systems are scored the sam
 ### Step 15. Score the test set once [GPU + CPU] — ⬜
 - [GPU] Use the saved test logits from the frozen checkpoints.
 - [CPU] Apply the frozen calibration, thresholds and fusion. No retuning.
-- [BOTH] Save predictions, thresholds, config hashes and run logs for both resolutions.
+- [BOTH] Save predictions, thresholds, config hashes and run logs for `tiles` (and, for E-vis only, `base`).
 
 ---
 
@@ -166,15 +166,15 @@ One script computes every metric in the paper, so all systems are scored the sam
 | E7 | Incremental fusion gain, Aadhaar vs PAN, with person-level uncertainty | RQ5 |
 | E8 | C0 false positives by quality tier, document type and OCR outcome (post-hoc splits labelled exploratory) | RQ3, RQ4 |
 | E9/E12 | For flagged C2/C3, does the explanation name the corrupted field? Over-attribution reported separately; GT vs OCR | RQ2 |
-| E-res | C1 recall at 768 × 512 vs 384 × 256 for fine-trace and coarse groups | RQ1 |
+| E-vis | C1 detection of `tiles` (native, local) vs `base` (768 × 512, whole document) by C1 group, edit type and quality tier, 5 seeds each, with the edit-survival measurement | RQ1 |
 
-- Expected E-res result: little change for coarse edits and a clear drop for fine-trace edits at 384 × 256. If there is no drop, report that the model does not use fine traces even at 768 × 512.
+- Expected E-vis result: `tiles` better than `base` on C1, especially fine-trace edits and clean images; both weak on severe images. Report what is found, including if the gap closes over 5 seeds.
 - Optional, only if pre-registered first: a position-aware OCR whitelist ablation, and a second OCR engine on the test split.
 
 ### Step 17. Statistics and locking results [CPU] — ⬜
 - Primary inference: person-clustered bootstrap (10,000 resamples) on paired metric differences. Resample people and keep each person's documents together. The test set has 45 people, not 1,620 independent samples.
 - Paired tests: cluster-aware permutation or bootstrap. Image-level McNemar is supplementary only, with its independence limitation stated.
-- Holm correction within each pre-defined family of comparisons, including E-res.
+- Holm correction within each pre-defined family of comparisons, including E-vis.
 - About 54 test C1 images per edit type means wide intervals. Lead with the two C1 groups; per-operation results are supporting detail.
 - Audit row counts, IDs, labels, thresholds and code traceability. Then lock the results.
 
@@ -186,7 +186,7 @@ One script computes every metric in the paper, so all systems are scored the sam
 
 ### Step 18. Write Sections VI–IX [CPU lead; BOTH] — ⬜
 - Every number comes from a committed script and maps to a table or figure. Each research question maps to at least one table with uncertainty.
-- Section VI states the input size, the resize policy, the edit-survival measurement and why 768 × 512 was chosen.
+- Section VI describes the tile model, the edit-region mapping, the edit-survival measurement and the model-development path on validation (A1–A3: `base`, `reg`, `tiles`), with every variant's validation metrics.
 - Answer RQ1 separately for coarse and fine-trace C1 edits. Fine-trace edits are not "visually apparent", so one pooled number would misrepresent RQ1. If the RQ1 wording is changed, record it in `DECISIONS.md`.
 - Finish the literature audit: databases searched, search date, screening counts, and every citation verified against its source.
 
@@ -200,7 +200,7 @@ One script computes every metric in the paper, so all systems are scored the sam
   - the data is synthetic and design-unfaithful;
   - one English OCR engine;
   - the test set has 45 people;
-  - the visual branch is a whole-document ResNet-50 at 768 × 512, and a crop-based or higher-resolution detector might catch more fine-trace edits.
+  - the visual branch is a tile-based ResNet-50 trained with edit locations; it is near chance on severely degraded images, and a stronger forensic detector might do better.
 - C0 = unmodified synthetic controls, not genuine documents. C4 = rule-valid fabricated identifiers; passing the rules is not identity verification.
 - Aadhaar C3 is a known capability boundary (no rule reads the Devanagari line). PAN: Individual-format scope only, and the tenth character is not claimed to be a recomputable check digit.
 - No "first" claims. No real-world accuracy, verification or fraud-prevalence claims.
@@ -233,11 +233,11 @@ Leave room for end-semester exams. If a window slips, move the later windows and
 
 - [ ] Protocol approved and tagged `protocol-e2-final` before any E2 training run.
 - [ ] Corpus, both caches and splits verified from pinned hashes.
-- [ ] Every planned seed and both resolutions reported.
+- [ ] Every planned seed reported for `tiles` and `base`; `reg` reported as a pilot.
 - [ ] Calibration, thresholds and fusion chosen on validation only; realised test FPR and recall reported.
 - [ ] Detection recall and rule-coverage recall reported separately and named correctly.
 - [ ] Results broken down by document type, C0–C4 and C1 group (fine-trace vs coarse).
-- [ ] E6, E7, E8, E9/E12 and E-res completed, or omissions disclosed.
+- [ ] E6, E7, E8, E9/E12 and E-vis completed, or omissions disclosed.
 - [ ] Person-clustered uncertainty, paired inference and multiplicity correction applied.
 - [ ] Every table and figure regenerates from committed artefacts; no TODOs remain.
 - [ ] Limitations, PAN scope, C4 and OCR boundaries stated accurately.

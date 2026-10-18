@@ -204,3 +204,21 @@ No pipeline fault was found: labels and splits match the manifest, and the model
 - **Selection:** `tiles` replaces `base` only if its validation PR-AUC (seed 0) is at least 0.03 higher (0.478 or more).
 - **If `tiles` is selected:** the resolution analysis (E-res) and the use of the 384 × 256 arm are re-specified as Amendment A3 before any test scoring.
 
+## 15. Amendment A3 — visual branch selected; resolution analysis re-specified
+
+**Status:** recorded 18 Oct 2026, before any test scoring; mentor informed on: ________.
+
+**Selection (Section 14 rule).** `tiles`, seed 0: best epoch 12, validation PR-AUC 0.627, AUROC 0.699. This passes the 0.478 threshold, so `tiles` is the visual branch for every later step (calibration, fusion, test).
+
+Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.699; fine-trace 0.559 → 0.722; coarse 0.590 → 0.684; clean 0.603 → 0.842; mild 0.613 → 0.671; severe 0.517 → 0.535; Aadhaar 0.620 → 0.691; PAN 0.535 → 0.709. For 195 of 270 validation C1 images, the highest-scoring tile overlaps the edit. C2–C4 images score like C0 (median document logit about −2.7), as expected for re-rendered forgeries with no pixel trace.
+
+**Runs for E2.**
+- Primary: `tiles`, seeds 0–4 (`train_tiles.py`).
+- Comparison: `base` (768 × 512 whole-document), seeds 0–4 (`train.py --variant base`). It is used only in the analysis below, never in fusion.
+- `reg` stays as a single reported pilot (seed 0).
+- The 384 × 256 training arm is dropped. With a tile model at native resolution, a down-scaled whole-document arm no longer tests the primary model. The effect of down-scaling is already measured directly in Section 12.
+
+**E-res is replaced by E-vis (visual input handling, RQ1).** Compare C1 detection of `tiles` (native, local) and `base` (768 × 512, whole document): AUROC and recall at the frozen operating point, per C1 group (fine-trace / coarse), per edit type and per quality tier, averaged over 5 seeds with person-clustered bootstrap CIs. Report the Section 12 edit-survival measurement alongside. This analysis is descriptive: it compares two pre-specified models and does not choose between them again.
+
+**Limitation to state.** `tiles` uses edit locations during training (tile labels). No location information is used at validation or test time.
+
