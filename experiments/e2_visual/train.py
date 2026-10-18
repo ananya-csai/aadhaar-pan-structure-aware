@@ -1,10 +1,16 @@
 """E2 visual baseline: ResNet-50, C0 vs C1 (roadmap Step 10; DECISIONS.md Sections 2, 3, 5, 13).
 
-One run = one canvas size + one seed. Settings follow DECISIONS.md Section 13:
+One run = one canvas size + one seed + one variant.
+
+Variant "base" follows DECISIONS.md Section 13:
   IMAGENET1K_V2 weights, one-logit head, plain BCE, no augmentation,
   AdamW (lr 1e-4, weight decay 1e-4), 1 warm-up epoch then cosine decay,
   fp16 autocast, effective batch 32 via gradient accumulation,
   at most 30 epochs, early stopping on validation PR-AUC with patience 5.
+Variant "reg" (Amendment A2) is identical except: trace-preserving augmentation
+  (integer-pixel shift up to +-16 px with white fill; per-image contrast x[0.9, 1.1]
+  and brightness +-0.05; no resampling, blurring or re-compression), dropout 0.5 before the head,
+  and weight decay 0.05.
 
 Guards (the run refuses to start otherwise):
   * DECISIONS.md has no unfilled [[FILL ...]] fields;
@@ -12,7 +18,8 @@ Guards (the run refuses to start otherwise):
   * no modified tracked files (so the recorded commit is the code that ran);
   * the run folder has no completed run in it.
 
-Outputs in experiments/e2_visual/runs/<size>/seed<k>/:
+Outputs in experiments/e2_visual/runs/<size>/seed<k>/ (base) or
+experiments/e2_visual/runs/<size>_<variant>/seed<k>/ (other variants):
   config.json           settings, commit, environment, cache hash
   epochs.jsonl          per-epoch train loss, val PR-AUC, val AUROC, lr, time
   best.pt               best checkpoint (git-ignored, ~95 MB)
@@ -21,6 +28,7 @@ Outputs in experiments/e2_visual/runs/<size>/seed<k>/:
   summary.json          best epoch, best val metrics, runtime, SHA-256 of both score files
 
     python experiments/e2_visual/train.py --size 768x512 --seed 0
+    python experiments/e2_visual/train.py --size 768x512 --seed 0 --variant reg
 """
 
 import argparse
@@ -41,7 +49,7 @@ import torch
 import torchvision
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from data import make_dataset  # noqa: E402
+from data import IMAGENET_MEAN, IMAGENET_STD, make_dataset  # noqa: E402
 from metrics import average_precision, roc_auc  # noqa: E402
 
 ROOT = Path.cwd()
@@ -90,10 +98,40 @@ def batch_from_smoke_log(size):
     return int(data["stages"]["C_batch_probe"]["chosen_batch"])
 
 
-def build_model(weights_name):
+VARIANTS = {
+    "base": dict(weight_decay=1e-4, dropout=0.0, augmentation="none"),
+    "reg": dict(weight_decay=0.05, dropout=0.5,
+                augmentation="integer shift <=16 px (white fill); per-image contrast x[0.9,1.1], brightness +-0.05"),
+}
+MAX_SHIFT = 16
+
+
+def build_model(weights_name, dropout):
     model = torchvision.models.resnet50(weights=torchvision.models.ResNet50_Weights[weights_name])
-    model.fc = torch.nn.Linear(model.fc.in_features, 1)
+    head = torch.nn.Linear(model.fc.in_features, 1)
+    model.fc = head if dropout == 0 else torch.nn.Sequential(torch.nn.Dropout(dropout), head)
     return model
+
+
+def augment(x, gen):
+    """Trace-preserving augmentation on a normalised batch (B,3,H,W) on the GPU.
+
+    Shift: pad with white by MAX_SHIFT and crop back at a random integer offset,
+    so pixels move but are never resampled. Photometric: one contrast factor and
+    one brightness offset per image, applied to the whole image.
+    """
+    mean = torch.tensor(IMAGENET_MEAN, device=x.device).view(1, 3, 1, 1)
+    std = torch.tensor(IMAGENET_STD, device=x.device).view(1, 3, 1, 1)
+    raw = x * std + mean                                       # back to [0, 1]
+    b, _, h, w = raw.shape
+    padded = torch.nn.functional.pad(raw, (MAX_SHIFT,) * 4, value=1.0)
+    offs = torch.randint(0, 2 * MAX_SHIFT + 1, (b, 2), device=x.device, generator=gen)
+    raw = torch.stack([padded[i, :, offs[i, 0]:offs[i, 0] + h, offs[i, 1]:offs[i, 1] + w]
+                       for i in range(b)])
+    c = 1.0 + (torch.rand(b, 1, 1, 1, device=x.device, generator=gen) * 0.2 - 0.1)
+    s = torch.rand(b, 1, 1, 1, device=x.device, generator=gen) * 0.1 - 0.05
+    raw = ((raw - 0.5) * c + 0.5 + s).clamp(0.0, 1.0)
+    return (raw - mean) / std
 
 
 def eval_loader(ds, batch, workers, persistent=False):
@@ -131,12 +169,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--size", required=True, choices=["768x512", "384x256"])
     ap.add_argument("--seed", type=int, required=True, choices=[0, 1, 2, 3, 4])
+    ap.add_argument("--variant", default="base", choices=sorted(VARIANTS))
     ap.add_argument("--workers", type=int, default=4)
     a = ap.parse_args()
 
-    cfg = dict(size=a.size, seed=a.seed, weights="IMAGENET1K_V2", lr=1e-4, weight_decay=1e-4,
+    v = VARIANTS[a.variant]
+    cfg = dict(size=a.size, seed=a.seed, variant=a.variant, weights="IMAGENET1K_V2", lr=1e-4,
+               weight_decay=v["weight_decay"], dropout=v["dropout"],
                warmup_epochs=1, max_epochs=30, patience=5, effective_batch=EFFECTIVE_BATCH,
-               loss="BCEWithLogits, unweighted", augmentation="none",
+               loss="BCEWithLogits, unweighted", augmentation=v["augmentation"],
                amp="float16 autocast + GradScaler", early_stop_metric="val PR-AUC (C0 vs C1)",
                lr_schedule="linear warm-up over epoch 1, then cosine to 0 at max_epochs (per optimizer step)",
                train_drop_last=True)
@@ -149,7 +190,8 @@ def main():
     accum = EFFECTIVE_BATCH // batch
     cfg.update(batch=batch, grad_accumulation=accum, workers=a.workers)
 
-    run = ROOT / "experiments" / "e2_visual" / "runs" / a.size / f"seed{a.seed}"
+    folder = a.size if a.variant == "base" else f"{a.size}_{a.variant}"
+    run = ROOT / "experiments" / "e2_visual" / "runs" / folder / f"seed{a.seed}"
     if (run / "summary.json").exists():
         sys.exit(f"STOP: {run} already holds a completed run. Runs are never overwritten.")
     if run.exists():
@@ -178,7 +220,8 @@ def main():
 
     val_loader = eval_loader(val_ds, batch, a.workers, persistent=True)
 
-    model = build_model(cfg["weights"]).to(dev)
+    model = build_model(cfg["weights"], cfg["dropout"]).to(dev)
+    aug_gen = torch.Generator(device="cuda").manual_seed(a.seed + 1000)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg["lr"], weight_decay=cfg["weight_decay"])
     scaler = torch.amp.GradScaler("cuda")
     loss_fn = torch.nn.BCEWithLogitsLoss()
@@ -205,6 +248,8 @@ def main():
             if i >= usable:
                 break
             x, y = x.to(dev, non_blocking=True), y.to(dev, non_blocking=True)
+            if cfg["augmentation"] != "none":
+                x = augment(x, aug_gen)
             with torch.autocast(device_type="cuda", dtype=torch.float16):
                 logits = model(x).squeeze(1)
             loss = loss_fn(logits.float(), y)

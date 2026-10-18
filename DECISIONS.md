@@ -161,3 +161,26 @@ The decision uses only the data generator and train-split persons. No model has 
 | Determinism | Fixed seeds; cuDNN benchmark off | Results are averaged over seeds, so exact bit-level repeatability is not required |
 | Data loader | Shuffle the training set each epoch with a seeded generator | Reproducible order per seed |
 
+## 14. Amendment A2 — validation-only model development for the visual baseline
+
+**Status:** proposed 18 Oct 2026 by lead researcher; mentor informed on: ________ (record the date; this does not block training because the test split is untouched).
+
+**What happened.** The first E2 run (768 × 512, variant `base`, seed 0; commit `8392d83`) trained without errors but did not generalise:
+
+- training AUROC 1.00 (training loss 0.002), validation AUROC 0.578, validation PR-AUC 0.448 (chance PR-AUC = 0.333);
+- validation AUROC by C1 operation: font_substitution 0.73, patch_splice 0.63, local_recompression 0.56, resample_patch 0.56, field_displacement 0.48;
+- Aadhaar 0.62, PAN 0.54.
+
+No pipeline fault was found: labels and splits match the manifest, and the model fits its training data perfectly. Field displacement, whose evidence survives almost fully at 768 × 512 (Section 12), is still at chance, so the failure is overfitting rather than input resolution. A near-chance visual baseline would make the incremental value of the rule branch (RQ3) look larger than it is, and reviewers would call it a weak baseline.
+
+**What is allowed.** Model development uses training and validation data only. The test split stays sealed: `scores_test.csv` files are written but not opened before Step 15. Every variant tried is kept and reported with its validation metrics (appendix of the paper).
+
+**Candidate added now: variant `reg`.** Same as `base` except:
+- augmentation that keeps forensic traces: integer-pixel shift up to ±16 px with white fill (no resampling), per-image contrast ×[0.9, 1.1] and brightness ±0.05; no blur, resizing or re-compression;
+- dropout 0.5 before the one-logit head;
+- AdamW weight decay 0.05.
+
+**Selection rule.** Compare variants on validation PR-AUC (C0 vs C1) at 768 × 512, seed 0. Prefer the simpler variant unless the more complex one is at least 0.03 higher. The selected variant is then run with seeds 0–4 at both 768 × 512 and 384 × 256, and becomes the visual branch for all later steps.
+
+**If `reg` is also near chance** (validation AUROC below 0.65), the next candidate is a tile-based detector at native resolution: overlapping tiles scored by the same ResNet-50, with the document score taken as the maximum over tiles. It will be specified here before it is run. If no candidate generalises, the paper reports a weak visual baseline as a finding and limits RQ3 claims to it.
+

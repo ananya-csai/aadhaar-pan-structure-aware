@@ -4,7 +4,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A st
 
 **Owners:** [GPU] GPU-laptop owner · [CPU] partner without a GPU · [BOTH] joint.
 **Status:** ✅ done and committed · 🟡 started or needs checking · ⬜ not started.
-**Status checked against:** commit `f76bdfb`, 18 Oct 2026.
+**Status checked against:** commit `8392d83`, 18 Oct 2026.
 
 ## Ground rules
 
@@ -40,13 +40,13 @@ Do not cross a gate until everything before it is ✅.
 
 ## Phase 0 — Protocol and project state
 
-### Step 1. Agree and freeze the protocol [BOTH] — 🟡 (✅ once the approval commit is tagged)
+### Step 1. Agree and freeze the protocol [BOTH] — ✅
 - ✅ Protocol drafted: input size, normalisation, splits, operating point, seed averaging (`DECISIONS.md` Sections 1–10).
 - ✅ Input-resolution decision measured and recorded (Section 12). At 384 × 256, most of the evidence for the two fine-trace edits is lost: on clean images only 3–11% survives. At 768 × 512, 83–86% survives. So 768 × 512 is primary and 384 × 256 is the sensitivity arm.
 - ✅ Training settings decided (Section 13) and implemented in `experiments/e2_visual/train.py`.
-- 🟡 Mechanism-aware recall defined (Section 6); confirm it in Section 11.
-- 🟡 Partner and mentor approved. Write names and dates into Section 11 (the `[[FILL]]` fields).
-- 🟡 Re-create `protocol-e2-final` on the approval commit. The first tag pointed at a commit where approval still read "pending". `train.py` refuses to run until this is done.
+- ✅ Mechanism-aware recall defined (Section 6) and confirmed (Section 11).
+- ✅ Approval by lead researcher, collaborator and mentor recorded (Section 11).
+- ✅ `protocol-e2-final` tagged on the approval commit `8392d83`.
 - ⬜ Check ICDAR 2027 dates, page limit and anonymity rules on the official site. Planning targets: abstract 31 Jan 2027, full paper 20 Feb 2027.
 
 **Done when:** Sections 6, 11 and 13 are filled in and `protocol-e2-final` is pushed.
@@ -113,12 +113,15 @@ One script computes every metric in the paper, so all systems are scored the sam
 - ✅ Loader (`experiments/e2_visual/data.py`): manifest-only membership, RGB, ImageNet normalisation, one item per `image_id`, sorted, size checked.
 - [CPU] Review `data.py` and both contact sheets, and note any problem in an issue.
 
-### Step 10. Train E2 [GPU] — ⬜ (after Gate G1)
-- Task: C0 vs C1 on the train split, with settings from `DECISIONS.md` Section 13.
-- **Primary:** 768 × 512, seeds 0–4. **Sensitivity:** 384 × 256, the same seeds and settings.
+### Step 10. Train E2 [GPU] — 🟡
+- Task: C0 vs C1 on the train split, with settings from `DECISIONS.md` Section 13 (variant `base`) or Amendment A2 (Section 14).
+- ✅ Pilot: `base`, 768 × 512, seed 0. Ran correctly but overfitted: validation AUROC 0.578, PR-AUC 0.448 (chance 0.333).
+- ⬜ Variant `reg` (A2), 768 × 512, seed 0. Pick between `base` and `reg` with the Section 14 rule. If both are near chance, specify and run the tile-based candidate first.
+- ⬜ Selected variant: **primary** 768 × 512, seeds 0–4; **sensitivity** 384 × 256, the same seeds and settings.
+- All variants tried are kept and reported with their validation metrics.
 - Early stopping on validation PR-AUC. Never compute test metrics during development.
 - Save for every run: config, checkpoint, per-epoch train loss and validation PR-AUC/AUROC, runtime, environment, git commit.
-- With each final checkpoint, save raw logits for **all 10,800 images** (C0–C4, all splits) in one file per run. Fusion needs visual scores for every category. Test logits are written but not opened until Step 15.
+- With each final checkpoint, save raw logits for **all 10,800 images** (C0–C4, all splits): `scores_trainval.csv` and a sealed `scores_test.csv` per run. Fusion needs visual scores for every category. Test logits are written but not opened until Step 15.
 
 ### Step 11. Validate outputs and freeze [GPU + CPU] — ⬜
 - [CPU] Run `evaluate.py` on validation logits only. Check the prediction schema, IDs and split membership.

@@ -1,0 +1,32 @@
+{
+  "size": "768x512",
+  "seed": 0,
+  "weights": "IMAGENET1K_V2",
+  "lr": 0.0001,
+  "weight_decay": 0.0001,
+  "warmup_epochs": 1,
+  "max_epochs": 30,
+  "patience": 5,
+  "effective_batch": 32,
+  "loss": "BCEWithLogits, unweighted",
+  "augmentation": "none",
+  "amp": "float16 autocast + GradScaler",
+  "early_stop_metric": "val PR-AUC (C0 vs C1)",
+  "lr_schedule": "linear warm-up over epoch 1, then cosine to 0 at max_epochs (per optimizer step)",
+  "train_drop_last": true,
+  "batch": 16,
+  "grad_accumulation": 2,
+  "workers": 4,
+  "commit": "8392d83b0598b668f78ff83cf5fc4271c774a52d",
+  "cache_sha256": "8229b7d987c19f5bba2e3b4724b3238fe7c2a5e388be103303128da9e7e90bcc",
+  "env": {
+    "python": "3.12.7",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.14.1+cu130",
+    "torchvision": "0.29.1+cu130",
+    "cuda": "13.0",
+    "cudnn": 92400,
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "vram_gb": 8.0
+  }
+}
