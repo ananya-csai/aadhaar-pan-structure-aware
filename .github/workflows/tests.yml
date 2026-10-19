@@ -50,3 +50,17 @@ jobs:
           PYTHONPATH=src python3 -m idforge.build --out data/det_b --n-persons 3 --workers 2 --skip-ocr
           diff -r data/det_a/images data/det_b/images
           echo "byte-identical across worker counts"
+
+      - name: Evaluation harness and frozen experiment outputs
+        # evaluate.py scores every system in the paper. Its tests run on the
+        # frozen manifest, and the E3 rule report and the rule-decision export
+        # must regenerate byte-for-byte from committed inputs.
+        working-directory: .
+        run: |
+          python experiments/test_evaluate.py
+          python experiments/e3_rule_branch/run_e3.py > /dev/null
+          python experiments/rules/export_rule_decisions.py > /dev/null
+          # Rounded reports and decision files must match exactly; full-precision
+          # JSON is not compared, since the last digit may differ across numpy builds.
+          git diff --exit-code -- 'experiments/e3_rule_branch/results/*.md' 'experiments/e3_rule_branch/results/*.csv' 'experiments/rules/*.md' 'experiments/rules/*.csv'
+          echo "evaluation outputs reproduce exactly"
