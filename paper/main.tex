@@ -1517,12 +1517,17 @@ than a hundred pixels on a side.
 What carries the claim is therefore the exact difference audit, which is a
 proof rather than a statistical test, together with the observation that the
 degradation parameters are drawn from a distribution that depends only on the
-quality tier and never on the forgery category. A properly powered version of
-the probe -- the ResNet-50 branch of Section~\ref{sec:method}-B rather than a
-gradient-boosted model over thumbnails -- is reported in
-Section~\ref{sec:results}. The construction predicts near-chance performance
-there as well, and unlike the probe reported here that prediction will be
-falsifiable.
+quality tier and never on the forgery category. A better-powered empirical check
+is provided by the visual branch of Section~\ref{sec:method}-B: a tile-based
+ResNet-50 that inspects the released images at full resolution and that, unlike
+the probe above, demonstrably detects pixel-level edits (C0 versus C1). It is
+trained on C0 versus C1 only, so its scores on C2, C3 and C4 test whether a
+detector that responds to local pixel evidence also responds to the re-rendered
+categories. If rendering left a trace in the changed field, those categories
+would score above C0. Its C0-versus-C2/C3/C4 separability on the test split is
+reported in Section~\ref{sec:results}; the construction predicts values near
+chance. Because the branch is not trained on C2--C4, this check bounds such a
+trace rather than excluding it, and it is reported as such.
 
 \subsection{Image Quality and Degradation}
 \label{subsec:degrade}
