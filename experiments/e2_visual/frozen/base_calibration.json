@@ -1,0 +1,85 @@
+{
+  "model": "base",
+  "seeds": [
+    {
+      "seed": 0,
+      "temperature": 6.477805,
+      "val_nll_before": 1.20294,
+      "val_nll_after": 0.64295,
+      "val_ece_before": 0.25509,
+      "val_ece_after": 0.09812,
+      "val_pr_auc": 0.44836,
+      "val_auroc": 0.57811,
+      "best_epoch": 18,
+      "scores_trainval_sha256": "c2987601732b5fcc01d34446ae7d5fb50414b79b53cecd38073327692253fcb4",
+      "scores_test_sha256": "17ecbfb4bd75df5f576f0215827162278d9f60cd6e4b4905573642eadc7df7ee"
+    },
+    {
+      "seed": 1,
+      "temperature": 5.404094,
+      "val_nll_before": 1.12563,
+      "val_nll_after": 0.62484,
+      "val_ece_before": 0.23721,
+      "val_ece_after": 0.08182,
+      "val_pr_auc": 0.49989,
+      "val_auroc": 0.61348,
+      "best_epoch": 20,
+      "scores_trainval_sha256": "292037b5811ce3d90fa1c6a4dd16af51c9ce8704c1f6ed3100f8e18b81625afb",
+      "scores_test_sha256": "4057c7c76eb8008ab7d749628bc1d42ccf2f46d919594ab82ed13ace902c07b4"
+    },
+    {
+      "seed": 2,
+      "temperature": 4.942525,
+      "val_nll_before": 1.09503,
+      "val_nll_after": 0.61003,
+      "val_ece_before": 0.2264,
+      "val_ece_after": 0.05204,
+      "val_pr_auc": 0.50064,
+      "val_auroc": 0.62895,
+      "best_epoch": 19,
+      "scores_trainval_sha256": "55e8d6187abd42bda06b868a300087c7edbc485c660159d7643f4d344f016623",
+      "scores_test_sha256": "212cdc4cc73fd1bbe05bc00f258783d29050fdc3f9e1142b9b9f6a69bbaac8eb"
+    },
+    {
+      "seed": 3,
+      "temperature": 5.171808,
+      "val_nll_before": 1.10947,
+      "val_nll_after": 0.61807,
+      "val_ece_before": 0.23402,
+      "val_ece_after": 0.07765,
+      "val_pr_auc": 0.50728,
+      "val_auroc": 0.62242,
+      "best_epoch": 18,
+      "scores_trainval_sha256": "f942b508eb1dd37adf90e0482ad7280c5a2dc3775bb3107a230b783b9f59798b",
+      "scores_test_sha256": "3fe3d826fa1998606d5d26847368448b89d3a797df4423f5b867c605c46cef73"
+    },
+    {
+      "seed": 4,
+      "temperature": 5.902773,
+      "val_nll_before": 1.17039,
+      "val_nll_after": 0.63358,
+      "val_ece_before": 0.24111,
+      "val_ece_after": 0.11214,
+      "val_pr_auc": 0.5176,
+      "val_auroc": 0.61079,
+      "best_epoch": 18,
+      "scores_trainval_sha256": "391b6d774e6a6ac2f61944f2fa06dd709baf4f71c7b0e383cdb15667aa9f9070",
+      "scores_test_sha256": "da8fdbde7ccfeede1a4985d1e9febeb014c17179952c28f556e52532e4006b5a"
+    }
+  ],
+  "ensemble": {
+    "rule": "mean of temperature-scaled probabilities over seeds 0-4",
+    "val_pr_auc": 0.5309,
+    "val_auroc": 0.63754,
+    "val_ece": 0.08163
+  },
+  "operating_point": {
+    "rule": "max val C1 recall s.t. val C0 FPR <= 0.05",
+    "threshold": 0.5411795443465609,
+    "val_fpr": 0.05,
+    "val_c1_recall": 0.21111,
+    "n_val_c0": 540,
+    "n_val_c1": 270
+  },
+  "note": "Validation only. scores_test.csv files were not opened."
+}

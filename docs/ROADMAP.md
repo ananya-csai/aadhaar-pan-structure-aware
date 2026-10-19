@@ -113,12 +113,13 @@ One script computes every metric in the paper, so all systems are scored the sam
 - ✅ Loader (`experiments/e2_visual/data.py`): manifest-only membership, RGB, ImageNet normalisation, one item per `image_id`, sorted, size checked.
 - [CPU] Review `data.py` and both contact sheets, and note any problem in an issue.
 
-### Step 10. Train E2 [GPU] — 🟡
+### Step 10. Train E2 [GPU] — ✅
 - Task: C0 vs C1 on the train split, with settings from `DECISIONS.md` Section 13 (variant `base`) or Amendment A2 (Section 14).
 - ✅ Pilot: `base`, 768 × 512, seed 0. Ran correctly but overfitted: validation AUROC 0.578, PR-AUC 0.448 (chance 0.333).
 - ✅ Variant `reg` (A2), 768 × 512, seed 0: validation AUROC 0.564, PR-AUC 0.435. No better than `base`.
 - ✅ Variant `tiles` (A2), seed 0: validation PR-AUC 0.627, AUROC 0.699. **Selected as the visual branch** (Amendment A3, Section 15).
-- ⬜ `tiles` seeds 1–4 (primary). Then `base` 768 × 512 seeds 1–4, used only for the E-vis comparison. The 384 × 256 training arm is dropped (A3).
+- ✅ `tiles` seeds 0–4: validation PR-AUC 0.611–0.684 (mean 0.649), AUROC 0.685–0.773 (mean 0.722).
+- ✅ `base` seeds 0–4: validation PR-AUC 0.448–0.518, AUROC 0.578–0.629. Used only for E-vis. The 384 × 256 training arm was dropped (A3).
 - All variants tried are kept and reported with their validation metrics.
 - Early stopping on validation PR-AUC. Never compute test metrics during development.
 - Save for every run: config, checkpoint, per-epoch train loss and validation PR-AUC/AUROC, runtime, environment, git commit.
