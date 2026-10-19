@@ -1,0 +1,269 @@
+{
+  "manifest_jsonl_sha256_lf": "901b657b42a20608b6b399dc7a15ac824cd28b747846ab8b950c68dfe48575cf",
+  "cells": {
+    "test/gt/aadhaar/C2": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "test/gt/pan/C2": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "test/gt/pan/C3": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "test/gt/aadhaar/C3": {
+      "n": 135,
+      "flagged": 0,
+      "mechanism_aware": 0,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.0,
+      "ci95": [
+        0.0,
+        2.8
+      ]
+    },
+    "test/ocr/aadhaar/C2": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "test/ocr/pan/C2": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "test/ocr/pan/C3": {
+      "n": 135,
+      "flagged": 130,
+      "mechanism_aware": 103,
+      "over_attribution": 27,
+      "mechanism_aware_recall": 0.763,
+      "ci95": [
+        68.5,
+        82.7
+      ]
+    },
+    "test/ocr/aadhaar/C3": {
+      "n": 135,
+      "flagged": 6,
+      "mechanism_aware": 0,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.0,
+      "ci95": [
+        0.0,
+        2.8
+      ]
+    },
+    "val/gt/aadhaar/C2": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "val/gt/pan/C2": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "val/gt/pan/C3": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "val/gt/aadhaar/C3": {
+      "n": 135,
+      "flagged": 0,
+      "mechanism_aware": 0,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.0,
+      "ci95": [
+        0.0,
+        2.8
+      ]
+    },
+    "val/ocr/aadhaar/C2": {
+      "n": 135,
+      "flagged": 135,
+      "mechanism_aware": 135,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        97.2,
+        100.0
+      ]
+    },
+    "val/ocr/pan/C2": {
+      "n": 135,
+      "flagged": 130,
+      "mechanism_aware": 130,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.963,
+      "ci95": [
+        91.6,
+        98.4
+      ]
+    },
+    "val/ocr/pan/C3": {
+      "n": 135,
+      "flagged": 128,
+      "mechanism_aware": 106,
+      "over_attribution": 22,
+      "mechanism_aware_recall": 0.7852,
+      "ci95": [
+        70.9,
+        84.6
+      ]
+    },
+    "val/ocr/aadhaar/C3": {
+      "n": 135,
+      "flagged": 7,
+      "mechanism_aware": 0,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.0,
+      "ci95": [
+        0.0,
+        2.8
+      ]
+    },
+    "train/gt/aadhaar/C2": {
+      "n": 630,
+      "flagged": 630,
+      "mechanism_aware": 630,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        99.4,
+        100.0
+      ]
+    },
+    "train/gt/pan/C2": {
+      "n": 630,
+      "flagged": 630,
+      "mechanism_aware": 630,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        99.4,
+        100.0
+      ]
+    },
+    "train/gt/pan/C3": {
+      "n": 630,
+      "flagged": 630,
+      "mechanism_aware": 630,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 1.0,
+      "ci95": [
+        99.4,
+        100.0
+      ]
+    },
+    "train/gt/aadhaar/C3": {
+      "n": 630,
+      "flagged": 0,
+      "mechanism_aware": 0,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.0,
+      "ci95": [
+        0.0,
+        0.6
+      ]
+    },
+    "train/ocr/aadhaar/C2": {
+      "n": 630,
+      "flagged": 629,
+      "mechanism_aware": 629,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.9984,
+      "ci95": [
+        99.1,
+        100.0
+      ]
+    },
+    "train/ocr/pan/C2": {
+      "n": 630,
+      "flagged": 610,
+      "mechanism_aware": 610,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.9683,
+      "ci95": [
+        95.1,
+        97.9
+      ]
+    },
+    "train/ocr/pan/C3": {
+      "n": 630,
+      "flagged": 607,
+      "mechanism_aware": 475,
+      "over_attribution": 132,
+      "mechanism_aware_recall": 0.754,
+      "ci95": [
+        71.9,
+        78.6
+      ]
+    },
+    "train/ocr/aadhaar/C3": {
+      "n": 630,
+      "flagged": 30,
+      "mechanism_aware": 0,
+      "over_attribution": 0,
+      "mechanism_aware_recall": 0.0,
+      "ci95": [
+        0.0,
+        0.6
+      ]
+    }
+  }
+}
