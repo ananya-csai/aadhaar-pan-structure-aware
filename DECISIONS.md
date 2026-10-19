@@ -222,3 +222,5 @@ Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.69
 
 **Limitation to state.** `tiles` uses edit locations during training (tile labels). No location information is used at validation or test time.
 
+**Run log note (19 Oct 2026).** An automatic Windows update stopped `base` seed 3 before its first epoch finished. It was re-run from scratch, and the incomplete folder was replaced as `train.py` intends. The update changed the OS build from Windows 11 10.0.26200 to 10.0.26300. `base` seeds 3 and 4 ran on the new build; all other runs ran on the old one. Python, PyTorch, CUDA, cuDNN, GPU and code are unchanged (recorded in each `config.json`).
+
