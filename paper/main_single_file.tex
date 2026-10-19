@@ -2131,7 +2131,9 @@ fitted by minimising the negative log-likelihood of the validation C0/C1 labels.
 The branch output is the mean of the five temperature-scaled probabilities,
 $p_v$. The visual-only decision threshold $t_v$ is the one that maximises
 validation C1 recall subject to a validation C0 false-positive rate of at most
-5\%.
+5\%. This and every other decision threshold in the study is placed midway between
+two adjacent validation scores, so that floating-point differences between
+machines cannot move an image across it.
 
 \subsection{OCR and Field Extraction}
 \label{subsec:method-ocr}
