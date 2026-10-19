@@ -4,7 +4,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A st
 
 **Owners:** [GPU] GPU-laptop owner · [CPU] partner without a GPU · [BOTH] joint.
 **Status:** ✅ done and committed · 🟡 started or needs checking · ⬜ not started.
-**Status checked against:** 19 Oct 2026 (after PR #1).
+**Status checked against:** 19 Oct 2026 (after PR #2).
 
 ## Ground rules
 
@@ -151,7 +151,7 @@ One script computes every metric in the paper, so all systems are scored the sam
 
 **Gate G2:** models, temperatures, thresholds and fusion parameters committed.
 
-### Step 15. Score the test set once [GPU + CPU] — ⬜
+### Step 15. Score the test set once [GPU + CPU] — ⬜ (GPU part ✅: sealed `scores_test.csv` for all 10 runs are committed and SHA-checked; waiting for A4 approval in `DECISIONS.md` §16, then tag `frozen-before-test` and `python experiments/score_frozen.py --split test`, run once on CPU)
 - [GPU] Use the saved test logits from the frozen checkpoints.
 - [CPU] Apply the frozen calibration, thresholds and fusion. No retuning.
 - [BOTH] Save predictions, thresholds, config hashes and run logs for `tiles` (and, for E-vis only, `base`).
@@ -185,7 +185,7 @@ One script computes every metric in the paper, so all systems are scored the sam
 
 ## Phase 6 — Paper and submission
 
-### Step 18. Write Sections VI–IX [CPU lead; BOTH] — ⬜
+### Step 18. Write Sections VI–IX [CPU lead; BOTH] — 🟡 (Sections V and VI drafted in PR #2; VII–IX need test results)
 - Every number comes from a committed script and maps to a table or figure. Each research question maps to at least one table with uncertainty.
 - Section VI describes the tile model, the edit-region mapping, the edit-survival measurement and the model-development path on validation (A1–A3: `base`, `reg`, `tiles`), with every variant's validation metrics.
 - Answer RQ1 separately for coarse and fine-trace C1 edits. Fine-trace edits are not "visually apparent", so one pooled number would misrepresent RQ1. If the RQ1 wording is changed, record it in `DECISIONS.md`.

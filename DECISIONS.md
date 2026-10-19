@@ -226,7 +226,11 @@ Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.69
 
 ## 16. Amendment A4 — evidence fusion (roadmap Step 14, validation only)
 
-**Status:** recorded 19 Oct 2026, before any test scoring; collaborator/mentor review: ________.
+**Status:** recorded 19 Oct 2026, before any test scoring. Approval (required before the tag `frozen-before-test` is created):
+- Lead researcher / collaborator: [Soham Phulwaria] — approved on [____].
+- Lead researcher / collaborator: [Ananya Shukla] — approved on [____].
+- Faculty mentor: [Dinesh Saini] — approved on [____].
+- Scope of approval: Section 16 (Amendment A4) and the parameters in `experiments/fusion/frozen_fusion.json` and `experiments/e2_visual/frozen/`.
 
 **Why an amendment is needed.** On validation C0, OCR-text rules flag 11.3% of documents (Aadhaar 3.3%, PAN 19.3%); with ground-truth text they flag 0%. Under OCR text, a hard OR of the visual and rule flags therefore cannot meet the 5% FPR operating point of Section 4. The fusion rules below fix how this is handled. They were written after inspecting validation results only; the test split is untouched.
 
