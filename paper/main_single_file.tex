@@ -2077,41 +2077,202 @@ shown in this study -- by category C4 -- not to establish authenticity.
 \label{sec:method}
 
 \subsection{System Overview and Pipeline}
-\todosec{}
+\label{subsec:overview}
+
+The system has two independent evidence branches and a fusion stage. The
+\emph{visual branch} reads only pixels and outputs a calibrated probability that
+the document image has been manipulated. The \emph{structural/semantic branch}
+reads only field values and outputs a deterministic verdict together with the
+specific check that failed. Field values reach it either from OCR
+(Section~\ref{subsec:ocr}) or, in the oracle condition, from ground truth; nothing
+else about the pipeline changes between the two conditions. The fusion stage
+combines the two outputs into one decision, and an explanation is assembled from
+whichever evidence caused it. Every learned or tuned quantity -- network weights,
+early-stopping epoch, calibration temperatures, fusion coefficients and decision
+thresholds -- is fixed on the training and validation splits; the test split is
+scored once, after all of them were committed.
 
 \subsection{Visual Detection Branch}
-\todosec{}
+\label{subsec:visual}
+
+\paragraph*{Model} The visual branch is an ImageNet-pretrained ResNet-50
+(torchvision \texttt{IMAGENET1K\_V2} weights) with its classifier replaced by a
+single logit. It is trained on C0 versus C1 only: C2--C4 are re-rendered without
+any pixel edit (Section~\ref{subsec:taxonomy}) and are not training classes.
+
+\paragraph*{Tile-based input} The released image (at most
+$1012\times638$ pixels) is placed, without resizing, at the top-left of a white
+$1024\times640$ canvas and cut into a fixed grid of 15 overlapping $256\times256$
+tiles (stride 192). No resampling is applied, so every pixel of evidence the
+capture left intact reaches the network; this matters because down-scaling the
+whole card to a typical CNN input destroys most of the high-frequency trace of the
+local re-compression and resampling edits (Section~\ref{subsec:setup-visual}).
+The document score is the maximum tile logit, which also localises the evidence
+to one tile.
+
+\paragraph*{Training labels} Tile labels are used during training only. Every
+tile of a C0 image is negative. For a C1 image, the edited region recorded by
+the generator is mapped into the released image's coordinates by recomputing the
+degradation homography from the stored seed; a tile is positive if it contains at
+least 25\% of that region's area, ignored if it overlaps it by less, and negative
+otherwise. No region information is used at validation or test time. Each epoch
+uses all positive tiles and eight times as many negative tiles drawn afresh with a
+seeded generator.
+
+\paragraph*{Optimisation} Binary cross-entropy without class weighting, no
+augmentation, AdamW (learning rate $10^{-4}$, weight decay $10^{-4}$), one warm-up
+epoch followed by cosine decay over at most 30 epochs, batch size 32, and
+float16 mixed precision. Training stops when the document-level validation
+PR-AUC (C0 versus C1) has not improved for five epochs, and the best epoch is
+kept. Five models are trained with seeds 0--4.
+
+\paragraph*{Calibration and ensemble} For each seed a single temperature is
+fitted by minimising the negative log-likelihood of the validation C0/C1 labels.
+The branch output is the mean of the five temperature-scaled probabilities,
+$p_v$. The visual-only decision threshold $t_v$ is the one that maximises
+validation C1 recall subject to a validation C0 false-positive rate of at most
+5\%. This and every other decision threshold in the study is placed midway between
+two adjacent validation scores, so that floating-point differences between
+machines cannot move an image across it.
 
 \subsection{OCR and Field Extraction}
-\todosec{Tesseract-based extraction~\cite{tesseract}.}
+\label{subsec:method-ocr}
+
+Extraction is exactly as described in Section~\ref{subsec:ocr}: Tesseract with
+the English model, per-field crops at the mapped bounding boxes, flat
+character-class whitelists, and only whitespace parsing before validation. The
+same extracted strings are used in every experiment; no output is corrected.
 
 \subsection{Structural/Semantic Validation Branch}
-\todosec{Implements Section~\ref{sec:framework} as specified.}
+\label{subsec:method-rules}
+
+The validators implement Section~\ref{sec:framework} without modification:
+length and Verhoeff checksum for the Aadhaar number; format, taxpayer-category
+and the permissive fifth-character cross-field rule~(\ref{eq:sem}) for PAN. The
+tenth PAN character is not validated. Each validator returns an overall verdict
+and the outcome of every individual check, so the branch reports not only
+\emph{whether} a document fails but \emph{which} check failed. A document is
+flagged ($r=1$) when its overall verdict is FAIL. The branch has no parameters
+and nothing in it is tuned.
 
 \subsection{Evidence Fusion Strategy}
-\todosec{Must preserve the Aadhaar/PAN evidential asymmetry of
-Table~\ref{tab:capability} rather than collapsing both into a single
-``passed structural check'' signal.}
+\label{subsec:fusion}
+
+Four fusion rules are evaluated, each under ground-truth and under OCR text.
+OR flags a document if $p_v\ge t_v$ or $r=1$; AND requires both. These are
+reported at whatever false-positive rate they reach rather than forced to a
+target, because under OCR text the rule branch alone already exceeds 5\% on
+genuine documents (Table~\ref{tab:fpr}).
+
+The primary hybrid is a logistic combination
+\begin{equation}
+s=\sigma\!\left(w_0+w_1\,\mathrm{logit}(p_v)+w_2\,r+w_3\,r\cdot\mathbb{1}[\mathrm{PAN}]\right),
+\label{eq:fusion}
+\end{equation}
+fitted on all validation images (target: any forgery versus C0) with an $L_2$
+penalty ($C=1$, intercept unpenalised), separately for ground-truth and OCR
+text. The $r\cdot\mathbb{1}[\mathrm{PAN}]$ term lets the fusion weigh a PAN rule
+failure differently from an Aadhaar one. This keeps the evidential asymmetry of
+Table~\ref{tab:capability} instead of collapsing both document types into a single
+``failed a structural check'' signal, and it lets the model learn from validation
+that PAN failures are less reliable under OCR. The hybrid is thresholded twice:
+at the 5\% validation false-positive rate shared with the visual branch, and at
+the validation false-positive rate of each binary system that exceeds 5\%, so
+that the hybrid and that system are compared at equal false-positive cost.
 
 \subsection{Rule-Level Explanation Generation}
-\todosec{Must never imply that the PAN check digit was verified.}
+\label{subsec:explanations}
+
+Every flag carries an explanation drawn from the evidence that produced it. A
+rule-driven flag reports the failing check and the field it reads, using fixed
+templates such as ``checksum: the twelfth digit is not the Verhoeff check digit of
+the preceding eleven'' or ``cross-field: `O' at position 5 matches no initial of
+any token in the extracted name field''. A visual flag reports the location of
+the highest-scoring tile. No template refers to the tenth PAN character, so no
+explanation can imply that a PAN check digit was verified, and a passed check is
+never described as evidence of authenticity. Whether an explanation names the
+field that was actually corrupted is measured as mechanism-aware recall
+(Section~\ref{subsec:metrics}).
 
 %======================================================================
 \section{Experimental Setup}
 \label{sec:setup}
 
 \subsection{Configurations Compared}
-\todosec{Visual-only, structural/semantic-only, and hybrid.}
+\label{subsec:configs}
+
+Five systems answer RQ1--RQ6: (i) visual only; (ii) rules on ground-truth text
+(oracle); (iii) rules on OCR text; (iv) the hybrid on OCR text; and (v) the hybrid
+on ground-truth text (hybrid oracle). OR and AND fusion are reported alongside
+for both text conditions. All systems are evaluated on the 1,620 test images of
+45 persons (540 C0 and 270 of each of C1--C4), by document type and forgery
+category.
+
+\subsection{Visual Branch Development}
+\label{subsec:setup-visual}
+
+The visual branch was chosen on validation data before the test split was
+opened, under rules recorded in the project's protocol before each candidate was
+run, and every candidate is reported. Down-scaling the card to $384\times256$
+was measured, on matched C0/C1 pairs regenerated from the training split, to
+retain a median of only 26--32\% of the edit signal of the local re-compression
+and resampling edits (3--11\% on clean captures), against 83--86\% at
+$768\times512$. A whole-document
+ResNet-50 at $768\times512$ nevertheless memorised its training set (training
+loss 0.002) and reached a validation AUROC of only 0.578 for C0 versus C1. A
+regularised variant (trace-preserving shifts and photometric jitter, dropout
+0.5, weight decay 0.05) did not improve on it (0.564). The tile-based model of
+Section~\ref{subsec:visual} reached 0.699 with the first seed, which met the
+pre-declared selection margin, and its five-seed calibrated ensemble reaches 0.780.
+The whole-document model is retained, with five seeds, only as the comparison in
+the analysis of visual input handling; it is never used in fusion.
 
 \subsection{OCR Oracle Experiment}
-\todosec{Ground-truth field values versus OCR-extracted values,
-addressing RQ4.}
+\label{subsec:oracle}
+
+RQ4 is answered by running the identical rule branch, and the identical fusion
+procedure, on two inputs for the same images: ground-truth field values and
+OCR-extracted values. Fusion coefficients and thresholds are fitted separately
+for each condition on validation, so each condition is given its best
+validation-tuned hybrid. Each image is then classified as stable (same verdict),
+an OCR-induced failure (passes on ground truth, fails on OCR) or an OCR-masked
+failure (fails on ground truth, passes on OCR), by document type and capture
+quality.
 
 \subsection{Evaluation Metrics}
-\todosec{}
+\label{subsec:metrics}
+
+A flag on a forged image (C1--C4) is a true positive and a flag on C0 a false
+positive. Precision, recall, F1, false-positive rate (FPR) and false-negative rate
+are reported with confusion matrices, overall, by document type and by forgery
+category; for C1, also by edit type and for the fine-trace and coarse groups.
+Two recalls are kept apart. \emph{Detection recall} is computed over all forged
+images and is the quantity compared across systems. \emph{Rule-coverage recall}
+is computed over only the images the rules are designed to catch (Aadhaar C2,
+PAN C2, PAN C3) and checks the rule implementation. \emph{Mechanism-aware
+recall} counts a rule flag on those images only when the failing check is the
+one tied to the corrupted field. Threshold-free AUROC and PR-AUC are reported for
+continuous scores. Undefined ratios are reported as such, never as zero.
+
+The 1,620 test images come from 45 persons and are not independent. Confidence
+intervals are therefore 95\% person-clustered bootstrap intervals (10,000
+resamples of persons, each person's images kept together). Paired comparisons
+between systems use the same resamples to form intervals on the difference, with
+Holm correction within each pre-defined family of comparisons. Image-level tests
+that assume independence are not used for inference.
 
 \subsection{Implementation Details}
-\todosec{}
+\label{subsec:implementation}
+
+The visual branch was trained on one NVIDIA GeForce RTX 4060 Laptop GPU (8\,GB)
+under Windows~11 with Python 3.12.7, PyTorch 2.14.1 and CUDA 13.0; one
+tile-model seed takes 31--54 minutes. The dataset pipeline, OCR (Tesseract
+5.3.4, Leptonica 1.82.0, English model), the validators, fusion and evaluation run
+on CPU. A single script scores every system from per-image prediction files,
+rejects missing, duplicate or foreign image identifiers, and regenerates every
+reported number. Code, configurations, per-run logs, per-image scores and the
+protocol amendments are released with the dataset; each run records its code
+commit and environment.
 
 %======================================================================
 \section{Results}
