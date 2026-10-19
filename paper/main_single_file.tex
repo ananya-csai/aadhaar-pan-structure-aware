@@ -94,7 +94,7 @@
 \newcommand{\dsImages}{10800}
 \newcommand{\dsGenuine}{3600}
 \newcommand{\dsForged}{7200}
-\newcommand{\dsGiB}{0.87}
+\newcommand{\dsGiB}{0.88}
 \newcommand{\dsNq}{3}
 \newcommand{\dsTrainImg}{7560}
 \newcommand{\dsValImg}{1620}
@@ -104,14 +104,14 @@
 \newcommand{\dsTestPer}{45}
 \newcommand{\dsCellImages}{900}
 \newcommand{\dsCellControls}{1800}
-\newcommand{\dsPhashBits}{256}
-\newcommand{\dsPhashDistinctSixtyFour}{5824}
-\newcommand{\dsPhashDistinct}{10757}
-\newcommand{\dsPhashAUC}{0.951}
-\newcommand{\dsPhashOverlap}{2.3}
-\newcommand{\dsPhashWithinMed}{30}
-\newcommand{\dsPhashCrossPersonMed}{108}
-\newcommand{\dsPhashCrossPersonMin}{6}
+\newcommand{\dsPhashBits}{64}
+\newcommand{\dsPhashDistinctSixtyFour}{5848}
+\newcommand{\dsPhashDistinct}{5848}
+\newcommand{\dsPhashAUC}{0.914}
+\newcommand{\dsPhashOverlap}{9.9}
+\newcommand{\dsPhashWithinMed}{6}
+\newcommand{\dsPhashCrossPersonMed}{24}
+\newcommand{\dsPhashCrossPersonMin}{0}
 \newcommand{\dsAadhaarSpace}{8\times10^{10}}
 \newcommand{\dsPanSpace}{4.6\times10^{10}}
 \newcommand{\dsAadhaarStrings}{1083}
@@ -125,26 +125,26 @@
 \newcommand{\dsStrictLeadingInitial}{93.1}
 \newcommand{\dsCICell}{2.0}
 \newcommand{\dsCIPerson}{3.4}
-\newcommand{\dsFPAadhaarClean}{0.3}
-\newcommand{\dsFPAadhaarMild}{0.3}
-\newcommand{\dsFPAadhaarSevere}{11.7}
-\newcommand{\dsFPAadhaarAll}{4.1}
-\newcommand{\dsFPPanClean}{12.7}
-\newcommand{\dsFPPanMild}{12.2}
-\newcommand{\dsFPPanSevere}{31.8}
-\newcommand{\dsFPPanAll}{18.9}
-\newcommand{\dsOcrAadhaarAadhaarNumberClean}{99.8}
-\newcommand{\dsOcrAadhaarAadhaarNumberMild}{99.4}
+\newcommand{\dsFPAadhaarClean}{0.0}
+\newcommand{\dsFPAadhaarMild}{0.0}
+\newcommand{\dsFPAadhaarSevere}{11.5}
+\newcommand{\dsFPAadhaarAll}{3.8}
+\newcommand{\dsFPPanClean}{13.7}
+\newcommand{\dsFPPanMild}{12.0}
+\newcommand{\dsFPPanSevere}{33.3}
+\newcommand{\dsFPPanAll}{19.7}
+\newcommand{\dsOcrAadhaarAadhaarNumberClean}{99.9}
+\newcommand{\dsOcrAadhaarAadhaarNumberMild}{99.8}
 \newcommand{\dsOcrAadhaarAadhaarNumberSevere}{88.3}
-\newcommand{\dsOcrPanPanNumberClean}{85.2}
-\newcommand{\dsOcrPanPanNumberMild}{84.9}
-\newcommand{\dsOcrPanPanNumberSevere}{67.7}
-\newcommand{\dsOcrAadhaarNameClean}{98.8}
+\newcommand{\dsOcrPanPanNumberClean}{84.5}
+\newcommand{\dsOcrPanPanNumberMild}{85.3}
+\newcommand{\dsOcrPanPanNumberSevere}{66.7}
+\newcommand{\dsOcrAadhaarNameClean}{98.9}
 \newcommand{\dsOcrAadhaarNameMild}{98.7}
-\newcommand{\dsOcrAadhaarNameSevere}{64.7}
-\newcommand{\dsOcrPanNameClean}{99.7}
-\newcommand{\dsOcrPanNameMild}{99.6}
-\newcommand{\dsOcrPanNameSevere}{53.8}
+\newcommand{\dsOcrAadhaarNameSevere}{64.4}
+\newcommand{\dsOcrPanNameClean}{99.8}
+\newcommand{\dsOcrPanNameMild}{99.3}
+\newcommand{\dsOcrPanNameSevere}{54.6}
 \newcommand{\dsProbeRecords}{40}
 \newcommand{\dsProbeCells}{8}
 \newcommand{\dsProbeComparisons}{320}
@@ -1793,33 +1793,33 @@ Section~\ref{subsec:ocr} applied.}
 \toprule
 Field & Tier & $n$ & Exact match \% [95\% CI] & CER \% \\
 \midrule
-A: number & clean & 1800 & 99.8 [99.5, 99.9] & 0.01 \\
- & mild & 1800 & 99.4 [99.0, 99.7] & 0.07 \\
- & severe & 1800 & 88.3 [86.8, 89.7] & 2.50 \\
+A: number & clean & 1800 & 99.9 [99.7, 100.0] & 0.01 \\
+ & mild & 1800 & 99.8 [99.4, 99.9] & 0.02 \\
+ & severe & 1800 & 88.3 [86.8, 89.7] & 2.74 \\
 \addlinespace[1.5pt]
-A: name & clean & 1800 & 98.8 [98.2, 99.2] & 0.10 \\
- & mild & 1800 & 98.7 [98.1, 99.2] & 0.10 \\
- & severe & 1800 & 64.7 [62.5, 66.9] & 22.22 \\
+A: name & clean & 1800 & 98.9 [98.4, 99.3] & 0.09 \\
+ & mild & 1800 & 98.7 [98.0, 99.1] & 0.10 \\
+ & severe & 1800 & 64.4 [62.2, 66.6] & 23.93 \\
 \addlinespace[1.5pt]
-A: DOB & clean & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
- & mild & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
- & severe & 1800 & 41.5 [39.2, 43.8] & 45.33 \\
+A: DOB & clean & 1800 & 99.9 [99.7, 100.0] & 0.01 \\
+ & mild & 1800 & 99.8 [99.5, 99.9] & 0.02 \\
+ & severe & 1800 & 43.1 [40.8, 45.4] & 45.45 \\
 \addlinespace[1.5pt]
-P: number & clean & 1800 & 85.2 [83.5, 86.7] & 1.57 \\
- & mild & 1800 & 84.9 [83.2, 86.5] & 1.57 \\
- & severe & 1800 & 67.7 [65.5, 69.8] & 7.30 \\
+P: number & clean & 1800 & 84.5 [82.8, 86.1] & 1.61 \\
+ & mild & 1800 & 85.3 [83.6, 86.9] & 1.56 \\
+ & severe & 1800 & 66.7 [64.5, 68.8] & 8.00 \\
 \addlinespace[1.5pt]
-P: name & clean & 1800 & 99.7 [99.3, 99.8] & 0.04 \\
- & mild & 1800 & 99.6 [99.2, 99.8] & 0.06 \\
- & severe & 1800 & 53.8 [51.5, 56.1] & 31.78 \\
+P: name & clean & 1800 & 99.8 [99.4, 99.9] & 0.02 \\
+ & mild & 1800 & 99.3 [98.8, 99.6] & 0.10 \\
+ & severe & 1800 & 54.6 [52.3, 56.9] & 31.81 \\
 \addlinespace[1.5pt]
-P: father & clean & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
- & mild & 1800 & 100.0 [99.8, 100.0] & 0.00 \\
- & severe & 1800 & 44.7 [42.4, 47.0] & 43.68 \\
+P: father & clean & 1800 & 99.9 [99.6, 100.0] & 0.01 \\
+ & mild & 1800 & 99.9 [99.7, 100.0] & 0.00 \\
+ & severe & 1800 & 46.7 [44.4, 49.0] & 42.12 \\
 \addlinespace[1.5pt]
-P: DOB & clean & 1800 & 99.7 [99.3, 99.9] & 0.03 \\
- & mild & 1800 & 99.9 [99.7, 100.0] & 0.01 \\
- & severe & 1800 & 33.8 [31.7, 36.0] & 50.84 \\
+P: DOB & clean & 1800 & 99.7 [99.3, 99.8] & 0.03 \\
+ & mild & 1800 & 99.8 [99.4, 99.9] & 0.02 \\
+ & severe & 1800 & 34.9 [32.8, 37.2] & 51.93 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1839,17 +1839,17 @@ detection of the fabrication.}
 \toprule
 Document & Cat. & Ground-truth text & OCR text \\
 \midrule
-Aadhaar & C0 & 0.0 [0.0, 0.2] & 4.1 [3.3, 5.1] \\
- & C1 & 0.0 [0.0, 0.4] & 4.1 [3.0, 5.6] \\
- & C2 & 100.0 [99.6, 100.0] & 99.8 [99.2, 99.9] \\
- & C3 & 0.0 [0.0, 0.4] & 3.9 [2.8, 5.4] \\
- & C4 & 0.0 [0.0, 0.4] & 4.0 [2.9, 5.5] \\
+Aadhaar & C0 & 0.0 [0.0, 0.2] & 3.8 [3.0, 4.8] \\
+ & C1 & 0.0 [0.0, 0.4] & 3.3 [2.3, 4.7] \\
+ & C2 & 100.0 [99.6, 100.0] & 99.9 [99.4, 100.0] \\
+ & C3 & 0.0 [0.0, 0.4] & 4.8 [3.6, 6.4] \\
+ & C4 & 0.0 [0.0, 0.4] & 3.6 [2.5, 5.0] \\
 \midrule
-PAN & C0 & 0.0 [0.0, 0.2] & 18.9 [17.1, 20.8] \\
- & C1 & 0.0 [0.0, 0.4] & 20.8 [18.3, 23.5] \\
- & C2 & 100.0 [99.6, 100.0] & 97.1 [95.8, 98.0] \\
- & C3 & 100.0 [99.6, 100.0] & 96.2 [94.8, 97.3] \\
- & C4 & 0.0 [0.0, 0.4] & 23.2 [20.6, 26.1] \\
+PAN & C0 & 0.0 [0.0, 0.2] & 19.7 [17.9, 21.6] \\
+ & C1 & 0.0 [0.0, 0.4] & 21.9 [19.3, 24.7] \\
+ & C2 & 100.0 [99.6, 100.0] & 97.2 [95.9, 98.1] \\
+ & C3 & 100.0 [99.6, 100.0] & 96.1 [94.6, 97.2] \\
+ & C4 & 0.0 [0.0, 0.4] & 22.6 [19.9, 25.4] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1868,15 +1868,15 @@ error. This is the measurement RQ6 requires.}
 \toprule
 Document & Tier & $n$ & FP & FP rate \% [95\% CI] \\
 \midrule
-Aadhaar & clean & 600 & 2 & 0.3 [0.1, 1.2] \\
- & mild & 600 & 2 & 0.3 [0.1, 1.2] \\
- & severe & 600 & 70 & 11.7 [9.3, 14.5] \\
- & all & 1800 & 74 & 4.1 [3.3, 5.1] \\
+Aadhaar & clean & 600 & 0 & 0.0 [0.0, 0.6] \\
+ & mild & 600 & 0 & 0.0 [0.0, 0.6] \\
+ & severe & 600 & 69 & 11.5 [9.2, 14.3] \\
+ & all & 1800 & 69 & 3.8 [3.0, 4.8] \\
 \midrule
-PAN & clean & 600 & 76 & 12.7 [10.2, 15.6] \\
- & mild & 600 & 73 & 12.2 [9.8, 15.0] \\
- & severe & 600 & 191 & 31.8 [28.2, 35.7] \\
- & all & 1800 & 340 & 18.9 [17.1, 20.8] \\
+PAN & clean & 600 & 82 & 13.7 [11.1, 16.6] \\
+ & mild & 600 & 72 & 12.0 [9.6, 14.8] \\
+ & severe & 600 & 200 & 33.3 [29.7, 37.2] \\
+ & all & 1800 & 354 & 19.7 [17.9, 21.6] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1897,22 +1897,22 @@ sensitivity analysis, not as the study's rule.}
 Subset & Text & $n$ & Permissive FAIL \% & Strict FAIL \% \\
 \midrule
 all genuine PAN & gt & 1800 & 0.0 [0.0, 0.2] & 9.0 [7.8, 10.4] \\
- & ocr & 1800 & 1.9 [1.4, 2.6] & 9.4 [8.2, 10.9] \\
+ & ocr & 1800 & 1.9 [1.4, 2.7] & 9.7 [8.4, 11.1] \\
 \addlinespace[1.5pt]
 surname-last & gt & 648 & 0.0 [0.0, 0.6] & 0.0 [0.0, 0.6] \\
- & ocr & 648 & 1.1 [0.5, 2.2] & 1.4 [0.7, 2.6] \\
+ & ocr & 648 & 2.0 [1.2, 3.4] & 2.2 [1.3, 3.6] \\
 \addlinespace[1.5pt]
 initial-first & gt & 552 & 0.0 [0.0, 0.7] & 29.3 [25.7, 33.3] \\
- & ocr & 552 & 3.8 [2.5, 5.7] & 27.4 [23.8, 31.2] \\
+ & ocr & 552 & 2.4 [1.4, 4.0] & 26.6 [23.1, 30.5] \\
 \addlinespace[1.5pt]
 mononymic & gt & 600 & 0.0 [0.0, 0.6] & 0.0 [0.0, 0.6] \\
- & ocr & 600 & 1.0 [0.5, 2.2] & 1.7 [0.9, 3.0] \\
+ & ocr & 600 & 1.5 [0.8, 2.8] & 2.2 [1.3, 3.7] \\
 \addlinespace[1.5pt]
 $p_5$ from initial & gt & 174 & 0.0 [0.0, 2.2] & 93.1 [88.3, 96.0] \\
- & ocr & 174 & 6.9 [4.0, 11.7] & 81.0 [74.6, 86.2] \\
+ & ocr & 174 & 4.0 [2.0, 8.1] & 81.0 [74.6, 86.2] \\
 \addlinespace[1.5pt]
 $p_5$ from given name & gt & 378 & 0.0 [0.0, 1.0] & 0.0 [0.0, 1.0] \\
- & ocr & 378 & 2.4 [1.3, 4.5] & 2.6 [1.4, 4.8] \\
+ & ocr & 378 & 1.6 [0.7, 3.4] & 1.6 [0.7, 3.4] \\
 \addlinespace[1.5pt]
 \bottomrule
 \end{tabular}
@@ -1953,14 +1953,12 @@ The fifth, near-duplicate detection by perceptual hashing, is reported as a
 \emph{diagnostic rather than a gate}, because running it establishes that it
 cannot serve as one here. Every document in this corpus shares one of six card
 layouts, which dominates the low-frequency DCT band a perceptual hash is built
-from. A $64$-bit hash is degenerate on this corpus: it yields only
-$\dsPhashDistinctSixtyFour$ distinct values for $\dsImages$ images and collides
-across different persons, different forgery categories and different splits. A
-$\dsPhashBits$-bit hash separates images ($\dsPhashDistinct$ distinct values) but
-still does not cleanly separate identities: the median distance between two
-captures of the same document is $\dsPhashWithinMed$ bits and between two
-different persons' documents $\dsPhashCrossPersonMed$ bits, but the
-distributions overlap, with separability AUC $\dsPhashAUC$ and
+from. The $\dsPhashBits$-bit hash used in the audit is degenerate on this
+corpus: it yields only $\dsPhashDistinct$ distinct values for $\dsImages$ images
+and collides across different persons, different forgery categories and
+different splits. The median distance between two captures of the same document
+is $\dsPhashWithinMed$ bits and between two different persons' documents
+$\dsPhashCrossPersonMed$ bits, but the distributions overlap, with separability AUC $\dsPhashAUC$ and
 $\dsPhashOverlap\%$ of different-person pairs closer than the median
 same-document pair. No distance threshold can therefore distinguish a leaked
 duplicate from two unrelated documents on the same template, and the smallest

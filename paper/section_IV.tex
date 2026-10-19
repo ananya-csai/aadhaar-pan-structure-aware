@@ -612,14 +612,12 @@ The fifth, near-duplicate detection by perceptual hashing, is reported as a
 \emph{diagnostic rather than a gate}, because running it establishes that it
 cannot serve as one here. Every document in this corpus shares one of six card
 layouts, which dominates the low-frequency DCT band a perceptual hash is built
-from. A $64$-bit hash is degenerate on this corpus: it yields only
-$\dsPhashDistinctSixtyFour$ distinct values for $\dsImages$ images and collides
-across different persons, different forgery categories and different splits. A
-$\dsPhashBits$-bit hash separates images ($\dsPhashDistinct$ distinct values) but
-still does not cleanly separate identities: the median distance between two
-captures of the same document is $\dsPhashWithinMed$ bits and between two
-different persons' documents $\dsPhashCrossPersonMed$ bits, but the
-distributions overlap, with separability AUC $\dsPhashAUC$ and
+from. The $\dsPhashBits$-bit hash used in the audit is degenerate on this
+corpus: it yields only $\dsPhashDistinct$ distinct values for $\dsImages$ images
+and collides across different persons, different forgery categories and
+different splits. The median distance between two captures of the same document
+is $\dsPhashWithinMed$ bits and between two different persons' documents
+$\dsPhashCrossPersonMed$ bits, but the distributions overlap, with separability AUC $\dsPhashAUC$ and
 $\dsPhashOverlap\%$ of different-person pairs closer than the median
 same-document pair. No distance threshold can therefore distinguish a leaked
 duplicate from two unrelated documents on the same template, and the smallest
