@@ -1,10 +1,17 @@
 # Research Roadmap — Structure-Aware Forgery Detection for Aadhaar and PAN
 
-This is the single plan for finishing the paper. Follow the steps in order. A step is done only when its output, the command that produced it and its log are committed.
+This is the single plan for finishing the paper. Follow the steps in order. A task is done only when its output, the command that produced it and its log are committed.
 
-**Owners:** [GPU] GPU-laptop owner · [CPU] partner without a GPU · [BOTH] joint.
-**Status:** ✅ done and committed · 🟡 started or needs checking · ⬜ not started.
-**Status checked against:** 19 Oct 2026 (after PR #2).
+**Owners:** [GPU] Soham (GPU laptop; holds the image corpus and checkpoints) · [CPU] Ananya (no GPU; works from the repository) · [BOTH] joint · [Mentor] Dinesh Saini.
+**Status:** ✅ done and committed · ⬜ not done. A step is ✅ only when every task in it is ✅.
+**Status checked against:** 19 Oct 2026, `main` after PR #3 (plus this update).
+
+## What runs where
+
+- The 10,800 images, the resize caches and the model checkpoints exist only on the GPU laptop; they are not in the repository.
+- Everything the remaining analyses need is in the repository: the manifest, rule verdicts, per-seed logits for all 10,800 images (`scores_trainval.csv`, sealed `scores_test.csv`), calibration and fusion parameters. All of Steps 15–18 therefore run on any CPU machine.
+- Tasks that need the images or a GPU: Step 2 corpus check, Step 21 clean re-training run.
+- Work on a branch and merge into `main` through a pull request on GitHub, so `main` commits are signed ("Verified"). Pull before starting; never force-push `main`.
 
 ## Ground rules
 
@@ -22,195 +29,173 @@ This is the single plan for finishing the paper. Follow the steps in order. A st
 | Corpus SHA-256 | `f3302cc7…0394` |
 | Splits (people) | train 210 · val 45 · test 45 |
 | C0 / C1 images | train 2,520 / 1,260 · val 540 / 270 · test 540 / 270 |
-| Visual-branch input | Original images, 15 tiles of 256 × 256 (no resizing); edit regions `c1_regions.csv`, SHA-256 `b0138b52…7c91` |
-| Caches (comparison model / measurement) | 768 × 512 `8229b7d9…0bcc` · 384 × 256 `a9c0ba03…cf49` |
-| Visual model | ResNet-50, ImageNet-pretrained, one-logit head |
-| GPU | NVIDIA GeForce RTX 4060 Laptop GPU, 8 GB |
-| Protocol | `DECISIONS.md` and `experiments/EXPERIMENT_PLAN.md`; tag `protocol-e2-final` when Gate G1 passes |
+| Visual branch | `tiles`: ResNet-50 (ImageNet), 15 native tiles of 256 × 256, 5 seeds, temperature-scaled ensemble (`experiments/e2_visual/frozen/`) |
+| Comparison model | `base`: ResNet-50 at 768 × 512, 5 seeds (E-vis only) |
+| Edit regions | `c1_regions.csv`, SHA-256 `b0138b52…7c91` |
+| Caches | 768 × 512 `8229b7d9…0bcc` · 384 × 256 `a9c0ba03…cf49` |
+| Fusion | Amendment A4, `experiments/fusion/frozen_fusion.json` (validation only) |
+| Protocol | `DECISIONS.md`, `experiments/EXPERIMENT_PLAN.md`; tag `protocol-e2-final` (`8392d83`) |
 
 ## Gates
 
-Do not cross a gate until everything before it is ✅.
+- **G1 — before any full training run** — ✅ passed 17 Oct 2026 (`protocol-e2-final`).
+- **G2 — before scoring the test set** — ⬜ parameters frozen and committed ✅; A4 sign-off in `DECISIONS.md` §16 ⬜; tag `frozen-before-test` ⬜.
+- **G3 — before writing claims** — ⬜ results locked, every table regenerated from committed code.
 
-- **G1 — before any full training run:** protocol approved, training settings recorded, corrected smoke test passed.
-- **G2 — before scoring the test set:** all models, calibration, thresholds and fusion frozen and committed.
-- **G3 — before writing claims:** results locked, every table regenerated from committed code.
+## Who is waiting for whom
+
+- **Nobody is waiting for the GPU partner.** His remaining tasks (Steps 2, 19, 21) run in parallel.
+- **The test scoring (Step 15) waits only for the A4 sign-off** from all three people. After that, Steps 15–18 are CPU work.
 
 ---
 
 ## Phase 0 — Protocol and project state
 
-### Step 1. Agree and freeze the protocol [BOTH] — ✅
-- ✅ Protocol drafted: input size, normalisation, splits, operating point, seed averaging (`DECISIONS.md` Sections 1–10).
-- ✅ Input-resolution decision measured and recorded (Section 12). At 384 × 256, most of the evidence for the two fine-trace edits is lost: on clean images only 3–11% survives. At 768 × 512, 83–86% survives. This led to 768 × 512 for whole-document models (A1) and then to the native-resolution tile model (A2, A3).
-- ✅ Training settings decided (Section 13) and implemented in `experiments/e2_visual/train.py`.
-- ✅ Mechanism-aware recall defined (Section 6) and confirmed (Section 11).
-- ✅ Approval by lead researcher, collaborator and mentor recorded (Section 11).
-- ✅ `protocol-e2-final` tagged on the approval commit `8392d83`.
-- ⬜ Check ICDAR 2027 dates, page limit and anonymity rules on the official site. Planning targets: abstract 31 Jan 2027, full paper 20 Feb 2027.
+### Step 1. Agree and freeze the protocol [BOTH] — ⬜
+- ✅ [BOTH] Protocol drafted: input size, normalisation, splits, operating point, seed averaging (`DECISIONS.md` §1–10).
+- ✅ [BOTH] Input-resolution decision measured and recorded (§12): at 384 × 256 only 3–11% of fine-trace edit signal survives on clean images; 83–86% at 768 × 512.
+- ✅ [BOTH] Training settings decided (§13) and implemented in `experiments/e2_visual/train.py`.
+- ✅ [BOTH] Mechanism-aware recall defined (§6) and confirmed (§11).
+- ✅ [Mentor] Approval recorded (§11); `protocol-e2-final` tagged on `8392d83`.
+- ✅ [CPU] Venue checked (19 Oct): ICDAR 2027, 18–22 Aug 2027, Kuala Lumpur (icdar2027.org). Deadlines listed by a third-party tracker: abstract 31 Jan 2027, full paper 20 Feb 2027. ICDAR 2026 rules, the best guide until 2027's are posted: LNCS, at most 17 pages including references, double-blind.
+- ⬜ [CPU] Confirm the 2027 deadlines, page limit and anonymity rules on the official "Important dates" and submission pages once posted.
 
-**Done when:** Sections 6, 11 and 13 are filled in and `protocol-e2-final` is pushed.
+### Step 2. Verify corpus and repository state [GPU + CPU] — ⬜
+- ✅ [CPU] Corpus hash and tags recorded; person-level split separation passed (`verify_splits.py`).
+- ✅ [CPU] `git log --oneline --decorate` and tag list saved: `experiments/logs/repo_state_2026-10-19.txt`.
+- ⬜ [GPU] From `dataset/`, run `python scripts/corpus_checksum.py data/v1 --verify` (with `.venv-dataset`) and commit the output as `experiments/logs/corpus_verify_<date>.txt`. Needs the images, so only the GPU laptop can do it.
 
-### Step 2. Verify corpus and repository state [CPU + GPU] — 🟡
-- ✅ Corpus hash and tags recorded. Person-level split separation passed (`verify_splits.py`). The loader re-checks it on every run.
-- ⬜ [GPU] From the `dataset` folder, run `python scripts/corpus_checksum.py data/v1 --verify` (with `.venv-dataset`) and save the output to `experiments/logs/`.
-- ⬜ [CPU] Save `git log --oneline --decorate` and `git tag -l` output to the same folder.
-
-### Step 3. Reconcile the dataset report and paper numbers [CPU] — ✅ (PR #1: Section IV regenerated from the frozen statistics; 64-bit hash audit only)
-- Regenerate `dataset/data/v1/stats/REPORT.md`, `dataset_stats.json`, figures and paper tables from the frozen manifest.
-- Resolve the known mismatch: the paper says 4.1% Aadhaar and 18.9% PAN OCR false-positive rates and 5,824 distinct 64-bit hashes; the committed report says 3.8%, 19.7% and 5,848. Find the Tesseract run behind each number. Use the one that matches the frozen manifest, not the one that looks better.
-- Check that the code for the paper's 256-bit hash analysis (Table IX) is committed (`dataset/scripts/add_phash256.py`). If it is not reproducible, correct the paper.
-- Apply the open items in `docs/CORRECTIONS_NEEDED.md`.
-
-**Done when:** every number in Section IV regenerates from a committed command.
+### Step 3. Reconcile the dataset report and paper numbers [CPU] — ✅
+- ✅ Section IV regenerated from the frozen statistics (PR #1): Aadhaar OCR FPR 3.8%, PAN 19.7%, 5,848 distinct 64-bit hashes; 64-bit hash audit only.
+- ✅ Open items in `docs/CORRECTIONS_NEEDED.md` applied.
 
 ---
 
-## Phase 1 — Rule-only evaluation (CPU)
+## Phase 1 — Rule-only evaluation
 
-### Step 4. Build and test `evaluate.py` [CPU] — ✅ (`experiments/evaluate.py`, tests in CI)
-One script computes every metric in the paper, so all systems are scored the same way.
+### Step 4. Build and test `evaluate.py` [CPU] — ✅
+- ✅ `experiments/evaluate.py`: one prediction per `image_id`, no duplicates or unknown IDs, split named in every report; confusion matrix, precision, recall, F1, FPR, FNR, AUROC, PR-AUC; document type × C0–C4; C1 by operation and by fine-trace / coarse group; person-clustered bootstrap.
+- ✅ Detection recall (all forged images) and rule-coverage recall (`expected_rule = FAIL`) always reported separately.
+- ✅ Tests (`experiments/test_evaluate.py`) run in CI.
 
-- **Inputs:** a predictions file (`image_id`, `score` or `decision`) plus the manifest.
-- **Required checks:** exactly one prediction per expected `image_id`; no duplicates or unknown IDs; the split is named in every report.
-- **Metrics:** confusion matrix, precision, recall, F1, FPR, FNR. PR-AUC and AUROC where scores exist. State how undefined values (0/0) are handled.
-- **Breakdowns:** document type × C0–C4. For C1, also per `c1_op` and per group: fine-trace (`local_recompression`, `resample_patch`) and coarse (`font_substitution`, `field_displacement`, `patch_splice`).
-- **Two recall definitions, always labelled:**
-  - *Detection recall*: positives are all forged images (C1–C4, `label = 1`). This is the metric for RQ2, RQ3 and RQ5, because it compares directly with the visual branch.
-  - *Rule-coverage recall*: positives are only images the rules are designed to catch (`expected_rule = FAIL`). This is a sanity check of the rule implementation.
-- **Tests:** perfect, random and all-flagged predictors; missing IDs; duplicate IDs; invalid labels.
-
-### Step 5. Reproduce E3 and commit the canonical rule report [CPU] — ✅ (`experiments/e3_rule_branch/results`; GT recall 37.5%, OCR 43.1% at FPR 10.9%)
-- 🟡 `experiments/e3_rule_branch/` exists, but it reports only rule-coverage recall (GT 100%, OCR 99.0%). That is not comparable with the visual branch.
-- On the frozen manifest, test split, detection recall is: GT recall 0.375, precision 1.000, FPR 0; OCR recall 0.431, precision 0.888, FPR 0.109. The earlier plan expected OCR values of 0.433 / 0.883 / 0.115. Explain the small gap in Step 3 (OCR run); do not force the numbers.
-- Re-run E3 through `evaluate.py` with both recall definitions, by document type and C0–C4. Save the command, confusion matrices and commit hash in `experiments/e3_rule_branch/`.
-- State in the paper that perfect GT-rule results are expected by construction, because the rules and labels come from the same generator. This is a sanity check, not evidence of real-world accuracy.
+### Step 5. Canonical E3 rule report [CPU] — ✅
+- ✅ `experiments/e3_rule_branch/results/`, test split: GT detection recall 37.5%, FPR 0%; OCR detection recall 43.1% [41.3, 45.1], FPR 10.9% [7.4, 14.8] (Aadhaar 3.7%, PAN 18.1%). Regenerated exactly in CI.
 
 ---
 
 ## Phase 2 — Leakage and construction checks
 
 ### Step 6. Split, duplicate and edit-visibility audits [CPU] — ✅
-- ✅ No person in two splits. No missing images. No exact duplicates across splits (`744f166`).
-- ✅ pHash near-duplicate audit run. It is inconclusive because layouts are shared; this limitation is stated in `NEAR_DUPLICATE_AUDIT.md`.
-- ✅ Edit visibility at each input size measured (`experiments/edit_survival/`).
+- ✅ No person in two splits, no missing images, no exact duplicates across splits (`744f166`).
+- ✅ pHash near-duplicate audit run; inconclusive because layouts are shared (`NEAR_DUPLICATE_AUDIT.md`).
+- ✅ Edit survival at each input size measured (`experiments/edit_survival/`).
 
-### Step 7. Learned leakage probe [GPU + BOTH] — ✅ (probe reported as uninformative; exact audit + visual-branch bounding check; DECISIONS.md Section 17)
-- `dataset/src/idforge/probe.py` exists. Check whether it has a leakage-specific positive control: inject a known cue into a controlled copy, show the probe detects it, and include negative controls.
-- If it has no such control, either add one or drop the probe from the paper and rely on the Step 6 audits. Separating C0 from C1 is not evidence about leakage.
+### Step 7. Learned leakage probe [BOTH] — ✅
+- ✅ Probe has no leakage-specific positive control; reported as uninformative. The paper relies on the exact audits and uses the visual branch as a bounding check (`DECISIONS.md` §17).
 
 ---
 
-## Phase 3 — Visual baseline (GPU)
+## Phase 3 — Visual baseline
 
 ### Step 8. GPU environment and pre-training checks [GPU] — ✅
 - ✅ Environment recorded: Python 3.12.7, torch 2.14.1+cu130, CUDA 13.0, RTX 4060 Laptop 8 GB (`experiments/requirements-vision.txt`).
-- ✅ Loader checks, one real batch, and tiny-overfit (50 images, 100% accuracy) passed (`experiments/e2_visual/logs/smoke_768x512.json`).
-- ✅ Batch size measured inside physical VRAM, with NVIDIA system-memory fallback turned off. 768 × 512: batch 16 × 2 accumulation, 6.6 GB peak, about 1.5 minutes per epoch of compute. 384 × 256: batch 32, 3.5 GB, about 22 seconds per epoch. Both tiny-overfit tests reached 100%.
+- ✅ Loader checks, one real batch, tiny-overfit test passed; batch size measured inside physical VRAM with system-memory fallback off.
 
 ### Step 9. Resize caches and loader [GPU; CPU reviews] — ✅
-- ✅ Both caches built from the manifest, fingerprinted, and inspected beside the originals (contact sheets committed).
-- ✅ Loader (`experiments/e2_visual/data.py`): manifest-only membership, RGB, ImageNet normalisation, one item per `image_id`, sorted, size checked.
-- [CPU] Review `data.py` and both contact sheets, and note any problem in an issue.
+- ✅ [GPU] Both caches built from the manifest, fingerprinted, contact sheets committed.
+- ✅ [GPU] Loader `experiments/e2_visual/data.py`: manifest-only membership, RGB, ImageNet normalisation, one item per `image_id`, size checked.
+- ✅ [CPU] Reviewed `data.py` and the 768 × 512 contact sheet (19 Oct): manifests cross-checked row by row, labels checked against category, aspect ratio kept with padding; no problems found.
 
 ### Step 10. Train E2 [GPU] — ✅
-- Task: C0 vs C1 on the train split, with settings from `DECISIONS.md` Section 13 (variant `base`) or Amendment A2 (Section 14).
-- ✅ Pilot: `base`, 768 × 512, seed 0. Ran correctly but overfitted: validation AUROC 0.578, PR-AUC 0.448 (chance 0.333).
-- ✅ Variant `reg` (A2), 768 × 512, seed 0: validation AUROC 0.564, PR-AUC 0.435. No better than `base`.
-- ✅ Variant `tiles` (A2), seed 0: validation PR-AUC 0.627, AUROC 0.699. **Selected as the visual branch** (Amendment A3, Section 15).
-- ✅ `tiles` seeds 0–4: validation PR-AUC 0.611–0.684 (mean 0.649), AUROC 0.685–0.773 (mean 0.722).
-- ✅ `base` seeds 0–4: validation PR-AUC 0.448–0.518, AUROC 0.578–0.629. Used only for E-vis. The 384 × 256 training arm was dropped (A3).
-- All variants tried are kept and reported with their validation metrics.
-- Early stopping on validation PR-AUC. Never compute test metrics during development.
-- Save for every run: config, checkpoint, per-epoch train loss and validation PR-AUC/AUROC, runtime, environment, git commit.
-- With each final checkpoint, save raw logits for **all 10,800 images** (C0–C4, all splits): `scores_trainval.csv` and a sealed `scores_test.csv` per run. Fusion needs visual scores for every category. Test logits are written but not opened until Step 15.
+- ✅ `base` pilot, 768 × 512, seed 0: validation AUROC 0.578, PR-AUC 0.448; memorised the training set.
+- ✅ `reg` (A2), seed 0: validation AUROC 0.564, PR-AUC 0.435; no better.
+- ✅ `tiles` (A2), seed 0: validation AUROC 0.699, PR-AUC 0.627; selected (A3, §15).
+- ✅ `tiles` seeds 0–4 and `base` seeds 0–4 trained; logits for all 10,800 images saved and committed; test logits sealed by SHA-256.
 
-### Step 11. Validate outputs and freeze [GPU + CPU] — ✅ (`calibrate_visual.py` run checks; `evaluate.py` cross-check via `score_frozen.py --split val`)
-- [CPU] Run `evaluate.py` on validation logits only. Check the prediction schema, IDs and split membership.
-- [GPU] For each seed, choose the checkpoint from validation. Save validation scores and config hashes.
-- [BOTH] Commit the final configuration. Do not compare `tiles` and `base` until both are frozen.
+### Step 11. Validate outputs and freeze [GPU + CPU] — ✅
+- ✅ [GPU] Checkpoints chosen on validation PR-AUC; configs and hashes saved.
+- ✅ [CPU] Validation scores cross-checked through `evaluate.py` (`score_frozen.py --split val`, in CI).
 
 ---
 
 ## Phase 4 — Calibration, fusion and the single test run
 
-### Step 12. Rule outputs and recovery analysis [CPU] — 🟡 (rule export + mechanism-aware recall ✅ in `experiments/rules`; recovery table after Step 15)
-- Export rule decisions for all 10,800 images, GT-text and OCR-text versions, in the `evaluate.py` schema.
-- Join with the visual scores by `image_id`. Count both-detect, visual-only, rule-only and neither, by document type, C1–C4 and C1 group (validation now; test after Step 15).
-- Compute mechanism-aware recall with the Section 6 definition.
+### Step 12. Rule outputs and recovery analysis [CPU] — ⬜
+- ✅ Rule decisions for all 10,800 images, GT and OCR text, with the failing check (`experiments/rules/rule_decisions.csv`).
+- ✅ Mechanism-aware recall (`experiments/rules/mechanism_aware_recall.md`).
+- ✅ Recovery table on validation (both / visual only / rules only / neither, by document type, C0–C4, C1 group): `experiments/rules/recovery.py`, output `experiments/results/val/recovery.md`.
+- ⬜ Recovery table on test: `python experiments/rules/recovery.py --split test` after Step 15.
 
-### Step 13. Calibrate each visual model [GPU] — ✅ (`experiments/e2_visual/frozen`; tiles ensemble val AUROC 0.780)
-- Fit temperature scaling per seed on validation logits. Save the temperatures and reliability diagrams.
-- Average the calibrated probabilities over the five seeds (Section 5).
+### Step 13. Calibrate each visual model [GPU] — ✅
+- ✅ Per-seed temperature scaling on validation, reliability data, 5-seed ensemble (`experiments/e2_visual/frozen/`; `tiles` ensemble validation AUROC 0.780, PR-AUC 0.702).
 
-### Step 14. Choose and freeze fusion [GPU + CPU] — ✅ (Amendment A4; `experiments/fusion`; Gate G2 = tag `frozen-before-test` after team review)
-- Candidates, in this order of simplicity: OR, AND, weighted score, and logistic fusion fitted on validation.
-- Operating point: maximise C1 recall subject to validation C0 FPR ≤ 5%. Report the realised test FPR; it is not guaranteed to be 5%.
-- Compare each fusion rule with the best single branch at the same validation-chosen operating point.
-- Test the fusion code on hand-made examples with known answers. Commit the parameters.
+### Step 14. Choose and freeze fusion [GPU + CPU] — ⬜
+- ✅ [CPU] OR, AND and logistic fusion fitted on validation only, GT and OCR text; thresholds at 5% FPR and at matched FPR (Amendment A4, `DECISIONS.md` §16; `experiments/fusion/`).
+- ✅ [CPU] Fusion code tested on hand-made examples with known answers and against the validation outputs (`experiments/fusion/test_fusion.py`, in CI).
+- ⬜ [BOTH + Mentor] Sign-off in `DECISIONS.md` §16 (three names and dates).
+- ⬜ [CPU] After the sign-off: create and push the tag `frozen-before-test` on that commit. **This is Gate G2.**
 
-**Gate G2:** models, temperatures, thresholds and fusion parameters committed.
-
-### Step 15. Score the test set once [GPU + CPU] — ⬜ (GPU part ✅: sealed `scores_test.csv` for all 10 runs are committed and SHA-checked; waiting for A4 approval in `DECISIONS.md` §16, then tag `frozen-before-test` and `python experiments/score_frozen.py --split test`, run once on CPU)
-- [GPU] Use the saved test logits from the frozen checkpoints.
-- [CPU] Apply the frozen calibration, thresholds and fusion. No retuning.
-- [BOTH] Save predictions, thresholds, config hashes and run logs for `tiles` (and, for E-vis only, `base`).
+### Step 15. Score the test set once [CPU] — ⬜
+- ✅ [GPU] Sealed `scores_test.csv` for all 10 runs committed; `score_frozen.py` refuses to run if any hash changed.
+- ⬜ [CPU] `python experiments/score_frozen.py --split test` — once, after the tag. Commit `experiments/results/test/` immediately, without re-running.
 
 ---
 
-## Phase 5 — Analyses and statistics (CPU; GPU supplies scores)
+## Phase 5 — Analyses and statistics (CPU)
 
-### Step 16. Planned analyses — ⬜
-| ID | Question | Research question |
-|---|---|---|
-| E6 | GT-text vs OCR-text verdicts on the same images: stable, OCR-induced failure, OCR-masked failure; by tier and document type | RQ4 |
-| E7 | Incremental fusion gain, Aadhaar vs PAN, with person-level uncertainty | RQ5 |
-| E8 | C0 false positives by quality tier, document type and OCR outcome (post-hoc splits labelled exploratory) | RQ3, RQ4 |
-| E9/E12 | For flagged C2/C3, does the explanation name the corrupted field? Over-attribution reported separately; GT vs OCR | RQ2 |
-| E-vis | C1 detection of `tiles` (native, local) vs `base` (768 × 512, whole document) by C1 group, edit type and quality tier, 5 seeds each, with the edit-survival measurement | RQ1 |
+Scripts for each analysis can be written and checked on validation now; they are run on test after Step 15.
 
-- Expected E-vis result: `tiles` better than `base` on C1, especially fine-trace edits and clean images; both weak on severe images. Report what is found, including if the gap closes over 5 seeds.
-- Optional, only if pre-registered first: a position-aware OCR whitelist ablation, and a second OCR engine on the test split.
+### Step 16. Planned analyses [CPU] — ⬜
+| ID | Question | RQ | Status |
+|---|---|---|---|
+| E6 | GT vs OCR verdicts on the same images: stable, OCR-induced failure, OCR-masked failure; by tier and document type | RQ4 | ⬜ |
+| E7 | Incremental fusion gain, Aadhaar vs PAN, with person-level uncertainty | RQ5 | ⬜ |
+| E8 | C0 false positives by quality tier, document type and OCR outcome (post-hoc splits labelled exploratory) | RQ3, RQ4, RQ6 | ⬜ |
+| E9/E12 | For flagged C2/C3, does the explanation name the corrupted field? Over-attribution separately; GT vs OCR | RQ2 | ⬜ |
+| E-vis | `tiles` vs `base` on C1, by C1 group, edit type and quality tier, 5 seeds each, with edit survival | RQ1 | ⬜ |
+
+- Optional, only if recorded in `DECISIONS.md` first: a position-aware OCR whitelist ablation; a second OCR engine.
 
 ### Step 17. Statistics and locking results [CPU] — ⬜
-- Primary inference: person-clustered bootstrap (10,000 resamples) on paired metric differences. Resample people and keep each person's documents together. The test set has 45 people, not 1,620 independent samples.
-- Paired tests: cluster-aware permutation or bootstrap. Image-level McNemar is supplementary only, with its independence limitation stated.
-- Holm correction within each pre-defined family of comparisons, including E-vis.
-- About 54 test C1 images per edit type means wide intervals. Lead with the two C1 groups; per-operation results are supporting detail.
-- Audit row counts, IDs, labels, thresholds and code traceability. Then lock the results.
-
-**Gate G3:** results locked.
+- ⬜ Person-clustered bootstrap (10,000) on paired metric differences; Holm correction within each pre-defined family, including E-vis.
+- ⬜ Lead with the two C1 groups; per-operation results (about 54 test images each) are supporting detail.
+- ⬜ Audit row counts, IDs, labels, thresholds and code traceability; lock results. **This is Gate G3.**
 
 ---
 
 ## Phase 6 — Paper and submission
 
-### Step 18. Write Sections VI–IX [CPU lead; BOTH] — 🟡 (Sections V and VI drafted in PR #2; VII–IX need test results)
-- Every number comes from a committed script and maps to a table or figure. Each research question maps to at least one table with uncertainty.
-- Section VI describes the tile model, the edit-region mapping, the edit-survival measurement and the model-development path on validation (A1–A3: `base`, `reg`, `tiles`), with every variant's validation metrics.
-- Answer RQ1 separately for coarse and fine-trace C1 edits. Fine-trace edits are not "visually apparent", so one pooled number would misrepresent RQ1. If the RQ1 wording is changed, record it in `DECISIONS.md`.
-- Finish the literature audit: databases searched, search date, screening counts, and every citation verified against its source.
+### Step 18. Write the paper [CPU lead; BOTH] — ⬜
+- ✅ [CPU] Sections I–IV written; Section IV numbers generated from committed statistics (Section II-E details are the next task).
+- ✅ [CPU] Sections V (Methodology) and VI (Experimental Setup) drafted, all numbers checked (PR #2).
+- ⬜ [CPU] Fill Section II-E literature-search details: search date, year range, n₁, n₂, venues without peer review.
+- ⬜ [CPU] Fill the reference access date and confirm the page reference in the bibliography.
+- ⬜ [CPU] Section VII Results — after Step 17. RQ1 answered separately for coarse and fine-trace edits.
+- ⬜ [CPU] Section VIII Discussion — the limitations part can be written now; the interpretation waits for results.
+- ⬜ [CPU] Section IX Conclusion, and final numbers in the abstract — last.
 
 ### Step 19. Reproducibility section [GPU] — ⬜
-- Report from the logs: architecture, weights, preprocessing, optimizer, learning rate, batch size and accumulation, seeds, early stopping, calibration, hardware, software versions, runtime, commit hash and both cache hashes.
-- List every deviation from the protocol.
+- ⬜ [GPU] From the logs: architecture, weights, preprocessing, optimizer, learning rate, batch size, seeds, early stopping, calibration, hardware, software versions, runtime, commit hash and cache hashes; list every deviation from the protocol (A1–A4).
 
 ### Step 20. Claims and limitations [BOTH] — ⬜
-- Central claim, only if the results support it: a controlled evaluation of the incremental detection value and false-positive cost of structural/semantic evidence over a visual baseline on synthetic Aadhaar/PAN-format documents, including OCR degradation.
-- Limitations to state:
-  - the data is synthetic and design-unfaithful;
+- ⬜ Central claim, only if the results support it: a controlled evaluation of the incremental detection value and false-positive cost of structural/semantic evidence over a visual baseline on synthetic Aadhaar/PAN-format documents, including OCR degradation.
+- ⬜ State the limitations:
+  - the data is synthetic;
   - one English OCR engine;
   - the test set has 45 people;
-  - the visual branch is a tile-based ResNet-50 trained with edit locations; it is near chance on severely degraded images, and a stronger forensic detector might do better.
-- C0 = unmodified synthetic controls, not genuine documents. C4 = rule-valid fabricated identifiers; passing the rules is not identity verification.
-- Aadhaar C3 is a known capability boundary (no rule reads the Devanagari line). PAN: Individual-format scope only, and the tenth character is not claimed to be a recomputable check digit.
-- No "first" claims. No real-world accuracy, verification or fraud-prevalence claims.
+  - the visual branch is near chance on severely degraded images;
+  - C0 are synthetic controls, not genuine documents;
+  - C4 passing the rules is not identity verification;
+  - Aadhaar C3 is a capability boundary;
+  - PAN covers the Individual format only, and the tenth character is not claimed to be a check digit.
+- ⬜ No "first" claims; no real-world accuracy, verification or fraud-prevalence claims.
 
 ### Step 21. Format, reproduce, submit [BOTH + mentor] — ⬜
-- Convert to Springer LNCS and meet the official page limit and anonymity rules.
-- [GPU] Reproduce one key visual run from a clean environment and match the hashes and configs.
-- [CPU] Regenerate every table from committed artefacts.
-- [BOTH] Do a reviewer-style read-through with the mentor and freeze author order. Release code and configs; release a corpus archive only if permitted. Do not submit to two venues at once.
+- ⬜ [CPU] Convert to Springer LNCS and cut to the page limit. The draft already has about 12,600 words before Results; 17 LNCS pages hold roughly 6,500–7,500. Sections III and IV need the largest cuts; move detail to an appendix or the repository.
+- ⬜ [CPU] Anonymise: remove author names, affiliation and acknowledgements. The repository URL contains an author's name, so link to an anonymised copy at submission.
+- ⬜ [GPU] Reproduce one `tiles` training run from a clean environment and match hashes and configs.
+- ⬜ [CPU] Regenerate every table from committed artefacts.
+- ⬜ [BOTH + Mentor] Reviewer-style read-through; freeze author order; release code and configs. Do not submit to two venues at once.
 
 ---
 
@@ -218,28 +203,27 @@ One script computes every metric in the paper, so all systems are scored the sam
 
 | Dates (2026–27) | Milestone | Lead |
 |---|---|---|
-| 18–24 Oct | Gate G1: settings decided, approval recorded, `protocol-e2-final` tagged, smoke tests re-run (both sizes) | BOTH / GPU |
-| 18 Oct – 7 Nov | Steps 2–5 and 7: report reconciliation, `evaluate.py`, canonical E3, probe decision | CPU |
-| 25 Oct – 14 Nov | Step 10: E2 training, 5 seeds × 2 sizes, logits for all images | GPU |
-| 15–21 Nov | Steps 11–14: freeze, calibration, fusion on validation (Gate G2) | BOTH |
-| 22–28 Nov | Steps 12 and 15: test scored once, recovery analysis | BOTH |
-| 29 Nov – 26 Dec | Steps 16–17: analyses, statistics, results locked (Gate G3) | CPU; GPU supplies scores |
-| 27 Dec – 24 Jan | Steps 18–20: Sections VI–IX, literature audit, LNCS formatting | BOTH |
-| By 31 Jan | Abstract submitted (verify date) | BOTH |
-| 1–20 Feb | Step 21: clean reproduction, mentor review, full paper submitted (verify date) | BOTH + mentor |
+| ✅ by 19 Oct | Gate G1, all training, calibration, fusion frozen on validation, Sections V–VI drafted | BOTH |
+| 20–26 Oct | A4 sign-off; tag `frozen-before-test`; test scored once (Step 15); Step 2 corpus check | BOTH / CPU / GPU |
+| 20 Oct – 15 Nov | Write analysis scripts on validation; run them on test (Steps 12, 16) | CPU |
+| 16–30 Nov | Statistics and Gate G3 (Step 17); reproducibility section (Step 19) | CPU / GPU |
+| 1–31 Dec | Sections VII–IX; literature details; claims and limitations (Steps 18, 20) | CPU lead, BOTH |
+| 1–24 Jan | LNCS conversion, length cut, anonymisation; clean re-run (Step 21) | BOTH |
+| By 31 Jan | Abstract submitted (confirm date on icdar2027.org) | BOTH |
+| 1–20 Feb | Mentor review, final checks, full paper submitted (confirm date) | BOTH + mentor |
 
 Leave room for end-semester exams. If a window slips, move the later windows and keep the order and gates.
 
 ## Final submission checklist
 
-- [ ] Protocol approved and tagged `protocol-e2-final` before any E2 training run.
-- [ ] Corpus, both caches and splits verified from pinned hashes.
-- [ ] Every planned seed reported for `tiles` and `base`; `reg` reported as a pilot.
-- [ ] Calibration, thresholds and fusion chosen on validation only; realised test FPR and recall reported.
-- [ ] Detection recall and rule-coverage recall reported separately and named correctly.
-- [ ] Results broken down by document type, C0–C4 and C1 group (fine-trace vs coarse).
-- [ ] E6, E7, E8, E9/E12 and E-vis completed, or omissions disclosed.
-- [ ] Person-clustered uncertainty, paired inference and multiplicity correction applied.
-- [ ] Every table and figure regenerates from committed artefacts; no TODOs remain.
-- [ ] Limitations, PAN scope, C4 and OCR boundaries stated accurately.
-- [ ] LNCS format, page limit, anonymity, citations and authorship checked against official rules.
+- ✅ Protocol approved and tagged `protocol-e2-final` before any full E2 training run.
+- ⬜ Corpus, caches and splits verified from pinned hashes (Step 2 corpus check outstanding).
+- ✅ Every planned seed reported for `tiles` and `base`; `reg` reported as a pilot.
+- ⬜ Calibration, thresholds and fusion chosen on validation only ✅; realised test FPR and recall reported ⬜.
+- ✅ Detection recall and rule-coverage recall reported separately and named correctly.
+- ⬜ Results broken down by document type, C0–C4 and C1 group.
+- ⬜ E6, E7, E8, E9/E12 and E-vis completed, or omissions disclosed.
+- ⬜ Person-clustered uncertainty, paired inference and multiplicity correction applied.
+- ⬜ Every table and figure regenerates from committed artefacts; no TODOs remain.
+- ⬜ Limitations, PAN scope, C4 and OCR boundaries stated accurately.
+- ⬜ LNCS format, page limit, anonymity, citations and authorship checked against official rules.

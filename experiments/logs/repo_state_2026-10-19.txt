@@ -1,0 +1,44 @@
+# Repository state, recorded 2026-10-19T11:47Z (roadmap Step 2, CPU)
+
+## git log --oneline --decorate (main)
+ed4c615 (HEAD -> main, origin/main, origin/HEAD) Gate G2 prep: approval block for Amendment A4; roadmap statuses after PR #2 (#3)
+56ed4da Paper: draft Sections V (Methodology) and VI (Experimental Setup) (#2)
+15f1b19 Step 14 / A4: freeze evidence fusion on validation; add score_frozen.py
+dcecec6 CI: run evaluate.py tests and check E3/rule outputs regenerate exactly
+8c786c1 Merge pull request #1: CPU tasks (Steps 3, 4, 5, 7, 12)
+91edd98 (cpu-tasks) Step 12 (rule side): rule decisions with failing checks; mechanism-aware recall
+e91fbd1 Step 7: describe the leakage evidence accurately (learned probe decision)
+cabbb6a Step 5: canonical E3 rule-only test report through evaluate.py
+250b0f5 Step 4: shared evaluation harness (evaluate.py) with tests
+ea00ba4 Step 3: regenerate Section IV numbers from the frozen dataset statistics
+3706dfa Steps 11 and 13: run checks, temperature scaling, 5-seed ensembles, visual operating point
+46dc44a E2: base seed 4
+e421e5c E2: base seed 3 (re-run after OS update); run-log note
+bb931f2 E2: tiles seeds 1-4, base seeds 1-2
+41c6235 A3: tiles selected as visual branch; E-vis replaces E-res; tiles seed 0
+678ab45 A2: reg result; tile-based candidate specified; region mapping
+744fabd E2 pilot (base, seed 0); Amendment A2: regularised variant
+8392d83 (tag: protocol-e2-final) Record protocol approval; add E2 training script and metrics
+f76bdfb Fix batch probe (reject system-memory fallback); final roadmap; open training settings
+16a867d (tag: protocol-e2-v1) Add 768x512 primary cache fingerprint, E2 loader and pre-training smoke test
+c2e0028 Amendment A1: primary canvas 768x512, 384x256 as sensitivity; edit-survival measurement; roadmap v3
+32eedb4 Add 384x256 resize cache builder, inspection sheet and SHA-256 fingerprint
+744f166 Add split and near-duplicate audits
+8b32a6b Add draft E2 protocol: 384x256 canvas (partner/mentor approval pending)
+976eade Freeze synthetic dataset v1
+06f1e85 Fix probe to read dataset manifest CSV
+c56eca3 Add independent rule-only experiment
+dbb654e (tag: v1.0.1-dataset) Fix an uninstallable opencv pin that broke CI
+d766fb2 (tag: v1.0-dataset) Add a deterministic corpus checksum and a verifier
+eab5801 Add top-level README, CI workflow and section placeholders
+3ff1a59 Add paper source, complete and compiling through Section IV
+ae87b69 Add datasheet, decisions log and repository guide
+c304260 Add a committed sample gallery so the corpus is visible without building it
+1c081ad Add built corpus artefacts for v1 (manifest, splits, statistics, figures)
+a5943a5 Dataset construction pipeline for Section IV
+
+## git tag -l (tag -> commit)
+protocol-e2-final 8392d83b0598b668f78ff83cf5fc4271c774a52d
+protocol-e2-v1 16a867d10831fdf8590857a744a698cfbe46990e
+v1.0-dataset d766fb2d0a5436913a52830458dda39c8fe946e2
+v1.0.1-dataset dbb654e30e13a650d85d237a5986c9f82a02c30d

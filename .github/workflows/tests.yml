@@ -69,3 +69,8 @@ jobs:
           python experiments/score_frozen.py --split val --bootstrap 200 > /dev/null
           git diff --exit-code -- experiments/results/val/summary.md
           echo "frozen pipeline reproduces validation exactly"
+          pip install "scipy>=1.11"   # fusion fit only; tests compare with tolerances
+          python experiments/fusion/test_fusion.py
+          python experiments/rules/recovery.py --split val > /dev/null
+          git diff --exit-code -- experiments/results/val/recovery.md experiments/results/val/recovery.csv
+          echo "fusion tests pass; recovery table reproduces"
