@@ -1,0 +1,11 @@
+{
+  "best_epoch": 17,
+  "best_val_pr_auc": 0.66078,
+  "best_val_auroc": 0.73471,
+  "epochs_run": 22,
+  "minutes": 53.9,
+  "scores_trainval_sha256": "fcab8f91649fe23b28d03221cffdbad8a94e4d3e6748d6baadb5760bc9a250f6",
+  "scores_test_sha256": "086fdd3b34a78663969da1bf16c4556d5368cc41b9da65be9ee91dbf4d7e2829",
+  "n_trainval_scored": 9180,
+  "n_test_scored": 1620
+}
