@@ -4,7 +4,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A st
 
 **Owners:** [GPU] GPU-laptop owner · [CPU] partner without a GPU · [BOTH] joint.
 **Status:** ✅ done and committed · 🟡 started or needs checking · ⬜ not started.
-**Status checked against:** commit `8392d83`, 18 Oct 2026.
+**Status checked against:** 19 Oct 2026 (after PR #1).
 
 ## Ground rules
 
@@ -56,7 +56,7 @@ Do not cross a gate until everything before it is ✅.
 - ⬜ [GPU] From the `dataset` folder, run `python scripts/corpus_checksum.py data/v1 --verify` (with `.venv-dataset`) and save the output to `experiments/logs/`.
 - ⬜ [CPU] Save `git log --oneline --decorate` and `git tag -l` output to the same folder.
 
-### Step 3. Reconcile the dataset report and paper numbers [CPU] — ⬜
+### Step 3. Reconcile the dataset report and paper numbers [CPU] — ✅ (PR #1: Section IV regenerated from the frozen statistics; 64-bit hash audit only)
 - Regenerate `dataset/data/v1/stats/REPORT.md`, `dataset_stats.json`, figures and paper tables from the frozen manifest.
 - Resolve the known mismatch: the paper says 4.1% Aadhaar and 18.9% PAN OCR false-positive rates and 5,824 distinct 64-bit hashes; the committed report says 3.8%, 19.7% and 5,848. Find the Tesseract run behind each number. Use the one that matches the frozen manifest, not the one that looks better.
 - Check that the code for the paper's 256-bit hash analysis (Table IX) is committed (`dataset/scripts/add_phash256.py`). If it is not reproducible, correct the paper.
@@ -68,7 +68,7 @@ Do not cross a gate until everything before it is ✅.
 
 ## Phase 1 — Rule-only evaluation (CPU)
 
-### Step 4. Build and test `evaluate.py` [CPU] — ⬜
+### Step 4. Build and test `evaluate.py` [CPU] — ✅ (`experiments/evaluate.py`, tests in CI)
 One script computes every metric in the paper, so all systems are scored the same way.
 
 - **Inputs:** a predictions file (`image_id`, `score` or `decision`) plus the manifest.
@@ -80,7 +80,7 @@ One script computes every metric in the paper, so all systems are scored the sam
   - *Rule-coverage recall*: positives are only images the rules are designed to catch (`expected_rule = FAIL`). This is a sanity check of the rule implementation.
 - **Tests:** perfect, random and all-flagged predictors; missing IDs; duplicate IDs; invalid labels.
 
-### Step 5. Reproduce E3 and commit the canonical rule report [CPU] — 🟡
+### Step 5. Reproduce E3 and commit the canonical rule report [CPU] — ✅ (`experiments/e3_rule_branch/results`; GT recall 37.5%, OCR 43.1% at FPR 10.9%)
 - 🟡 `experiments/e3_rule_branch/` exists, but it reports only rule-coverage recall (GT 100%, OCR 99.0%). That is not comparable with the visual branch.
 - On the frozen manifest, test split, detection recall is: GT recall 0.375, precision 1.000, FPR 0; OCR recall 0.431, precision 0.888, FPR 0.109. The earlier plan expected OCR values of 0.433 / 0.883 / 0.115. Explain the small gap in Step 3 (OCR run); do not force the numbers.
 - Re-run E3 through `evaluate.py` with both recall definitions, by document type and C0–C4. Save the command, confusion matrices and commit hash in `experiments/e3_rule_branch/`.
@@ -95,7 +95,7 @@ One script computes every metric in the paper, so all systems are scored the sam
 - ✅ pHash near-duplicate audit run. It is inconclusive because layouts are shared; this limitation is stated in `NEAR_DUPLICATE_AUDIT.md`.
 - ✅ Edit visibility at each input size measured (`experiments/edit_survival/`).
 
-### Step 7. Learned leakage probe [GPU + BOTH] — 🟡
+### Step 7. Learned leakage probe [GPU + BOTH] — ✅ (probe reported as uninformative; exact audit + visual-branch bounding check; DECISIONS.md Section 17)
 - `dataset/src/idforge/probe.py` exists. Check whether it has a leakage-specific positive control: inject a known cue into a controlled copy, show the probe detects it, and include negative controls.
 - If it has no such control, either add one or drop the probe from the paper and rely on the Step 6 audits. Separating C0 from C1 is not evidence about leakage.
 
@@ -125,7 +125,7 @@ One script computes every metric in the paper, so all systems are scored the sam
 - Save for every run: config, checkpoint, per-epoch train loss and validation PR-AUC/AUROC, runtime, environment, git commit.
 - With each final checkpoint, save raw logits for **all 10,800 images** (C0–C4, all splits): `scores_trainval.csv` and a sealed `scores_test.csv` per run. Fusion needs visual scores for every category. Test logits are written but not opened until Step 15.
 
-### Step 11. Validate outputs and freeze [GPU + CPU] — ⬜
+### Step 11. Validate outputs and freeze [GPU + CPU] — ✅ (`calibrate_visual.py` run checks; `evaluate.py` cross-check via `score_frozen.py --split val`)
 - [CPU] Run `evaluate.py` on validation logits only. Check the prediction schema, IDs and split membership.
 - [GPU] For each seed, choose the checkpoint from validation. Save validation scores and config hashes.
 - [BOTH] Commit the final configuration. Do not compare `tiles` and `base` until both are frozen.
@@ -134,16 +134,16 @@ One script computes every metric in the paper, so all systems are scored the sam
 
 ## Phase 4 — Calibration, fusion and the single test run
 
-### Step 12. Rule outputs and recovery analysis [CPU] — ⬜
+### Step 12. Rule outputs and recovery analysis [CPU] — 🟡 (rule export + mechanism-aware recall ✅ in `experiments/rules`; recovery table after Step 15)
 - Export rule decisions for all 10,800 images, GT-text and OCR-text versions, in the `evaluate.py` schema.
 - Join with the visual scores by `image_id`. Count both-detect, visual-only, rule-only and neither, by document type, C1–C4 and C1 group (validation now; test after Step 15).
 - Compute mechanism-aware recall with the Section 6 definition.
 
-### Step 13. Calibrate each visual model [GPU] — ⬜
+### Step 13. Calibrate each visual model [GPU] — ✅ (`experiments/e2_visual/frozen`; tiles ensemble val AUROC 0.780)
 - Fit temperature scaling per seed on validation logits. Save the temperatures and reliability diagrams.
 - Average the calibrated probabilities over the five seeds (Section 5).
 
-### Step 14. Choose and freeze fusion [GPU + CPU] — ⬜
+### Step 14. Choose and freeze fusion [GPU + CPU] — ✅ (Amendment A4; `experiments/fusion`; Gate G2 = tag `frozen-before-test` after team review)
 - Candidates, in this order of simplicity: OR, AND, weighted score, and logistic fusion fitted on validation.
 - Operating point: maximise C1 recall subject to validation C0 FPR ≤ 5%. Report the realised test FPR; it is not guaranteed to be 5%.
 - Compare each fusion rule with the best single branch at the same validation-chosen operating point.

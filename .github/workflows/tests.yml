@@ -64,3 +64,8 @@ jobs:
           # JSON is not compared, since the last digit may differ across numpy builds.
           git diff --exit-code -- 'experiments/e3_rule_branch/results/*.md' 'experiments/e3_rule_branch/results/*.csv' 'experiments/rules/*.md' 'experiments/rules/*.csv'
           echo "evaluation outputs reproduce exactly"
+          # Frozen calibration + fusion re-applied to validation must reproduce
+          # the committed validation summary (the same code scores the test split).
+          python experiments/score_frozen.py --split val --bootstrap 200 > /dev/null
+          git diff --exit-code -- experiments/results/val/summary.md
+          echo "frozen pipeline reproduces validation exactly"

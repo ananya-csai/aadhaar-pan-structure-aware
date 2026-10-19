@@ -3,7 +3,7 @@
   "seeds": [
     {
       "seed": 0,
-      "temperature": 6.477805,
+      "temperature": 6.477805222464287,
       "val_nll_before": 1.20294,
       "val_nll_after": 0.64295,
       "val_ece_before": 0.25509,
@@ -16,7 +16,7 @@
     },
     {
       "seed": 1,
-      "temperature": 5.404094,
+      "temperature": 5.404094457569773,
       "val_nll_before": 1.12563,
       "val_nll_after": 0.62484,
       "val_ece_before": 0.23721,
@@ -29,7 +29,7 @@
     },
     {
       "seed": 2,
-      "temperature": 4.942525,
+      "temperature": 4.942524614123195,
       "val_nll_before": 1.09503,
       "val_nll_after": 0.61003,
       "val_ece_before": 0.2264,
@@ -42,7 +42,7 @@
     },
     {
       "seed": 3,
-      "temperature": 5.171808,
+      "temperature": 5.171807740618108,
       "val_nll_before": 1.10947,
       "val_nll_after": 0.61807,
       "val_ece_before": 0.23402,
@@ -55,7 +55,7 @@
     },
     {
       "seed": 4,
-      "temperature": 5.902773,
+      "temperature": 5.9027727712869895,
       "val_nll_before": 1.17039,
       "val_nll_after": 0.63358,
       "val_ece_before": 0.24111,
@@ -75,7 +75,7 @@
   },
   "operating_point": {
     "rule": "max val C1 recall s.t. val C0 FPR <= 0.05",
-    "threshold": 0.5411795443465609,
+    "threshold": 0.5412720458058246,
     "val_fpr": 0.05,
     "val_c1_recall": 0.21111,
     "n_val_c0": 540,

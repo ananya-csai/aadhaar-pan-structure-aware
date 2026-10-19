@@ -224,3 +224,38 @@ Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.69
 
 **Run log note (19 Oct 2026).** An automatic Windows update stopped `base` seed 3 before its first epoch finished. It was re-run from scratch, and the incomplete folder was replaced as `train.py` intends. The update changed the OS build from Windows 11 10.0.26200 to 10.0.26300. `base` seeds 3 and 4 ran on the new build; all other runs ran on the old one. Python, PyTorch, CUDA, cuDNN, GPU and code are unchanged (recorded in each `config.json`).
 
+## 16. Amendment A4 — evidence fusion (roadmap Step 14, validation only)
+
+**Status:** recorded 19 Oct 2026, before any test scoring; collaborator/mentor review: ________.
+
+**Why an amendment is needed.** On validation C0, OCR-text rules flag 11.3% of documents (Aadhaar 3.3%, PAN 19.3%); with ground-truth text they flag 0%. Under OCR text, a hard OR of the visual and rule flags therefore cannot meet the 5% FPR operating point of Section 4. The fusion rules below fix how this is handled. They were written after inspecting validation results only; the test split is untouched.
+
+**Inputs.**
+- `p_v`: the calibrated 5-seed `tiles` ensemble probability (Section 15), computed from per-seed logits and stored temperatures by `experiments/score_frozen.py:ensemble`. The same function is used for validation (fitting) and test (scoring), so both are computed identically.
+- `z_v` = logit(p_v); `t_v` = frozen visual threshold (val C0 FPR ≤ 5%).
+- `r` = 1 if the rule verdict is FAIL, under GT text (`rule_gt_verdict`, oracle) and under OCR text (`rule_ocr_verdict`).
+- `pan` = 1 for PAN.
+
+**Systems (all reported, by document type and C0–C4).**
+1. Visual only: p_v ≥ t_v.
+2. Rules only: r = 1 (GT and OCR).
+3. OR: (p_v ≥ t_v) or r = 1. AND: (p_v ≥ t_v) and r = 1. These are binary rules, reported at the FPR they reach and never forced to 5%.
+4. **Primary hybrid — logistic fusion:** s = sigmoid(w0 + w1·z_v + w2·r + w3·r·pan), L2-penalised (C = 1, intercept unpenalised, as in scikit-learn's default). Fitted on all 1,620 validation images (forged vs C0), separately for GT and OCR. The r·pan term lets the model learn that PAN rule flags are less reliable under OCR, and keeps the Aadhaar/PAN asymmetry of Table III.
+5. Hybrid thresholds: (a) primary — max recall subject to val C0 FPR ≤ 5%; (b) **matched-FPR** — at the validation FPR of each binary system that exceeds 5% (rules_OCR, OR_OCR), so fusion and that system are compared at equal false-positive cost.
+
+**Primary comparisons.** Hybrid vs visual only at 5% FPR (RQ3); hybrid vs rules only at matched FPR (RQ3); GT vs OCR versions (RQ4); Aadhaar vs PAN (RQ5); C0 false-positive rates of every system (RQ6). Threshold-free AUROC and PR-AUC are reported for continuous scores. The test split uses exactly the coefficients and thresholds in `experiments/fusion/frozen_fusion.json`, applied by `experiments/score_frozen.py --split test`.
+
+**Validation results (record only; test numbers will differ).**
+- At 5% FPR: visual recall 0.128 (C1 0.348); logistic-GT 0.481 (rules-GT alone 0.375 at 0% FPR).
+- Logistic-OCR: 0.242 at 5% FPR. At matched FPR 0.113 it reaches 0.481 vs 0.432 for rules-OCR, mainly through C1 (0.119 → 0.319).
+- Logistic AUROC: GT 0.761, OCR 0.729; visual 0.584 (forged vs C0, all categories).
+
+**Numerical precision note.** Temperatures are stored at full precision. Fitting the fusion on 6-decimal rounded probabilities, as in the first draft of this step, flipped one validation image at the threshold when probabilities were recomputed from logits. With the shared function, `score_frozen.py --split val` reproduces `experiments/fusion/validation_report.md` exactly. The frozen files are generated on one machine from the committed run scores. Every threshold (visual t_v and all fusion thresholds, via the shared `operating_point` function) is placed halfway between the highest negative score that may not be flagged and the next higher validation score, not one floating-point step above it. Cross-platform differences are at the 16th significant digit, so they cannot move any validation image across a threshold. Validation FPR and recall are unchanged by this rule (the same images are flagged).
+
+## 17. Research question RQ6 and other recorded decisions (19 Oct 2026)
+
+- **RQ6 is part of the study.** The paper (Section I-D) states six research questions. RQ6 asks what false-positive rate structural/semantic validation imposes on genuine documents, as a function of image quality, OCR error and naming convention. This log and the roadmap previously listed RQ1–RQ5 only. Analyses map to RQ6 through the C0 FPR of every system (Section 16), Tables VI–VIII of Section IV and E8.
+- **Section IV numbers (roadmap Step 3).** `paper/generated/` is regenerated from the frozen `dataset_stats.json`. The earlier numbers (4.1% / 18.9% / 5,824) came from the pre-freeze build. The 256-bit hash analysis is not reproducible from frozen artefacts and was removed from the text; the 64-bit audit is reported.
+- **Learned leakage probe (roadmap Step 7).** Its positive control is at chance, so it certifies nothing and is reported as such. The exact difference audit carries the claim. The visual branch's C2/C3/C4-vs-C0 separability on test is reported as a bounding check (validation AUROC 0.525 / 0.526 / 0.506; C1 0.780).
+- **Recall definitions.** Detection recall (all forged) is the cross-system metric. Rule-coverage recall (expected FAIL only) and mechanism-aware recall (Section 6) are reported separately and labelled.
+

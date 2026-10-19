@@ -81,8 +81,14 @@ def operating_point(p, y, target=TARGET_FPR):
     """Threshold t (flag if p >= t) maximising recall with FPR <= target."""
     neg, pos = np.sort(p[y == 0])[::-1], p[y == 1]
     k = int(np.floor(target * len(neg)))          # at most k negatives may be flagged
-    # The threshold must sit strictly above the (k+1)-th highest negative score.
-    t = np.nextafter(neg[k], 1.0) if k < len(neg) else float(neg.min())
+    if k >= len(neg):
+        t = float(neg.min())
+    else:
+        # Strictly above the (k+1)-th highest negative score, placed halfway to the
+        # next higher score of any image, so that last-digit floating-point
+        # differences between machines cannot flip an image across the threshold.
+        above = p[p > neg[k]]
+        t = float((neg[k] + above.min()) / 2) if above.size else float(np.nextafter(neg[k], 1.0))
     fpr = float((p[y == 0] >= t).mean())
     rec = float((pos >= t).mean())
     assert fpr <= target + 1e-12
@@ -137,7 +143,7 @@ def main():
             e_before, _ = ece(sigmoid(z_val), y_val)
             e_after, _ = ece(sigmoid(z_val / t), y_val)
             probs.append(np.array([sigmoid(logits[i] / t) for i in trainval_ids]))
-            seeds.append(dict(seed=s, temperature=round(t, 6),
+            seeds.append(dict(seed=s, temperature=t,  # full precision: test scoring reuses it exactly
                               val_nll_before=round(nll(z_val, y_val, 1.0), 5),
                               val_nll_after=round(nll(z_val, y_val, t), 5),
                               val_ece_before=round(e_before, 5), val_ece_after=round(e_after, 5),

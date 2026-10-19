@@ -1,0 +1,319 @@
+{
+  "n_images": 1620,
+  "overall": {
+    "confusion": {
+      "TP": 467,
+      "FP": 61,
+      "TN": 479,
+      "FN": 613
+    },
+    "precision": {
+      "value": 0.884469696969697,
+      "num": 467,
+      "den": 528
+    },
+    "recall": {
+      "value": 0.4324074074074074,
+      "num": 467,
+      "den": 1080
+    },
+    "f1": {
+      "value": 0.5808457711442787
+    },
+    "fpr": {
+      "value": 0.11296296296296296,
+      "num": 61,
+      "den": 540
+    },
+    "fnr": {
+      "value": 0.5675925925925925,
+      "num": 613,
+      "den": 1080
+    },
+    "specificity": {
+      "value": 0.8870370370370371,
+      "num": 479,
+      "den": 540
+    }
+  },
+  "detection_recall": {
+    "value": 0.4324074074074074,
+    "num": 467,
+    "den": 1080
+  },
+  "rule_coverage_recall": {
+    "value": 0.9703703703703703,
+    "num": 393,
+    "den": 405
+  },
+  "by_doc": {
+    "aadhaar": {
+      "confusion": {
+        "TP": 149,
+        "FP": 9,
+        "TN": 261,
+        "FN": 391
+      },
+      "precision": {
+        "value": 0.9430379746835443,
+        "num": 149,
+        "den": 158
+      },
+      "recall": {
+        "value": 0.2759259259259259,
+        "num": 149,
+        "den": 540
+      },
+      "f1": {
+        "value": 0.4269340974212035
+      },
+      "fpr": {
+        "value": 0.03333333333333333,
+        "num": 9,
+        "den": 270
+      },
+      "fnr": {
+        "value": 0.7240740740740741,
+        "num": 391,
+        "den": 540
+      },
+      "specificity": {
+        "value": 0.9666666666666667,
+        "num": 261,
+        "den": 270
+      }
+    },
+    "pan": {
+      "confusion": {
+        "TP": 318,
+        "FP": 52,
+        "TN": 218,
+        "FN": 222
+      },
+      "precision": {
+        "value": 0.8594594594594595,
+        "num": 318,
+        "den": 370
+      },
+      "recall": {
+        "value": 0.5888888888888889,
+        "num": 318,
+        "den": 540
+      },
+      "f1": {
+        "value": 0.698901098901099
+      },
+      "fpr": {
+        "value": 0.1925925925925926,
+        "num": 52,
+        "den": 270
+      },
+      "fnr": {
+        "value": 0.4111111111111111,
+        "num": 222,
+        "den": 540
+      },
+      "specificity": {
+        "value": 0.8074074074074075,
+        "num": 218,
+        "den": 270
+      }
+    }
+  },
+  "flag_rate": {
+    "aadhaar/C0": {
+      "value": 0.03333333333333333,
+      "num": 9,
+      "den": 270
+    },
+    "aadhaar/C1": {
+      "value": 0.037037037037037035,
+      "num": 5,
+      "den": 135
+    },
+    "aadhaar/C2": {
+      "value": 1.0,
+      "num": 135,
+      "den": 135
+    },
+    "aadhaar/C3": {
+      "value": 0.05185185185185185,
+      "num": 7,
+      "den": 135
+    },
+    "aadhaar/C4": {
+      "value": 0.014814814814814815,
+      "num": 2,
+      "den": 135
+    },
+    "pan/C0": {
+      "value": 0.1925925925925926,
+      "num": 52,
+      "den": 270
+    },
+    "pan/C1": {
+      "value": 0.2,
+      "num": 27,
+      "den": 135
+    },
+    "pan/C2": {
+      "value": 0.9629629629629629,
+      "num": 130,
+      "den": 135
+    },
+    "pan/C3": {
+      "value": 0.9481481481481482,
+      "num": 128,
+      "den": 135
+    },
+    "pan/C4": {
+      "value": 0.24444444444444444,
+      "num": 33,
+      "den": 135
+    }
+  },
+  "flag_rate_by_category": {
+    "C0": {
+      "value": 0.11296296296296296,
+      "num": 61,
+      "den": 540
+    },
+    "C1": {
+      "value": 0.11851851851851852,
+      "num": 32,
+      "den": 270
+    },
+    "C2": {
+      "value": 0.9814814814814815,
+      "num": 265,
+      "den": 270
+    },
+    "C3": {
+      "value": 0.5,
+      "num": 135,
+      "den": 270
+    },
+    "C4": {
+      "value": 0.12962962962962962,
+      "num": 35,
+      "den": 270
+    }
+  },
+  "c0_fpr_by_tier": {
+    "aadhaar/clean": {
+      "value": 0.0,
+      "num": 0,
+      "den": 90
+    },
+    "aadhaar/mild": {
+      "value": 0.0,
+      "num": 0,
+      "den": 90
+    },
+    "aadhaar/severe": {
+      "value": 0.1,
+      "num": 9,
+      "den": 90
+    },
+    "pan/clean": {
+      "value": 0.13333333333333333,
+      "num": 12,
+      "den": 90
+    },
+    "pan/mild": {
+      "value": 0.1,
+      "num": 9,
+      "den": 90
+    },
+    "pan/severe": {
+      "value": 0.34444444444444444,
+      "num": 31,
+      "den": 90
+    }
+  },
+  "c1_recall_by_op": {
+    "local_recompression": {
+      "value": 0.12698412698412698,
+      "num": 8,
+      "den": 63
+    },
+    "resample_patch": {
+      "value": 0.14285714285714285,
+      "num": 6,
+      "den": 42
+    },
+    "font_substitution": {
+      "value": 0.10256410256410256,
+      "num": 4,
+      "den": 39
+    },
+    "field_displacement": {
+      "value": 0.08695652173913043,
+      "num": 6,
+      "den": 69
+    },
+    "patch_splice": {
+      "value": 0.14035087719298245,
+      "num": 8,
+      "den": 57
+    }
+  },
+  "c1_recall_fine_trace": {
+    "value": 0.13333333333333333,
+    "num": 14,
+    "den": 105
+  },
+  "c1_recall_coarse": {
+    "value": 0.10909090909090909,
+    "num": 18,
+    "den": 165
+  },
+  "c1_recall_by_tier": {
+    "clean": {
+      "value": 0.07777777777777778,
+      "num": 7,
+      "den": 90
+    },
+    "mild": {
+      "value": 0.06666666666666667,
+      "num": 6,
+      "den": 90
+    },
+    "severe": {
+      "value": 0.2111111111111111,
+      "num": 19,
+      "den": 90
+    }
+  },
+  "bootstrap_ci_95": {
+    "recall": {
+      "lo": 0.4101851851851852,
+      "hi": 0.45555555555555555,
+      "n_resamples": 10000
+    },
+    "fpr": {
+      "lo": 0.07037037037037037,
+      "hi": 0.16111111111111112,
+      "n_resamples": 10000
+    },
+    "precision": {
+      "lo": 0.8457536690143441,
+      "hi": 0.9233954451345756,
+      "n_resamples": 10000
+    },
+    "n_persons": 45,
+    "B": 10000,
+    "seed": 0
+  },
+  "name": "rules_OCR",
+  "split": "val",
+  "categories": [
+    "C0",
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+  ],
+  "threshold": null,
+  "prediction_file": "experiments/results/val/rules_OCR_predictions.csv"
+}

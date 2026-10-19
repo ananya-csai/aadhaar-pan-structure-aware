@@ -1,0 +1,53 @@
+{
+  "visual_threshold": 0.5305033994471288,
+  "conditions": {
+    "GT": {
+      "rule_column": "rule_gt_verdict",
+      "logistic": {
+        "features": [
+          "z_v",
+          "r",
+          "r*pan"
+        ],
+        "intercept": 0.6623447275922293,
+        "coef": [
+          0.7182100064136763,
+          3.88892705061948,
+          1.323482070006127
+        ],
+        "C": 1.0,
+        "threshold": 0.679197235872298,
+        "matched_fpr_thresholds": {}
+      }
+    },
+    "OCR": {
+      "rule_column": "rule_ocr_verdict",
+      "logistic": {
+        "features": [
+          "z_v",
+          "r",
+          "r*pan"
+        ],
+        "intercept": 0.6252916875887443,
+        "coef": [
+          0.615244171342838,
+          2.349685228036978,
+          -0.7261542306303951
+        ],
+        "C": 1.0,
+        "threshold": 0.8862041882550739,
+        "matched_fpr_thresholds": {
+          "rules_OCR": {
+            "target_fpr": 0.11296296296296296,
+            "threshold": 0.7874234280666756
+          },
+          "OR_OCR": {
+            "target_fpr": 0.15,
+            "threshold": 0.6685450192454123
+          }
+        }
+      }
+    }
+  },
+  "note": "Fitted and thresholded on validation only (1,620 images). Test untouched."
+}

@@ -1,0 +1,341 @@
+{
+  "n_images": 1620,
+  "overall": {
+    "confusion": {
+      "TP": 261,
+      "FP": 27,
+      "TN": 513,
+      "FN": 819
+    },
+    "precision": {
+      "value": 0.90625,
+      "num": 261,
+      "den": 288
+    },
+    "recall": {
+      "value": 0.24166666666666667,
+      "num": 261,
+      "den": 1080
+    },
+    "f1": {
+      "value": 0.3815789473684211
+    },
+    "fpr": {
+      "value": 0.05,
+      "num": 27,
+      "den": 540
+    },
+    "fnr": {
+      "value": 0.7583333333333333,
+      "num": 819,
+      "den": 1080
+    },
+    "specificity": {
+      "value": 0.95,
+      "num": 513,
+      "den": 540
+    }
+  },
+  "detection_recall": {
+    "value": 0.24166666666666667,
+    "num": 261,
+    "den": 1080
+  },
+  "rule_coverage_recall": {
+    "value": 0.4469135802469136,
+    "num": 181,
+    "den": 405
+  },
+  "by_doc": {
+    "aadhaar": {
+      "confusion": {
+        "TP": 170,
+        "FP": 9,
+        "TN": 261,
+        "FN": 370
+      },
+      "precision": {
+        "value": 0.9497206703910615,
+        "num": 170,
+        "den": 179
+      },
+      "recall": {
+        "value": 0.3148148148148148,
+        "num": 170,
+        "den": 540
+      },
+      "f1": {
+        "value": 0.47287899860917937
+      },
+      "fpr": {
+        "value": 0.03333333333333333,
+        "num": 9,
+        "den": 270
+      },
+      "fnr": {
+        "value": 0.6851851851851852,
+        "num": 370,
+        "den": 540
+      },
+      "specificity": {
+        "value": 0.9666666666666667,
+        "num": 261,
+        "den": 270
+      }
+    },
+    "pan": {
+      "confusion": {
+        "TP": 91,
+        "FP": 18,
+        "TN": 252,
+        "FN": 449
+      },
+      "precision": {
+        "value": 0.8348623853211009,
+        "num": 91,
+        "den": 109
+      },
+      "recall": {
+        "value": 0.1685185185185185,
+        "num": 91,
+        "den": 540
+      },
+      "f1": {
+        "value": 0.28043143297380585
+      },
+      "fpr": {
+        "value": 0.06666666666666667,
+        "num": 18,
+        "den": 270
+      },
+      "fnr": {
+        "value": 0.8314814814814815,
+        "num": 449,
+        "den": 540
+      },
+      "specificity": {
+        "value": 0.9333333333333333,
+        "num": 252,
+        "den": 270
+      }
+    }
+  },
+  "flag_rate": {
+    "aadhaar/C0": {
+      "value": 0.03333333333333333,
+      "num": 9,
+      "den": 270
+    },
+    "aadhaar/C1": {
+      "value": 0.2222222222222222,
+      "num": 30,
+      "den": 135
+    },
+    "aadhaar/C2": {
+      "value": 0.9703703703703703,
+      "num": 131,
+      "den": 135
+    },
+    "aadhaar/C3": {
+      "value": 0.05185185185185185,
+      "num": 7,
+      "den": 135
+    },
+    "aadhaar/C4": {
+      "value": 0.014814814814814815,
+      "num": 2,
+      "den": 135
+    },
+    "pan/C0": {
+      "value": 0.06666666666666667,
+      "num": 18,
+      "den": 270
+    },
+    "pan/C1": {
+      "value": 0.2518518518518518,
+      "num": 34,
+      "den": 135
+    },
+    "pan/C2": {
+      "value": 0.2,
+      "num": 27,
+      "den": 135
+    },
+    "pan/C3": {
+      "value": 0.17037037037037037,
+      "num": 23,
+      "den": 135
+    },
+    "pan/C4": {
+      "value": 0.05185185185185185,
+      "num": 7,
+      "den": 135
+    }
+  },
+  "flag_rate_by_category": {
+    "C0": {
+      "value": 0.05,
+      "num": 27,
+      "den": 540
+    },
+    "C1": {
+      "value": 0.23703703703703705,
+      "num": 64,
+      "den": 270
+    },
+    "C2": {
+      "value": 0.5851851851851851,
+      "num": 158,
+      "den": 270
+    },
+    "C3": {
+      "value": 0.1111111111111111,
+      "num": 30,
+      "den": 270
+    },
+    "C4": {
+      "value": 0.03333333333333333,
+      "num": 9,
+      "den": 270
+    }
+  },
+  "c0_fpr_by_tier": {
+    "aadhaar/clean": {
+      "value": 0.0,
+      "num": 0,
+      "den": 90
+    },
+    "aadhaar/mild": {
+      "value": 0.0,
+      "num": 0,
+      "den": 90
+    },
+    "aadhaar/severe": {
+      "value": 0.1,
+      "num": 9,
+      "den": 90
+    },
+    "pan/clean": {
+      "value": 0.0,
+      "num": 0,
+      "den": 90
+    },
+    "pan/mild": {
+      "value": 0.022222222222222223,
+      "num": 2,
+      "den": 90
+    },
+    "pan/severe": {
+      "value": 0.17777777777777778,
+      "num": 16,
+      "den": 90
+    }
+  },
+  "c1_recall_by_op": {
+    "local_recompression": {
+      "value": 0.31746031746031744,
+      "num": 20,
+      "den": 63
+    },
+    "resample_patch": {
+      "value": 0.09523809523809523,
+      "num": 4,
+      "den": 42
+    },
+    "font_substitution": {
+      "value": 0.3076923076923077,
+      "num": 12,
+      "den": 39
+    },
+    "field_displacement": {
+      "value": 0.10144927536231885,
+      "num": 7,
+      "den": 69
+    },
+    "patch_splice": {
+      "value": 0.3684210526315789,
+      "num": 21,
+      "den": 57
+    }
+  },
+  "c1_recall_fine_trace": {
+    "value": 0.22857142857142856,
+    "num": 24,
+    "den": 105
+  },
+  "c1_recall_coarse": {
+    "value": 0.24242424242424243,
+    "num": 40,
+    "den": 165
+  },
+  "c1_recall_by_tier": {
+    "clean": {
+      "value": 0.45555555555555555,
+      "num": 41,
+      "den": 90
+    },
+    "mild": {
+      "value": 0.07777777777777778,
+      "num": 7,
+      "den": 90
+    },
+    "severe": {
+      "value": 0.17777777777777778,
+      "num": 16,
+      "den": 90
+    }
+  },
+  "threshold_free": {
+    "all_forged_vs_C0": {
+      "auroc": 0.728596536351166,
+      "pr_auc": 0.845135435906481
+    },
+    "C1_vs_C0": {
+      "auroc": 0.7512002743484225,
+      "pr_auc": 0.6173402432678261
+    },
+    "C2_vs_C0": {
+      "auroc": 0.9450548696844994,
+      "pr_auc": 0.8536975360781066
+    },
+    "C3_vs_C0": {
+      "auroc": 0.7027366255144033,
+      "pr_auc": 0.5339296029854457
+    },
+    "C4_vs_C0": {
+      "auroc": 0.5153943758573388,
+      "pr_auc": 0.3435004620546231
+    }
+  },
+  "bootstrap_ci_95": {
+    "recall": {
+      "lo": 0.22037037037037038,
+      "hi": 0.26481481481481484,
+      "n_resamples": 10000
+    },
+    "fpr": {
+      "lo": 0.02962962962962963,
+      "hi": 0.07037037037037037,
+      "n_resamples": 10000
+    },
+    "precision": {
+      "lo": 0.8722613162006483,
+      "hi": 0.9400749063670412,
+      "n_resamples": 10000
+    },
+    "n_persons": 45,
+    "B": 10000,
+    "seed": 0
+  },
+  "name": "logistic_OCR",
+  "split": "val",
+  "categories": [
+    "C0",
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+  ],
+  "threshold": null,
+  "prediction_file": "experiments/results/val/logistic_OCR_predictions.csv"
+}
