@@ -236,6 +236,14 @@ def markdown(name, split, res):
     return "\n".join(L) + "\n"
 
 
+def _rel(path):
+    p = Path(path).resolve()
+    try:
+        return p.relative_to(ROOT).as_posix()
+    except ValueError:
+        return p.name
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--pred", required=True)
@@ -255,7 +263,7 @@ def main(argv=None):
         sys.exit(f"STOP: {e}")
     res = evaluate(dec, score, manifest, a.bootstrap, a.seed)
     res.update(name=a.name, split=a.split, categories=list(cats), threshold=a.threshold,
-               prediction_file=str(a.pred))
+               prediction_file=_rel(a.pred))
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     (out / f"{a.name}_{a.split}.json").write_text(json.dumps(res, indent=2), encoding="utf-8")
