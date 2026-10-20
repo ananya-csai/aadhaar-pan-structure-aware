@@ -12,7 +12,7 @@
 - Environment/setup tag: `v1.0.1-dataset`
 - Original dataset commit: `d766fb2d0a5436913a52830458dda39c8fe946e2`
 - Environment/setup commit: `dbb654e30e13a650d85d237a5986c9f82a02c30d`
-- Corpus SHA-256: `f3302cc72561a46ca869788bd4f31f3fcbbf562a2d65fc750b157df12d700394`
+- Corpus SHA-256: `7253245a10732303a0b22520a502a0e1f1390bf4a88b83e77ea920781abdedef` (10,800 images, 941,456,686 bytes). Corrected 20 Oct 2026, see Section 18; the value first recorded here, `f3302cc7…0394`, belongs to the 29 Aug pre-freeze build.
 - Corpus size: 10,800 images.
 - Do not regenerate or modify the frozen dataset.
 - Use the canonical manifest for dataset membership and split assignment.
@@ -263,3 +263,10 @@ Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.69
 - **Learned leakage probe (roadmap Step 7).** Its positive control is at chance, so it certifies nothing and is reported as such. The exact difference audit carries the claim. The visual branch's C2/C3/C4-vs-C0 separability on test is reported as a bounding check (validation AUROC 0.525 / 0.526 / 0.506; C1 0.780).
 - **Recall definitions.** Detection recall (all forged) is the cross-system metric. Rule-coverage recall (expected FAIL only) and mechanism-aware recall (Section 6) are reported separately and labelled.
 
+## 18. Correction — corpus hash (20 Oct 2026)
+
+- **What was wrong.** `dataset/data/v1/CORPUS_SHA256.txt` and Section 1 recorded `f3302cc72561a46ca869788bd4f31f3fcbbf562a2d65fc750b157df12d700394` (10,800 images, 938,517,904 bytes). That stamp was written on 29 Aug 2026 (`d766fb2`) for the pre-freeze build. The corpus frozen in `976eade` (9 Oct 2026) was rebuilt on the GPU laptop, and the stamp was not refreshed. `corpus_checksum.py --verify` therefore reported a mismatch on the frozen images (roadmap Step 2, 20 Oct 2026).
+- **Evidence that the frozen images are intact.** `dataset/scripts/verify_corpus_files.py` checked all 10,800 images on the GPU laptop against `manifest.jsonl`: none missing, no size mismatches, no extra files. The total, 941,456,686 bytes, equals the sum of the manifest's per-image `bytes` and differs from the old stamp's total, which confirms that the old stamp belongs to a different build. Log: `experiments/logs/corpus_verify_2026-10-20.txt`.
+- **Correct value.** `7253245a10732303a0b22520a502a0e1f1390bf4a88b83e77ea920781abdedef`, 10,800 images, 941,456,686 bytes, now in `CORPUS_SHA256.txt`.
+- **Effect on results: none.** The manifest (labels, splits, rule and OCR verdicts), the resize caches, the edit regions and every training run were produced from the 9 Oct images. Only the recorded hash was wrong. No image, label or result changes.
+- **Tags.** `v1.0-dataset` and `v1.0.1-dataset` are not moved. The corrected stamp is committed as a new commit, consistent with the rule not to rewrite pushed history.

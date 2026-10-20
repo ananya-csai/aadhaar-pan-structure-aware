@@ -26,7 +26,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A ta
 | Artefact | Value |
 |---|---|
 | Corpus | `dataset/data/v1`, 10,800 images, tags `v1.0-dataset` / `v1.0.1-dataset` |
-| Corpus SHA-256 | `f3302cc7…0394` |
+| Corpus SHA-256 | `7253245a…edef` (corrected 20 Oct; `DECISIONS.md` §18) |
 | Splits (people) | train 210 · val 45 · test 45 |
 | C0 / C1 images | train 2,520 / 1,260 · val 540 / 270 · test 540 / 270 |
 | Visual branch | `tiles`: ResNet-50 (ImageNet), 15 native tiles of 256 × 256, 5 seeds, temperature-scaled ensemble (`experiments/e2_visual/frozen/`) |
@@ -63,7 +63,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A ta
 ### Step 2. Verify corpus and repository state [GPU + CPU] — ⬜
 - ✅ [CPU] Corpus hash and tags recorded; person-level split separation passed (`verify_splits.py`).
 - ✅ [CPU] `git log --oneline --decorate` and tag list saved: `experiments/logs/repo_state_2026-10-19.txt`.
-- ⬜ [GPU] From `dataset/`, run `python scripts/corpus_checksum.py data/v1 --verify` (with `.venv-dataset`) and commit the output as `experiments/logs/corpus_verify_<date>.txt`. Needs the images, so only the GPU laptop can do it.
+- ⬜ [GPU] Corpus check on the GPU laptop (20 Oct): `--verify` reported a mismatch, caused by a stale stamp from the 29 Aug build. `verify_corpus_files.py` then passed: all 10,800 images match the frozen manifest. Commit the new stamp and `experiments/logs/corpus_verify_2026-10-20.txt` (`DECISIONS.md` §18).
 
 ### Step 3. Reconcile the dataset report and paper numbers [CPU] — ✅
 - ✅ Section IV regenerated from the frozen statistics (PR #1): Aadhaar OCR FPR 3.8%, PAN 19.7%, 5,848 distinct 64-bit hashes; 64-bit hash audit only.
