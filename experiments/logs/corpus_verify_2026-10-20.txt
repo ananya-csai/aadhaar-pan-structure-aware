@@ -1,0 +1,5 @@
+manifest rows 10800, expected bytes 941456686
+missing 0, size mismatches 0, extra .jpg 0
+corpus digest: 7253245a10732303a0b22520a502a0e1f1390bf4a88b83e77ea920781abdedef  10800 images  941456686 bytes
+PASS: every image matches the frozen manifest
+wrote data\v1\CORPUS_SHA256.txt
