@@ -1,0 +1,45 @@
+{
+  "amendment": "A5 (post-hoc)",
+  "features": [
+    "z_v",
+    "aadhaar:format_check",
+    "aadhaar:checksum_check",
+    "pan:format_check",
+    "pan:category_check",
+    "pan:semantic_check"
+  ],
+  "C": 1.0,
+  "conditions": {
+    "GT": {
+      "intercept": 0.6840901427491496,
+      "coef": [
+        0.7035833879660607,
+        0.0,
+        3.527248809579578,
+        3.1851507069555045,
+        2.59735371243446,
+        3.49558082069504
+      ],
+      "thresholds": {
+        "5pct": 0.6835303301534386
+      }
+    },
+    "OCR": {
+      "intercept": 0.6661475729345788,
+      "coef": [
+        0.6347414057638657,
+        0.9788170014485498,
+        2.4285918826583046,
+        0.9787988082777487,
+        2.4060846206885316,
+        2.5265394889226918
+      ],
+      "thresholds": {
+        "5pct": 0.8087750196645234,
+        "at_FPR_of_rules_OCR": 0.7175942357210332,
+        "at_FPR_of_OR_OCR": 0.6772548890063439
+      }
+    }
+  },
+  "note": "Fitted and thresholded on validation only; applied to test once (post-hoc, DECISIONS.md 19)."
+}

@@ -1,0 +1,303 @@
+# fuse_per_check.py run 2026-10-21T11:29:03Z at 66a8a60791f186a71d01127d9e2ffa9b0ee26ed6
+# perCheck_GT — val split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 48.1 | [46.5, 49.9] |
+| FPR (C0) | 5.0 | [3.3, 6.9] |
+| Precision | 95.1 | [93.3, 96.7] |
+| F1 | 0.639 | |
+| Rule-coverage recall (expected_rule = FAIL) | 100.0 | |
+
+Confusion: TP 520, FP 27, TN 513, FN 560
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 4.1 | 33.3 | 100.0 | 3.7 | 5.2 |
+| pan | 5.9 | 36.3 | 100.0 | 100.0 | 6.7 |
+
+C1 recall by edit type: local_recompression 49.2, resample_patch 9.5, font_substitution 43.6, field_displacement 23.2, patch_splice 45.6
+C1 recall, fine-trace 33.3, coarse 35.8
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.761 | 0.889 |
+| C1_vs_C0 | 0.780 | 0.702 |
+| C2_vs_C0 | 1.000 | 1.000 |
+| C3_vs_C0 | 0.760 | 0.754 |
+| C4_vs_C0 | 0.506 | 0.350 |
+
+# perCheck_GT — test split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 48.8 | [46.9, 50.7] |
+| FPR (C0) | 4.8 | [3.1, 6.5] |
+| Precision | 95.3 | [93.7, 96.8] |
+| F1 | 0.645 | |
+| Rule-coverage recall (expected_rule = FAIL) | 100.0 | |
+
+Confusion: TP 527, FP 26, TN 514, FN 553
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 5.6 | 34.8 | 100.0 | 3.7 | 3.7 |
+| pan | 4.1 | 40.0 | 100.0 | 100.0 | 8.1 |
+
+C1 recall by edit type: local_recompression 51.5, resample_patch 8.8, font_substitution 55.6, field_displacement 21.6, patch_splice 51.7
+C1 recall, fine-trace 31.7, coarse 42.2
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.744 | 0.881 |
+| C1_vs_C0 | 0.720 | 0.665 |
+| C2_vs_C0 | 1.000 | 1.000 |
+| C3_vs_C0 | 0.745 | 0.741 |
+| C4_vs_C0 | 0.510 | 0.350 |
+
+# perCheck_OCR — val split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 36.3 | [34.1, 38.5] |
+| FPR (C0) | 5.0 | [3.1, 7.0] |
+| Precision | 93.6 | [91.1, 95.9] |
+| F1 | 0.523 | |
+| Rule-coverage recall (expected_rule = FAIL) | 74.3 | |
+
+Confusion: TP 392, FP 27, TN 513, FN 688
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 3.0 | 23.0 | 98.5 | 4.4 | 1.5 |
+| pan | 7.0 | 31.1 | 40.0 | 84.4 | 7.4 |
+
+C1 recall by edit type: local_recompression 33.3, resample_patch 9.5, font_substitution 38.5, field_displacement 15.9, patch_splice 38.6
+C1 recall, fine-trace 23.8, coarse 29.1
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.737 | 0.857 |
+| C1_vs_C0 | 0.755 | 0.624 |
+| C2_vs_C0 | 0.951 | 0.857 |
+| C3_vs_C0 | 0.726 | 0.648 |
+| C4_vs_C0 | 0.516 | 0.352 |
+
+# perCheck_OCR_at_FPR_of_rules_OCR — val split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 48.1 | [45.6, 50.6] |
+| FPR (C0) | 11.3 | [7.8, 15.2] |
+| Precision | 89.5 | [86.5, 92.4] |
+| F1 | 0.625 | |
+| Rule-coverage recall (expected_rule = FAIL) | 90.9 | |
+
+Confusion: TP 519, FP 61, TN 479, FN 561
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 4.8 | 34.1 | 100.0 | 6.7 | 3.0 |
+| pan | 17.8 | 43.7 | 80.7 | 91.9 | 24.4 |
+
+C1 recall by edit type: local_recompression 50.8, resample_patch 19.0, font_substitution 51.3, field_displacement 24.6, patch_splice 49.1
+C1 recall, fine-trace 38.1, coarse 39.4
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.737 | 0.857 |
+| C1_vs_C0 | 0.755 | 0.624 |
+| C2_vs_C0 | 0.951 | 0.857 |
+| C3_vs_C0 | 0.726 | 0.648 |
+| C4_vs_C0 | 0.516 | 0.352 |
+
+# perCheck_OCR_at_FPR_of_OR_OCR — val split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 52.5 | [50.1, 55.0] |
+| FPR (C0) | 15.0 | [10.7, 19.6] |
+| Precision | 87.5 | [84.4, 90.6] |
+| F1 | 0.656 | |
+| Rule-coverage recall (expected_rule = FAIL) | 96.0 | |
+
+Confusion: TP 567, FP 81, TN 459, FN 513
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 7.8 | 37.0 | 100.0 | 8.9 | 6.7 |
+| pan | 22.2 | 48.9 | 93.3 | 94.8 | 30.4 |
+
+C1 recall by edit type: local_recompression 55.6, resample_patch 21.4, font_substitution 53.8, field_displacement 30.4, patch_splice 52.6
+C1 recall, fine-trace 41.9, coarse 43.6
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.737 | 0.857 |
+| C1_vs_C0 | 0.755 | 0.624 |
+| C2_vs_C0 | 0.951 | 0.857 |
+| C3_vs_C0 | 0.726 | 0.648 |
+| C4_vs_C0 | 0.516 | 0.352 |
+
+# perCheck_OCR — test split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 36.1 | [33.9, 38.4] |
+| FPR (C0) | 5.0 | [3.5, 6.5] |
+| Precision | 93.5 | [91.7, 95.3] |
+| F1 | 0.521 | |
+| Rule-coverage recall (expected_rule = FAIL) | 74.6 | |
+
+Confusion: TP 390, FP 27, TN 513, FN 690
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 3.7 | 21.5 | 100.0 | 4.4 | 3.0 |
+| pan | 6.3 | 31.1 | 43.7 | 80.0 | 5.2 |
+
+C1 recall by edit type: local_recompression 37.9, resample_patch 0.0, font_substitution 41.7, field_displacement 17.6, patch_splice 36.7
+C1 recall, fine-trace 20.3, coarse 31.3
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.720 | 0.849 |
+| C1_vs_C0 | 0.708 | 0.597 |
+| C2_vs_C0 | 0.957 | 0.864 |
+| C3_vs_C0 | 0.707 | 0.628 |
+| C4_vs_C0 | 0.508 | 0.336 |
+
+# perCheck_OCR_at_FPR_of_rules_OCR — test split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 48.2 | [45.9, 50.6] |
+| FPR (C0) | 11.9 | [9.1, 15.0] |
+| Precision | 89.1 | [86.8, 91.3] |
+| F1 | 0.626 | |
+| Rule-coverage recall (expected_rule = FAIL) | 93.1 | |
+
+Confusion: TP 521, FP 64, TN 476, FN 559
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 6.3 | 30.4 | 100.0 | 4.4 | 5.9 |
+| pan | 17.4 | 46.7 | 87.4 | 91.9 | 19.3 |
+
+C1 recall by edit type: local_recompression 48.5, resample_patch 5.3, font_substitution 66.7, field_displacement 31.4, patch_splice 48.3
+C1 recall, fine-trace 28.5, coarse 46.9
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.720 | 0.849 |
+| C1_vs_C0 | 0.708 | 0.597 |
+| C2_vs_C0 | 0.957 | 0.864 |
+| C3_vs_C0 | 0.707 | 0.628 |
+| C4_vs_C0 | 0.508 | 0.336 |
+
+# perCheck_OCR_at_FPR_of_OR_OCR — test split
+
+1620 images, 45 people. Percentages; 95% CIs from a person-clustered bootstrap (B = 10000).
+
+| Metric | Value | 95% CI |
+|---|---|---|
+| Detection recall (all forged) | 53.5 | [51.0, 56.1] |
+| FPR (C0) | 15.4 | [12.2, 18.9] |
+| Precision | 87.4 | [85.2, 89.7] |
+| F1 | 0.664 | |
+| Rule-coverage recall (expected_rule = FAIL) | 98.3 | |
+
+Confusion: TP 578, FP 83, TN 457, FN 502
+
+Flag rate by document type and category (on C0 this is the FPR):
+
+| | C0 | C1 | C2 | C3 | C4 |
+|---|---|---|---|---|---|
+| aadhaar | 8.9 | 37.0 | 100.0 | 8.1 | 8.1 |
+| pan | 21.9 | 54.8 | 99.3 | 95.6 | 25.2 |
+
+C1 recall by edit type: local_recompression 59.1, resample_patch 10.5, font_substitution 75.0, field_displacement 37.3, patch_splice 55.0
+C1 recall, fine-trace 36.6, coarse 53.7
+
+| Threshold-free | AUROC | PR-AUC |
+|---|---|---|
+| all_forged_vs_C0 | 0.720 | 0.849 |
+| C1_vs_C0 | 0.708 | 0.597 |
+| C2_vs_C0 | 0.957 | 0.864 |
+| C3_vs_C0 | 0.707 | 0.628 |
+| C4_vs_C0 | 0.508 | 0.336 |
+
+{
+  "amendment": "A5 (post-hoc)",
+  "features": [
+    "z_v",
+    "aadhaar:format_check",
+    "aadhaar:checksum_check",
+    "pan:format_check",
+    "pan:category_check",
+    "pan:semantic_check"
+  ],
+  "C": 1.0,
+  "conditions": {
+    "GT": {
+      "intercept": 0.6840901427491496,
+      "coef": [
+        0.7035833879660607,
+        0.0,
+        3.527248809579578,
+        3.1851507069555045,
+        2.59735371243446,
+        3.49558082069504
+      ],
+      "thresholds": {
+        "5pct": 0.6835303301534386
+      }
+    },
+    "OCR": {
+      "intercept": 0.6661475729345788,
+      "coef": [
+        0.6347414057638657,
+        0.9788170014485498,
+        2.4285918826583046,
+        0.9787988082777487,
+        2.4060846206885316,
+        2.5265394889226918
+      ],
+      "thresholds": {
+        "5pct": 0.8087750196645234,
+        "at_FPR_of_rules_OCR": 0.7175942357210332,
+        "at_FPR_of_OR_OCR": 0.6772548890063439
+      }
+    }
+  },
+  "note": "Fitted and thresholded on validation only; applied to test once (post-hoc, DECISIONS.md 19)."
+}
+exit=0
