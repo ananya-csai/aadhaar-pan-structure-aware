@@ -291,3 +291,40 @@ Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.69
 **Pre-stated expectation.** Under OCR text at 5% FPR, A5 recall exceeds A4's 21.9%, with the gain concentrated in PAN C3. With GT text, A5 should match A4 (48.8%), because every rule failure is then reliable. If A5 does not beat A4, that is reported too.
 
 **How it is reported.** In the paper, A5 appears only as a post-hoc diagnostic of where the OCR loss arises (RQ4, RQ5), next to the A4 numbers, never in place of them. Its test numbers are not used to answer RQ3 confirmatively.
+
+## 20. Amendment A6 — fresh confirmatory test set (recorded 21 Oct 2026, before generation)
+
+**Status.** Approved by Soham Phulwaria, Ananya Shukla and Dinesh Saini on 21 Oct 2026, as reported by Soham Phulwaria. Recorded before any fresh image, OCR output or score exists.
+
+**Purpose.** A5 (Section 19) was designed after the v1 test split had been scored, so its v1 test result is post-hoc. A fresh set of synthetic people, never seen by anyone, gives a confirmatory test of A5 against A4, and an independent replication of the main results. No model, calibration, threshold or fusion parameter is refitted.
+
+**Generation (fixed now).**
+- Generator: `dataset/src/idforge`, unchanged, at the commit that adds this section.
+- Config: `configs/dataset_v1.yaml` with two overrides only: `--seed 20261021 --n-persons 90`, giving 90 × 2 documents × 6 variants × 3 tiers = 3,240 images.
+- Output folder: `dataset/data/fresh_20261021`. Command: `python -m idforge.build --config configs/dataset_v1.yaml --seed 20261021 --n-persons 90 --out data/fresh_20261021`. Nothing else from `build_all.sh` is run, because those steps would overwrite v1 statistics and the paper tables.
+- Built on the GPU laptop with `.venv-dataset` and the same Tesseract installation as v1, so image encoding and OCR match the frozen corpus. The Tesseract version is logged.
+- All 90 people form the fresh test set. The generator's `split` labels are ignored.
+- 90 people rather than 45, to narrow the person-clustered intervals; the cost is small (no training).
+
+**Leakage checks before scoring** (`experiments/fresh/check_fresh_identity.py`):
+- no Aadhaar or PAN number shared with v1;
+- no photo seed shared with v1;
+- the share of full names that also occur in v1 is reported (names come from a shared pool, as within v1);
+- generator pre-flight passes, and category, document and tier counts are as designed.
+
+If a check fails, the set is not used, and the failure is reported.
+
+**Scoring (frozen everything).**
+- Visual: the five `tiles` checkpoints, scored as in training (`experiments/fresh/score_fresh_visual.py`, GPU). The script first re-scores v1 test images and must reproduce the committed logits, which proves the checkpoints are the frozen ones. The `base` comparison model is not scored (E-vis stays on v1).
+- Calibration, t_v, A4 and A5: the committed files `experiments/e2_visual/frozen/tiles_calibration.json`, `experiments/fusion/frozen_fusion.json` and `experiments/fusion/frozen_fusion_A5.json`.
+- Run once by `experiments/fresh/evaluate_fresh.py`. Outputs go to `experiments/results/fresh/`.
+
+**Hypotheses and analysis (fixed now).**
+- **H1 (primary, confirmatory).** Under OCR text, at their frozen 5%-FPR thresholds, A5 detection recall exceeds A4 detection recall. Test: person-clustered paired bootstrap (10,000 resamples, seed 0) of the recall difference A5 − A4. H1 is supported if the 95% interval is above 0. The paired FPR difference is reported beside it. If A5's FPR is more than 2 points above A4's, the gain is not claimed as a like-for-like improvement.
+- **Secondary (replication, reported with Holm correction over the three):**
+  - (a) A4 logistic with GT text vs visual only (RQ3);
+  - (b) A4 logistic with OCR text vs visual only (RQ3, RQ4);
+  - (c) A4 at the matched rules-OCR threshold vs rules-only with OCR text (RQ3).
+- Everything is reported by document type, C0–C4 and C1 group, as on v1. Realised FPRs are reported; they are not forced to 5%.
+
+**What changes in the paper.** If H1 is supported, A5's advantage is reported as confirmed on fresh data, and v1 A4 remains the primary pre-registered result. If H1 is not supported, that is reported, and A5 stays a post-hoc diagnostic.
