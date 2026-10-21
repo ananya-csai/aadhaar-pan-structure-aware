@@ -270,3 +270,24 @@ Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.69
 - **Correct value.** `7253245a10732303a0b22520a502a0e1f1390bf4a88b83e77ea920781abdedef`, 10,800 images, 941,456,686 bytes, now in `CORPUS_SHA256.txt`.
 - **Effect on results: none.** The manifest (labels, splits, rule and OCR verdicts), the resize caches, the edit regions and every training run were produced from the 9 Oct images. Only the recorded hash was wrong. No image, label or result changes.
 - **Tags.** `v1.0-dataset` and `v1.0.1-dataset` are not moved. The corrected stamp is committed as a new commit, consistent with the rule not to rewrite pushed history.
+
+## 19. Amendment A5 — per-check fusion (post-hoc; recorded 21 Oct 2026, after the test split was scored)
+
+**Status.** Post-hoc. Written after the single test scoring of 21 Oct 2026 (Step 15, tag `frozen-before-test`), before any A5 model was fitted. A4 remains the primary, pre-registered result. A5 is reported beside it and is always labelled post-hoc. Agreed by Soham Phulwaria on 21 Oct 2026; Ananya Shukla and Dinesh Saini to confirm.
+
+**Motivation (from the test results).** Under OCR text, the A4 fusion has one rule input r ("any check failed"). On genuine PAN, the format check fails on 15.2% of documents (OCR misreads), while the cross-field (semantic) check fails on 3.0% and still catches 76.3% of PAN C3. A single r cannot separate the reliable check from the noisy one, so A4 largely discounts all PAN rule failures (PAN C3 recall 12.6% at 5% FPR).
+
+**Design, fixed before fitting.**
+- Inputs: z_v = logit(p_v) from the frozen `tiles` ensemble (unchanged), plus one 0/1 indicator per check and document type:
+  - Aadhaar: format, checksum;
+  - PAN: format, category, semantic.
+
+  An indicator is 1 when that check failed on that document type, taken from `experiments/rules/rule_decisions.csv` (`gt_failed_checks` / `ocr_failed_checks`).
+- Model: s = sigmoid(w0 + w1·z_v + Σ w_k·indicator_k). L2 penalty with C = 1 and the intercept unpenalised, as in A4. Fitted on all 1,620 validation images (any forgery vs C0), separately for GT and OCR text.
+- Thresholds, chosen on validation exactly as in A4: (a) maximum recall with validation C0 FPR ≤ 5%; (b) matched FPR at the validation FPR of `rules_OCR` and `OR_OCR`.
+- No other variant is fitted or reported: no feature selection, no tuning of C, no second attempt.
+- Applied to the test split once (`experiments/fusion/fuse_per_check.py`). Outputs go to `experiments/results/test_posthoc_A5/`.
+
+**Pre-stated expectation.** Under OCR text at 5% FPR, A5 recall exceeds A4's 21.9%, with the gain concentrated in PAN C3. With GT text, A5 should match A4 (48.8%), because every rule failure is then reliable. If A5 does not beat A4, that is reported too.
+
+**How it is reported.** In the paper, A5 appears only as a post-hoc diagnostic of where the OCR loss arises (RQ4, RQ5), next to the A4 numbers, never in place of them. Its test numbers are not used to answer RQ3 confirmatively.
