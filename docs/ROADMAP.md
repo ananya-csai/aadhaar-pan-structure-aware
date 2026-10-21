@@ -4,7 +4,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A ta
 
 **Owners:** [GPU] Soham (GPU laptop; holds the image corpus and checkpoints) · [CPU] Ananya (no GPU; works from the repository) · [BOTH] joint · [Mentor] Dinesh Saini.
 **Status:** ✅ done and committed · ⬜ not done. A step is ✅ only when every task in it is ✅.
-**Status checked against:** 19 Oct 2026, `main` after PR #3 (plus this update).
+**Status checked against:** 21 Oct 2026, `main` after PR #9.
 
 ## What runs where
 
@@ -39,7 +39,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A ta
 ## Gates
 
 - **G1 — before any full training run** — ✅ passed 17 Oct 2026 (`protocol-e2-final`).
-- **G2 — before scoring the test set** — ⬜ parameters frozen and committed ✅; A4 sign-off in `DECISIONS.md` §16 ⬜; tag `frozen-before-test` ⬜.
+- **G2 — before scoring the test set** — ✅ passed 21 Oct 2026 (A4 approved by all three; tag `frozen-before-test` → `1294c23`).
 - **G3 — before writing claims** — ⬜ results locked, every table regenerated from committed code.
 
 ## Who is waiting for whom
@@ -60,10 +60,10 @@ This is the single plan for finishing the paper. Follow the steps in order. A ta
 - ✅ [CPU] Venue checked (19 Oct): ICDAR 2027, 18–22 Aug 2027, Kuala Lumpur (icdar2027.org). Deadlines listed by a third-party tracker: abstract 31 Jan 2027, full paper 20 Feb 2027. ICDAR 2026 rules, the best guide until 2027's are posted: LNCS, at most 17 pages including references, double-blind.
 - ⬜ [CPU] Confirm the 2027 deadlines, page limit and anonymity rules on the official "Important dates" and submission pages once posted.
 
-### Step 2. Verify corpus and repository state [GPU + CPU] — ⬜
+### Step 2. Verify corpus and repository state [GPU + CPU] — ✅
 - ✅ [CPU] Corpus hash and tags recorded; person-level split separation passed (`verify_splits.py`).
 - ✅ [CPU] `git log --oneline --decorate` and tag list saved: `experiments/logs/repo_state_2026-10-19.txt`.
-- ⬜ [GPU] Corpus check on the GPU laptop (20 Oct): `--verify` reported a mismatch, caused by a stale stamp from the 29 Aug build. `verify_corpus_files.py` then passed: all 10,800 images match the frozen manifest. Commit the new stamp and `experiments/logs/corpus_verify_2026-10-20.txt` (`DECISIONS.md` §18).
+- ✅ [GPU] Corpus check on the GPU laptop (20 Oct): `--verify` reported a mismatch, caused by a stale stamp from the 29 Aug build. `verify_corpus_files.py` then passed: all 10,800 images match the frozen manifest. New stamp and `experiments/logs/corpus_verify_2026-10-20.txt` (`DECISIONS.md` §18).
 
 ### Step 3. Reconcile the dataset report and paper numbers [CPU] — ✅
 - ✅ Section IV regenerated from the frozen statistics (PR #1): Aadhaar OCR FPR 3.8%, PAN 19.7%, 5,848 distinct 64-bit hashes; 64-bit hash audit only.
@@ -120,24 +120,26 @@ This is the single plan for finishing the paper. Follow the steps in order. A ta
 
 ## Phase 4 — Calibration, fusion and the single test run
 
-### Step 12. Rule outputs and recovery analysis [CPU] — ⬜
+### Step 12. Rule outputs and recovery analysis [CPU] — ✅
 - ✅ Rule decisions for all 10,800 images, GT and OCR text, with the failing check (`experiments/rules/rule_decisions.csv`).
 - ✅ Mechanism-aware recall (`experiments/rules/mechanism_aware_recall.md`).
 - ✅ Recovery table on validation (both / visual only / rules only / neither, by document type, C0–C4, C1 group): `experiments/rules/recovery.py`, output `experiments/results/val/recovery.md`.
-- ⬜ Recovery table on test: `python experiments/rules/recovery.py --split test` after Step 15.
+- ✅ Recovery table on test (`experiments/results/test/recovery.md`).
 
 ### Step 13. Calibrate each visual model [GPU] — ✅
 - ✅ Per-seed temperature scaling on validation, reliability data, 5-seed ensemble (`experiments/e2_visual/frozen/`; `tiles` ensemble validation AUROC 0.780, PR-AUC 0.702).
 
-### Step 14. Choose and freeze fusion [GPU + CPU] — ⬜
+### Step 14. Choose and freeze fusion [GPU + CPU] — ✅
 - ✅ [CPU] OR, AND and logistic fusion fitted on validation only, GT and OCR text; thresholds at 5% FPR and at matched FPR (Amendment A4, `DECISIONS.md` §16; `experiments/fusion/`).
 - ✅ [CPU] Fusion code tested on hand-made examples with known answers and against the validation outputs (`experiments/fusion/test_fusion.py`, in CI).
-- ⬜ [BOTH + Mentor] Sign-off in `DECISIONS.md` §16 (three names and dates).
-- ⬜ [CPU] After the sign-off: create and push the tag `frozen-before-test` on that commit. **This is Gate G2.**
+- ✅ [BOTH + Mentor] Sign-off in `DECISIONS.md` §16 (20 Oct 2026).
+- ✅ [GPU] Tag `frozen-before-test` pushed on `1294c23` (21 Oct 2026). **Gate G2 passed.**
 
-### Step 15. Score the test set once [CPU] — ⬜
+### Step 15. Score the test set once [CPU] — ✅
 - ✅ [GPU] Sealed `scores_test.csv` for all 10 runs committed; `score_frozen.py` refuses to run if any hash changed.
-- ⬜ [CPU] `python experiments/score_frozen.py --split test` — once, after the tag. Commit `experiments/results/test/` immediately, without re-running.
+- ✅ [CPU] Scored once on 21 Oct 2026 (`experiments/results/test/`, log `experiments/logs/score_test_2026-10-21.log`).
+- ✅ [CPU] Post-hoc Amendment A5, per-check fusion (`DECISIONS.md` §19): design recorded before fitting, fitted on validation, applied to test once (`experiments/results/test_posthoc_A5/`). OCR text at 5% FPR: 21.9% (A4) → 36.1% (A5). Always reported as post-hoc beside A4.
+- ⬜ [CPU + Mentor] Ananya and Dinesh Saini confirm A5 in §19.
 
 ---
 
