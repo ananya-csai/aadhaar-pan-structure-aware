@@ -1,0 +1,11 @@
+seed 0: v1 self-check on 40 test images, max |logit diff| = 0.00000
+seed 0: scored 3240 fresh images -> experiments\fresh\visual\tiles_seed0.csv
+seed 1: v1 self-check on 40 test images, max |logit diff| = 0.00000
+seed 1: scored 3240 fresh images -> experiments\fresh\visual\tiles_seed1.csv
+seed 2: v1 self-check on 40 test images, max |logit diff| = 0.00000
+seed 2: scored 3240 fresh images -> experiments\fresh\visual\tiles_seed2.csv
+seed 3: v1 self-check on 40 test images, max |logit diff| = 0.00000
+seed 3: scored 3240 fresh images -> experiments\fresh\visual\tiles_seed3.csv
+seed 4: v1 self-check on 40 test images, max |logit diff| = 0.00000
+seed 4: scored 3240 fresh images -> experiments\fresh\visual\tiles_seed4.csv
+PASS: all five seeds reproduced v1 and scored the fresh set. Commit experiments/fresh/visual/.

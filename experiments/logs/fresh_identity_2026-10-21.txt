@@ -1,0 +1,6 @@
+aadhaar: 0 shared with v1
+pan: 0 shared with v1
+photo_seed: 0 shared with v1
+full names also in v1: 14/90 (15.6%, informational)
+image files: 3240 listed, 0 missing, 0 wrong size
+PASS: 90 persons, 3240 images, no identifier or photo shared with v1

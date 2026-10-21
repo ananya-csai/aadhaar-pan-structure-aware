@@ -1,0 +1,41 @@
+{
+  "corpus": "dataset/data/fresh_20261021",
+  "n_images": 3240,
+  "tile": 256,
+  "n_tiles": 15,
+  "seeds": {
+    "0": {
+      "checkpoint_sha256": "45af4819f39d1e250802f2d40b171b91083e257dbcdcaa557ebffd54ab552190",
+      "self_check_max_diff": 5.00000000069889e-07,
+      "scores_sha256": "6d7f75de562a4406ddb4b8b0e22ea738ee1de839c79f439f47d5d83e6c05f22b"
+    },
+    "1": {
+      "checkpoint_sha256": "6345fc360d84842465226724577bb92abb6f2b37d327a99a053b151829087eb6",
+      "self_check_max_diff": 5.00000000069889e-07,
+      "scores_sha256": "e28101e625f7be39778fa4b7a6d8c4a944e80a4f0300801d2e2db497b7ae2099"
+    },
+    "2": {
+      "checkpoint_sha256": "1d3ef7d9b2cc34916ca853544c50f295c83b358aa741927bc752bb1c843aef52",
+      "self_check_max_diff": 5.000000005139782e-07,
+      "scores_sha256": "83fccd1f1a39b7d080980c8b2f20c4ceaf41d90d526b6fcca723407d68fca2bd"
+    },
+    "3": {
+      "checkpoint_sha256": "5c9b1159472374413f471e398c37db64f99d35223261a412f1e80844699b4080",
+      "self_check_max_diff": 5.00000000069889e-07,
+      "scores_sha256": "c4de12d851484f65231f8b04d9704361c3ec890a2e133ae3fef4025985396288"
+    },
+    "4": {
+      "checkpoint_sha256": "c0eb2d121c1a381a24359556c2eedaa38547d64720a35f7d743ba1e2e5546952",
+      "self_check_max_diff": 5.00000000069889e-07,
+      "scores_sha256": "cac4dcbeff482f0119c6bc4e8c3b75f267a0523251c7572e267ec12174376db6"
+    }
+  },
+  "env": {
+    "python": "3.12.7",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "torch": "2.14.1+cu130",
+    "torchvision": "0.29.1+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU"
+  }
+}

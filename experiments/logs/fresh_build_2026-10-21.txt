@@ -1,0 +1,17 @@
+[1/7] generating 90 identity records (seed=20261021)
+[2/7] assigning grouped stratified splits
+[3/7] pre-flight: validators against ground-truth text
+        {"aadhaar/C0": {"PASS": 90}, "aadhaar/C1": {"PASS": 90}, "aadhaar/C2": {"FAIL": 90}, "aadhaar/C3": {"PASS": 90}, "aadhaar/C4": {"PASS": 90}, "pan/C0": {"PASS": 90}, "pan/C1": {"PASS": 90}, "pan/C2": {"FAIL": 90}, "pan/C3": {"FAIL": 90}, "pan/C4": {"PASS": 90}}
+        all expected rule outcomes hold
+[4/7] rendering, forging, degrading (3240 images), 2 worker(s)
+        25/90 persons (140s)
+        50/90 persons (178s)
+        75/90 persons (215s)
+[5/7] per-field OCR (11340 crops)
+        OCR batch 10/33
+        OCR batch 20/33
+        OCR batch 30/33
+        OCR batch 33/33
+[6/7] validators on OCR-extracted text
+[7/7] writing manifest and records
+done in 261s -> data/fresh_20261021
