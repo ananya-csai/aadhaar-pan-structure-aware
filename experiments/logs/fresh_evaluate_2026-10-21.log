@@ -1,0 +1,45 @@
+# evaluate_fresh.py run 2026-10-21T14:50:26Z at 17db3d443b2ac21039ea767cc0ac770aa8423783
+aadhaar: 0 shared with v1
+pan: 0 shared with v1
+photo_seed: 0 shared with v1
+full names also in v1: 14/90 (15.6%, informational)
+image files: not checked (--skip-files)
+PASS: 90 persons, 3240 images, no identifier or photo shared with v1
+# Fresh confirmatory test (Amendment A6, DECISIONS.md Section 20)
+
+Corpus `fresh_20261021`: 3240 images, 90 people, never used before. All parameters frozen; nothing fitted. Paired person-clustered bootstrap, B = 10000.
+
+## H1 (primary): A5 vs A4, OCR text, frozen 5%-FPR thresholds
+
+- Recall difference A5 − A4: +12.6 points, 95% CI [+11.2, +14.1]
+- FPR difference A5 − A4: +0.2 points, 95% CI [-0.4, +0.7]
+- **H1 supported** (CI above 0: True); FPR increase at most 2 points: True.
+
+## Secondary (Holm-corrected over three)
+
+| Comparison | Recall diff [95% CI] | FPR diff [95% CI] | p (Holm) |
+|---|---|---|---|
+| (a) A4_logistic_GT vs visual | +35.7 [+35.2, +36.3] | +0.0 [+0.0, +0.0] | 0.0000 |
+| (b) A4_logistic_OCR vs visual | +10.7 [+9.3, +12.1] | -1.2 [-3.0, +0.5] | 0.0000 |
+| (c) A4_logistic_OCR_at_FPR_of_rules_OCR vs rules_OCR | +5.6 [+4.6, +6.7] | +0.1 [-0.5, +0.6] | 0.0000 |
+
+## All systems (fresh set)
+
+| System | fpr | recall | precision | recall_C1 | recall_C2 | recall_C3 | recall_C4 |
+|---|---|---|---|---|---|---|---|
+| visual | 0.049 | 0.128 | 0.839 | 0.380 | 0.050 | 0.043 | 0.039 |
+| rules_GT | 0.000 | 0.375 | 1.000 | 0.000 | 1.000 | 0.500 | 0.000 |
+| OR_GT | 0.049 | 0.485 | 0.952 | 0.380 | 1.000 | 0.522 | 0.039 |
+| AND_GT | 0.000 | 0.018 | 1.000 | 0.000 | 0.050 | 0.020 | 0.000 |
+| A4_logistic_GT | 0.049 | 0.485 | 0.952 | 0.380 | 1.000 | 0.522 | 0.039 |
+| A5_perCheck_GT | 0.049 | 0.485 | 0.952 | 0.380 | 1.000 | 0.522 | 0.039 |
+| rules_OCR | 0.105 | 0.420 | 0.889 | 0.100 | 0.987 | 0.502 | 0.093 |
+| OR_OCR | 0.144 | 0.521 | 0.879 | 0.448 | 0.987 | 0.526 | 0.124 |
+| AND_OCR | 0.010 | 0.027 | 0.841 | 0.031 | 0.050 | 0.019 | 0.007 |
+| A4_logistic_OCR | 0.037 | 0.235 | 0.927 | 0.206 | 0.587 | 0.111 | 0.035 |
+| A4_logistic_OCR_at_FPR_of_rules_OCR | 0.106 | 0.477 | 0.900 | 0.339 | 0.981 | 0.496 | 0.091 |
+| A4_logistic_OCR_at_FPR_of_OR_OCR | 0.144 | 0.521 | 0.879 | 0.448 | 0.987 | 0.526 | 0.124 |
+| A5_perCheck_OCR | 0.039 | 0.361 | 0.949 | 0.281 | 0.698 | 0.430 | 0.035 |
+| A5_perCheck_OCR_at_FPR_of_rules_OCR | 0.106 | 0.469 | 0.899 | 0.387 | 0.898 | 0.502 | 0.091 |
+| A5_perCheck_OCR_at_FPR_of_OR_OCR | 0.140 | 0.514 | 0.880 | 0.446 | 0.970 | 0.520 | 0.120 |
+exit=0
