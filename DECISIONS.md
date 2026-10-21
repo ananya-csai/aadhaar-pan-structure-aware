@@ -328,3 +328,10 @@ If a check fails, the set is not used, and the failure is reported.
 - Everything is reported by document type, C0–C4 and C1 group, as on v1. Realised FPRs are reported; they are not forced to 5%.
 
 **What changes in the paper.** If H1 is supported, A5's advantage is reported as confirmed on fresh data, and v1 A4 remains the primary pre-registered result. If H1 is not supported, that is reported, and A5 stays a post-hoc diagnostic.
+
+**Run record (21 Oct 2026).**
+- The first build stopped while writing `manifest.jsonl`: Windows' default encoding (cp1252) cannot write Devanagari. It was deleted and re-run with `PYTHONUTF8=1`. The generator and arguments were unchanged; the build is deterministic, and nothing had been scored.
+- Tesseract on the GPU laptop is 5.5.3 (Leptonica 1.87.0), installed 25 Jul 2026, so the same engine read v1 (rebuilt 9 Oct) and the fresh set. The paper's "Tesseract 5.3.4" must be corrected.
+- Identity check passed: no Aadhaar number, PAN or photo seed shared with v1; 14 of 90 full names also occur in v1.
+- All five checkpoints reproduced their v1 test logits exactly (maximum difference 0.00000).
+- **Outcome.** H1 supported: A5 − A4 recall +12.6 points [+11.2, +14.1], FPR +0.2 [−0.4, +0.7]. All three secondary comparisons have Holm p < 0.001 (`experiments/results/fresh/confirmatory.md`).
