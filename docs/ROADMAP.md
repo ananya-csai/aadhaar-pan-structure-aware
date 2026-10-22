@@ -170,6 +170,7 @@ Scripts for each analysis can be written and checked on validation now; they are
 ### Step 18. Write the paper [CPU lead; BOTH] — ⬜
 - ✅ [CPU] Sections I–IV written; Section IV numbers generated from committed statistics (Section II-E details are the next task).
 - ✅ [CPU] Sections V (Methodology) and VI (Experimental Setup) drafted, all numbers checked (PR #2).
+- ✅ [CPU] Paper v8: Sections I–VI rewritten and tightened; new overview, positioning, validation-flow, tile-grid, protocol and edit-survival figures; A4/A5/A6 described; Tesseract version corrected to 5.5.3 (`paper/main.tex`).
 - ⬜ [CPU] Fill Section II-E literature-search details: search date, year range, n₁, n₂, venues without peer review.
 - ⬜ [CPU] Fill the reference access date and confirm the page reference in the bibliography.
 - ⬜ [CPU] Section VII Results — after Step 17. RQ1 answered separately for coarse and fine-trace edits.
