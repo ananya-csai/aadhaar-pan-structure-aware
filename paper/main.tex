@@ -13,6 +13,8 @@
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 \usepackage{textcomp}
 \usepackage[table]{xcolor}
 \usepackage{booktabs}
@@ -76,22 +78,21 @@ PAN: A Controlled Study of Visual, Structural, and
 Semantic Evidence Fusion}
 
 \author{%
-\IEEEauthorblockN{Ananya Shukla\textsuperscript{1*},
-Soham Phulwaria\textsuperscript{2} and
-Dr.\ Dinesh Saini\textsuperscript{3}}
+\IEEEauthorblockN{Ananya Shukla\textsuperscript{1*\dag},
+Soham Phulwaria\textsuperscript{2*\dag} and
+Dr.\ Dinesh Saini\textsuperscript{3*\dag}}
 \IEEEauthorblockA{%
 \textsuperscript{1}Department of Computer Science and Engineering,
 Manipal University Jaipur, Jaipur, Rajasthan, India.\\
 \textsuperscript{2}Department of Computer Science (AI and ML),
 Manipal University Jaipur, Jaipur, Rajasthan, India.\\
 \textsuperscript{3}Department of IoT and Intelligent Systems,
-Manipal University Jaipur, Jaipur, Rajasthan, India.\\[6pt]
-*Corresponding author. E-mail:
+Manipal University Jaipur, Jaipur, Rajasthan, India.\\[7pt]
+*Corresponding author(s). E-mail(s):\\
 \email{ananya.2427030029@muj.manipal.edu};\\
-Contributing authors: \email{soham.2427010107@muj.manipal.edu};
-\email{dineshkumar.saini@jaipur.manipal.edu};%
-% \\ \textsuperscript{\dag}These authors contributed equally to this work.
-}}
+\email{soham.2427010107@muj.manipal.edu};\\
+\email{dineshkumar.saini@jaipur.manipal.edu};\\
+\textsuperscript{\dag}These authors contributed equally to this work.}}
 
 \maketitle
 
@@ -129,65 +130,6 @@ benchmark
 \end{IEEEkeywords}
 
 %======================================================================
-\section{Introduction}
-\label{sec:intro}
-
-Aadhaar and PAN cards are routinely requested as proof of identity and
-tax status in India, and photocopies or phone pictures of them are
-commonly accepted during customer onboarding. Forged copies are therefore an operational problem, and the
-research response so far has been almost entirely visual. Babbar et
-al.~\cite{babbar} describe a VGG16-based classifier~\cite{vgg} that
-screens roughly 100{,}000 Aadhaar cards a day at about 99\% precision.
-Their paper is also unusually clear about what such a model does not
-cover. It separates \emph{template forgery}, where the layout, borders
-or text placement are visibly wrong, from \emph{lookalike forgery},
-where the genuine template is reproduced exactly and only the personal
-details are changed, and it states that the model's scope is
-``confined to the detection of template forgery''~\cite{babbar}.
-
-The lookalike case is the subject of this paper. A card produced by
-rendering a modified record through a faithful template has the fonts,
-spacing and print texture of a genuine card, so a detector that reads
-pixels has little to work with. The data printed on the card, however,
-is not free-form. The twelfth digit of an Aadhaar number is a Verhoeff
-check digit over the first eleven~\cite{uidai-scheme,verhoeff}, so a
-mistyped or altered number usually fails a public, exactly computable
-test. A PAN has a fixed letter--digit pattern, a fourth character that
-encodes the taxpayer category, and a fifth character that must match an
-initial of the holder's name~\cite{itd-pan,rule114}. These rules give a
-second, independent source of evidence that does not depend on how the
-card looks.
-
-The two documents do not offer the same amount of such evidence. The
-Aadhaar check digit can be recomputed by anyone. The tenth character of
-a PAN is documented as a check character, but we could not locate any
-public specification of the algorithm that generates it, so an external
-system can check the PAN's format, category and name initial and
-nothing more. A fair study has to keep
-this asymmetry rather than treating both cards as equally
-``checksum-verifiable''. Structural evidence also cuts both ways. A
-failed rule shows that the extracted text is internally inconsistent,
-which may be caused by a forger, but equally by an OCR misread.
-Conversely, a passed checksum proves very little, because anyone who
-knows the public algorithm can compute a valid check digit for an
-invented number.
-
-Pairing OCR with rule checks is not new in itself.
-OCR-plus-validation pipelines exist for Indian documents~\cite{raghuvanshi,panens},
-and machine-readable-zone checksums have been combined with visual
-forensics for European identity cards and passports~\cite{dai}. What is
-missing, as far as the literature identified in
-Section~\ref{sec:search-protocol} shows, is a controlled measurement of
-how much detection such rules add \emph{on top of} a visual detector for
-Aadhaar and PAN, on which forgery types the gain appears, and how much
-of it survives realistic OCR error instead of perfect text. Answering
-this requires data that existing benchmarks do not provide: images of
-both formats with known field values, forgeries designed to defeat one
-evidence source but not the other, and a matched ground-truth copy of
-every field. It also requires an evaluation in which neither the
-thresholds nor the fusion rule can be tuned on the data that produce
-the headline numbers.
-
 % ---------- FIGURE 1: system overview --------------------------------
 \begin{figure*}[!t]
 \centering
@@ -258,6 +200,65 @@ contribution of each to be measured separately. Fusion parameters and
 every threshold are fixed on validation data (Section~\ref{sec:setup}).}
 \label{fig:overview}
 \end{figure*}
+\section{Introduction}
+\label{sec:intro}
+
+Aadhaar and PAN cards are routinely requested as proof of identity and
+tax status in India, and photocopies or phone pictures of them are
+commonly accepted during customer onboarding. Forged copies are therefore an operational problem, and the
+research response so far has been almost entirely visual. Babbar et
+al.~\cite{babbar} describe a VGG16-based classifier~\cite{vgg} that
+screens roughly 100{,}000 Aadhaar cards a day at about 99\% precision.
+Their paper is also unusually clear about what such a model does not
+cover. It separates \emph{template forgery}, where the layout, borders
+or text placement are visibly wrong, from \emph{lookalike forgery},
+where the genuine template is reproduced exactly and only the personal
+details are changed, and it states that the model's scope is
+``confined to the detection of template forgery''~\cite{babbar}.
+
+The lookalike case is the subject of this paper. A card produced by
+rendering a modified record through a faithful template has the fonts,
+spacing and print texture of a genuine card, so a detector that reads
+pixels has little to work with. The data printed on the card, however,
+is not free-form. The twelfth digit of an Aadhaar number is a Verhoeff
+check digit over the first eleven~\cite{uidai-scheme,verhoeff}, so a
+mistyped or altered number usually fails a public, exactly computable
+test. A PAN has a fixed letter--digit pattern, a fourth character that
+encodes the taxpayer category, and a fifth character that must match an
+initial of the holder's name~\cite{itd-pan,rule114}. These rules give a
+second, independent source of evidence that does not depend on how the
+card looks.
+
+The two documents do not offer the same amount of such evidence. The
+Aadhaar check digit can be recomputed by anyone. The tenth character of
+a PAN is documented as a check character, but we could not locate any
+public specification of the algorithm that generates it, so an external
+system can check the PAN's format, category and name initial and
+nothing more. A fair study has to keep
+this asymmetry rather than treating both cards as equally
+``checksum-verifiable''. Structural evidence also cuts both ways. A
+failed rule shows that the extracted text is internally inconsistent,
+which may be caused by a forger, but equally by an OCR misread.
+Conversely, a passed checksum proves very little, because anyone who
+knows the public algorithm can compute a valid check digit for an
+invented number.
+
+Pairing OCR with rule checks is not new in itself.
+OCR-plus-validation pipelines exist for Indian documents~\cite{raghuvanshi,panens},
+and machine-readable-zone checksums have been combined with visual
+forensics for European identity cards and passports~\cite{dai}. What is
+missing, as far as the literature identified in
+Section~\ref{sec:search-protocol} shows, is a controlled measurement of
+how much detection such rules add \emph{on top of} a visual detector for
+Aadhaar and PAN, on which forgery types the gain appears, and how much
+of it survives realistic OCR error instead of perfect text. Answering
+this requires data that existing benchmarks do not provide: images of
+both formats with known field values, forgeries designed to defeat one
+evidence source but not the other, and a matched ground-truth copy of
+every field. It also requires an evaluation in which neither the
+thresholds nor the fusion rule can be tuned on the data that produce
+the headline numbers.
+
 Fig.~\ref{fig:overview} outlines the system we evaluate. We set out
 the problem as a set of measurable questions. The
 first five concern detection capability; the sixth concerns its cost,
@@ -470,17 +471,70 @@ Every gap claim in this paper refers to this set and not to the
 literature at large.
 
 %======================================================================
-\section{Structural and Semantic Validation}
+\section{Problem Setting and Validation Rules}
 \label{sec:framework}
 
-This section defines the rules that make up the structural/semantic
-branch. They are deterministic, need no training data, and read only
-the text of two fields per document: the identifier and, for PAN, the
-holder's name. Both validators return the outcome of every individual
-check, not just an overall verdict, because the rest of the study needs
-to know \emph{which} rule failed. Positions are 1-indexed: an Aadhaar
-number is $n = n_1 n_2 \dots n_{12}$ with check digit $n_{12}$, and a
-PAN is $p = p_1 p_2 \dots p_{10}$.
+This section fixes the notation and the threat model, and then defines
+the rules that make up the structural/semantic branch. The rules are
+deterministic, need no training data, and read only two fields per
+document: the identifier and, for PAN, the holder's name. Both
+validators return the outcome of every individual check, not just an
+overall verdict, because the rest of the study needs to know
+\emph{which} rule failed.
+
+\subsection{Problem Setting and Threat Model}
+\label{subsec:problem}
+
+\paragraph*{Notation.} Each image $x$ shows one document of type
+$d(x)\in\{\mathrm{A},\mathrm{P}\}$ (Aadhaar or PAN format) belonging to
+person $g(x)$, with label $y(x)=0$ for a genuine document (category C0)
+and $y(x)=1$ for a forgery (C1--C4). The visual branch maps $x$ to a
+probability $p_v(x)$. The rule branch reads a text $t$, which is either
+the ground truth $t^{\ast}(x)$ or the OCR output $\hat{t}(x)$, and
+returns failure indicators $f(t)\in\{0,1\}^{K}$, one per applicable
+check, with $r(t)=\max_k f_k(t)$. Positions are 1-indexed: an Aadhaar
+number is $n=n_1\dots n_{12}$ with check digit $n_{12}$, and a PAN is
+$p=p_1\dots p_{10}$. For a detector $h$ and a set of images $S$ with
+forged subset $S_1$ and genuine subset $S_0$,
+\begin{equation}
+\label{eq:rates}
+R_S(h)=\frac{1}{|S_1|}\sum_{x\in S_1} h(x),\qquad
+F_S(h)=\frac{1}{|S_0|}\sum_{x\in S_0} h(x)
+\end{equation}
+are the detection recall and the false-positive rate.
+
+\paragraph*{Target quantities.} The central quantity is the
+\emph{incremental value} of rule evidence at a false-positive budget
+$\alpha$,
+\begin{equation}
+\label{eq:delta}
+\Delta_{\tau}(\alpha) = R\big(h^{\mathrm{fuse}}_{\tau,\alpha}\big) - R\big(h^{\mathrm{vis}}_{\alpha}\big),
+\qquad \tau\in\{\mathrm{GT},\mathrm{OCR}\},
+\end{equation}
+where both detectors are thresholded on validation data so that
+$F_{\mathrm{val}}\le\alpha$, and $\tau$ says whether the rules read
+ground-truth text $t^{\ast}$ or OCR text $\hat{t}$. RQ3 asks whether
+$\Delta_{\mathrm{GT}}(\alpha)>0$
+and on which categories. RQ4 asks how much of the gain survives OCR,
+which we summarise by the retained fraction
+$\rho(\alpha)=\Delta_{\mathrm{OCR}}(\alpha)/\Delta_{\mathrm{GT}}(\alpha)$. RQ5
+compares $\Delta$ between $d=\mathrm{A}$ and $d=\mathrm{P}$, and RQ6
+concerns $F$ of the rule branch alone, which no threshold constrains.
+
+\paragraph*{Threat model.} The adversary submits a digital image of an
+Aadhaar- or PAN-format card to a remote verification step, such as a
+know-your-customer upload. We model three capabilities: editing the
+pixels of a capture while leaving every printed value intact (C1);
+rendering a card from altered data through a faithful template, a
+\emph{lookalike} forgery that may break a format rule (C2) or a
+cross-field relation (C3); and doing the same while respecting every
+public rule, including computing a valid Verhoeff digit (C4). The
+defender sees only the image. It has no access to the issuing
+authorities' records; authorised online verification exists for some
+regulated entities, but it is outside the scope and the ethics of this
+study. Physical presentation attacks~\cite{pad}, attacks on the
+detectors themselves and manipulation of the photograph are out of
+scope.
 
 \subsection{Aadhaar: Format and Verhoeff Checksum}
 \label{sec:aadhaar-validation}
@@ -503,8 +557,10 @@ c_0 &= 0,\\
 c_{i+1} &= D\big[c_i\big]\big[P[i \bmod 8][\,n_{12-i}\,]\big],\quad i = 0,\dots,11,
 \end{aligned}
 \end{equation}
-and the number is checksum-consistent if and only if $c_{12}=0$.
-Generating a check digit uses the same tables plus the inverse table;
+and the number is checksum-consistent if and only if $c_{12}=0$. For
+example, the C2 forgery in Fig.~\ref{fig:specimens} changes the fifth
+digit of 8591\,9819\,3914 from 9 to 6; the recurrence then ends at
+$c_{12}=9$, and the change is caught. Generating a check digit uses the same tables plus the inverse table;
 our dataset generator calls the same code as the validator, so a
 transcription error in a table could not produce a ``genuine'' card that
 fails its own check.
@@ -559,6 +615,31 @@ on the naming strata of Section~\ref{subsec:records}. When OCR returns
 no usable name, the result is \textsc{skipped}, not a failure: a
 validator that flagged missing evidence as inconsistency would turn
 extraction failures into false positives.
+Table~\ref{tab:semexamples} applies the rule to typical name forms.
+
+\begin{table}[!t]
+\caption{The cross-field rule on typical name forms, as evaluated by
+the released validator. $I$ is the set of token initials after
+honorifics are removed.}
+\label{tab:semexamples}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}l l c l c c@{}}
+\toprule
+Printed name & Stratum & $p_5$ & $I$ & Permissive & Strict \\
+\midrule
+\textsc{Kiran Kulkarni}  & surname-last  & K & \{K\}    & pass & pass \\
+\textsc{V.\ Lakshmi}     & initial-first & V & \{V, L\} & pass & \textbf{fail} \\
+\textsc{V.\ Lakshmi}     & initial-first & L & \{V, L\} & pass & pass \\
+\textsc{Rajesh}          & mononymic     & R & \{R\}    & pass & pass \\
+\textsc{Smt.\ Kavya Rao} & honorific     & R & \{K, R\} & pass & pass \\
+\textsc{Kiran Kulkarni}  & C3 forgery    & O & \{K\}    & \textbf{fail} & \textbf{fail} \\
+(name unreadable)        & OCR failure   & K & $\emptyset$ & skipped & skipped \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The tenth character is documented as an alphabetic check
 digit~\cite{itd-pan}, but we could not locate a public description of
@@ -840,15 +921,46 @@ C4 & Re-render with a fabricated identifier that satisfies every rule & no trace
 \end{tabular}
 \end{table*}
 
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{figures/fig_specimens.pdf}
+\caption{One synthetic identity across the five categories,
+Aadhaar format (top) and PAN format (bottom), clean tier. The red box
+marks the changed region. C1 alters pixels but leaves every value valid;
+C2--C4 alter a value and are re-rendered, so they carry no pixel-level
+trace. All content is synthetic; the emblem is a placeholder and the
+authority is fictitious.}
+\label{fig:specimens}
+\end{figure*}
+
 \textbf{C1} is the only category whose pixels are edited after
 rendering. It applies the usual document-tampering operations described
 for DocTamper~\cite{doctamper} and CMID~\cite{cmid}: patch splicing,
 small field displacement, font substitution, local recompression and
 patch resampling. Every printed value stays valid, so only the visual
 branch has anything to find. The operation and the edited region are
-stored for every image. We call local recompression and resampling
-\emph{fine-trace} edits, because they leave no visible change in the
-characters, and the other three \emph{coarse} edits.
+stored for every image. The parameters are small on purpose: a
+displaced field moves by 5--11 pixels horizontally and 3--8 vertically;
+recompression re-encodes the field and a 12-pixel margin at JPEG
+quality 18--34; resampling scales the same region by 0.94, 0.96, 1.04
+or 1.07 and back; splicing copies a $70$--$150\times40$--$90$ pixel
+background patch to another text-free spot; and font substitution
+redraws the same string in a different typeface. We call recompression
+and resampling \emph{fine-trace} edits, because the characters look
+unchanged, and the other three \emph{coarse} edits
+(Fig.~\ref{fig:c1ops}).
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_c1_ops.pdf}
+\caption{The five C1 operations on the PAN number of the record in
+Fig.~\ref{fig:specimens}, before capture simulation, with the amplified
+absolute difference. The two fine-trace edits (red) leave the characters
+visually unchanged; only the difference map reveals them. Rendered with
+the released generator; in the corpus each C1 document receives one
+operation.}
+\label{fig:c1ops}
+\end{figure}
 
 \textbf{C2--C4} change the identity record and re-render it. C2 breaks a
 structural rule (Aadhaar checksum, or PAN format or category character).
@@ -868,17 +980,6 @@ must fail, and C3 must fail for PAN and pass for Aadhaar. All
 \dsDocuments{} documents satisfy these conditions; otherwise the build
 aborts.
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=0.94\textwidth]{figures/fig_specimens.pdf}
-\caption{One synthetic identity across the five categories,
-Aadhaar format (top) and PAN format (bottom), clean tier. The red box
-marks the changed region. C1 alters pixels but leaves every value valid;
-C2--C4 alter a value and are re-rendered, so they carry no pixel-level
-trace. All content is synthetic; the emblem is a placeholder and the
-authority is fictitious.}
-\label{fig:specimens}
-\end{figure*}
 
 \subsection{Capture Simulation and OCR}
 \label{subsec:degrade}
@@ -897,6 +998,36 @@ dependency beyond NumPy, OpenCV and Pillow. Degradation is applied
 \emph{after} forgery injection, so a C1 edit undergoes the same capture
 as the rest of the card, and tiers are drawn from the same distribution
 for every category, so image quality cannot act as a label cue.
+Table~\ref{tab:capture} lists the parameters.
+
+\begin{table}[!t]
+\caption{Capture-simulation parameters per tier. Ranges are sampled
+uniformly per image; $p$ is the probability that a stage is applied.}
+\label{tab:capture}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.4pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}l c c c@{}}
+\toprule
+Stage & clean & mild & severe \\
+\midrule
+Scale factor                    & 0.92--1.00 & 0.70--0.90 & 0.50--0.70 \\
+Perspective jitter$^{a}$        & 0.002      & 0.011      & 0.024 \\
+Rotation                        & $\pm0.3^{\circ}$ & $\pm1.3^{\circ}$ & $\pm2.5^{\circ}$ \\
+Gaussian blur $\sigma$ (px)     & 0--0.5     & 0.45--0.95 & 0.8--1.6 \\
+Motion blur ($p=0.25$)          & ---        & ---        & 5--9 px \\
+Illumination gradient$^{b}$     & 0.05       & 0.16       & 0.28 \\
+Cast shadow ($p=0.65$)$^{b}$    & ---        & 0.10       & 0.22 \\
+Moir\'e ($p=0.55$)$^{b}$        & ---        & 0.05       & 0.12 \\
+Sensor noise $\sigma$ (8-bit)   & 0.8--2.0   & 2.0--4.5   & 3.5--7.0 \\
+Chromatic shift                 & ---        & ---        & 0--1 px \\
+JPEG quality                    & 90--96     & 70--86     & 45--65 \\
+Chroma subsampling              & 4:4:4      & 4:4:4      & 4:2:0 \\
+\bottomrule
+\multicolumn{4}{@{}l}{\scriptsize $^{a}$Largest corner offset as a fraction of image size. $^{b}$Multiplicative amplitude.}
+\end{tabular}
+\end{table}
 
 \begin{figure*}[!t]
 \centering
@@ -980,6 +1111,70 @@ PAN richer (more independent rules) is also a liability: more rules
 applied to a harder field give more chances to fail on a genuine card.
 Any fusion that reads a rule failure as evidence of forgery inherits
 this rate, which is why RQ6 is part of the question set.
+
+Fig.~\ref{fig:perchk} shows which check fires. On PAN, almost every
+false positive comes from the format check: it fails on 17.7\% of
+genuine cards, and on 13.7\% even of clean captures. The category check
+never fires, and the cross-field check fires only on severe captures
+(5.8\%), when the name itself is misread. On Aadhaar both checks fire
+only on severe captures. Table~\ref{tab:misreads} gives typical cases.
+The checks of one document type are therefore far from equally reliable
+under OCR, which is what the per-check fusion of
+Section~\ref{sec:fusion} exploits.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth, height=4.3cm,
+  ybar, bar width=4.6pt, ymin=0, ymax=31,
+  ylabel={genuine cards flagged (\%)}, ylabel style={font=\scriptsize},
+  symbolic x coords={A-format, A-checksum, P-format, P-category, P-cross-field},
+  xtick=data, xticklabel style={font=\scriptsize},
+  yticklabel style={font=\scriptsize}, ytick={0,10,20,30},
+  ymajorgrids, grid style={cgrey!20},
+  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south,
+                legend columns=3, draw=none, column sep=4pt},
+  enlarge x limits=0.13, axis lines*=left,
+  every axis plot/.append style={draw=none},
+  nodes near coords, nodes near coords style={font=\tiny, rotate=90, anchor=west},
+  point meta=explicit symbolic,
+]
+\addplot[fill=cfuse!70] coordinates {(A-format,0)[] (A-checksum,0)[] (P-format,13.7)[13.7] (P-category,0)[] (P-cross-field,0)[]};
+\addplot[fill=crule!75] coordinates {(A-format,0)[] (A-checksum,0)[] (P-format,12.0)[12.0] (P-category,0)[] (P-cross-field,0)[]};
+\addplot[fill=cbad!75]  coordinates {(A-format,3.2)[3.2] (A-checksum,8.3)[8.3] (P-format,27.5)[27.5] (P-category,0)[] (P-cross-field,5.8)[5.8]};
+\legend{clean, mild, severe}
+\end{axis}
+\end{tikzpicture}
+\caption{Which check fires on \emph{genuine} cards under OCR text, by
+capture tier (all \dsGenuine{} C0 images). With ground-truth text every
+bar is zero.}
+\label{fig:perchk}
+\end{figure}
+
+\begin{table}[!t]
+\caption{Typical OCR misreads on genuine training-split cards and the
+check each one triggers. Changed characters are in bold.}
+\label{tab:misreads}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}l l l l@{}}
+\toprule
+Tier & Printed & Read by OCR & Check failed \\
+\midrule
+clean  & \texttt{TICPB0562C}   & \texttt{TICPB\textbf{O}562C}  & PAN format (0$\to$O) \\
+clean  & \texttt{XAKPA0612O}   & \texttt{XAKPA0612\textbf{0}}  & PAN format (O$\to$0) \\
+clean  & \texttt{SNAPK1352I}   & \texttt{SNAPK1352\textbf{1}}  & PAN format (I$\to$1) \\
+clean  & \texttt{TICPB0562C}   & \texttt{TICPB\textbf{O}0562C} & PAN format (insertion) \\
+severe & \texttt{QQFPD9222M}   & \texttt{222M}                 & PAN format (truncated) \\
+severe & \textsc{A.\ Nidhi}    & \textsc{A.\ Idi}              & PAN cross-field ($p_5$=N) \\
+severe & \texttt{560220983796} & \texttt{56\textbf{8}22\textbf{8}9\textbf{2}3796} & Aadhaar checksum \\
+severe & \texttt{231941306944} & \texttt{29104190044}          & Aadhaar format (11 digits) \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{table}[!t]
 \caption{PAN cross-field rule on genuine documents: failure rate (\%)
@@ -1153,8 +1348,14 @@ no pixel edit by construction, so they are not training classes.
 \paragraph*{Native-resolution tiles.} Each released image (at most
 $1012{\times}638$ pixels) is pasted, without resizing, into the top-left
 corner of a white $1024{\times}640$ canvas and cut into 15 overlapping
-$256{\times}256$ tiles with stride 192 (Fig.~\ref{fig:tiles}). The
-document score is the maximum tile logit. We arrived at this design
+$256{\times}256$ tiles with stride 192 (Fig.~\ref{fig:tiles}). With
+$X$ the padded canvas and $B_1,\dots,B_{15}$ the tile windows, the
+document logit of a network $g_\theta$ is
+\begin{equation}
+\label{eq:maxtile}
+z(x)=\max_{t=1,\dots,15}\, g_\theta\big(X[B_t]\big).
+\end{equation}
+We arrived at this design
 after a whole-card model failed on validation data
 (Section~\ref{sec:dev}): shrinking a card to a typical CNN input
 destroys most of the high-frequency trace left by recompression and
@@ -1201,9 +1402,16 @@ time the document score is the maximum of the 15 tile logits.}
 \paragraph*{Training labels.} Tile labels exist only during training.
 All tiles of a C0 image are negative. For a C1 image the stored edit
 region is mapped into the released image by recomputing the capture
-homography from its seed; a tile is positive if it holds at least 25\%
-of the region's area, ignored if it overlaps less, and negative
-otherwise. No region information is used at validation or test time.
+homography from its seed, giving a region $Q$, and tile $t$ is labelled
+\begin{equation}
+\label{eq:tilelabel}
+\ell_t=\begin{cases}
+1 & \text{if } |B_t\cap Q|\ \ge\ 0.25\,|Q|,\\
+\text{ignored} & \text{if } 0<|B_t\cap Q|<0.25\,|Q|,\\
+0 & \text{if } B_t\cap Q=\emptyset .
+\end{cases}
+\end{equation}
+No region information is used at validation or test time.
 Each epoch draws all positive tiles and eight times as many fresh
 negative tiles.
 
@@ -1215,14 +1423,26 @@ the document-level validation PR-AUC (C0 vs.\ C1) has not improved for
 five epochs, and the best epoch is kept. Five models are trained with
 seeds 0--4.
 
-\paragraph*{Calibration and operating point.} For each seed we fit one
-temperature~\cite{guo} by minimising the negative log-likelihood of the
-validation C0/C1 labels. The branch output $p_v$ is the mean of the
-five temperature-scaled probabilities. The visual threshold $t_v$
-maximises validation C1 recall subject to a validation C0 false-positive
-rate of at most 5\%. This, like every threshold in the study, is placed
-midway between two adjacent validation scores, so that floating-point
-differences between machines cannot move any image across it.
+\paragraph*{Calibration and operating point.} For each seed $m$ we fit
+one temperature~\cite{guo} on the validation C0/C1 images $V$ and
+average the five calibrated probabilities:
+\begin{equation}
+\label{eq:calib}
+\begin{aligned}
+T_m&=\arg\min_{T>0}\sum_{x\in V}\mathrm{NLL}\big(\sigma(z_m(x)/T),\,y(x)\big),\\
+p_v(x)&=\frac{1}{5}\sum_{m=1}^{5}\sigma\big(z_m(x)/T_m\big).
+\end{aligned}
+\end{equation}
+The visual threshold is the operating point with the largest validation
+C1 recall within the 5\% false-positive budget,
+\begin{equation}
+\label{eq:threshold}
+t_v=\arg\max_{t}\ R_{V}\big([p_v\ge t]\big)
+\quad\text{s.t.}\quad F_{V}\big([p_v\ge t]\big)\le 0.05 .
+\end{equation}
+This, like every threshold in the study, is placed midway between two
+adjacent validation scores, so that floating-point differences between
+machines cannot move any image across it.
 
 \subsection{OCR and Rule Branch}
 
@@ -1268,7 +1488,18 @@ replaces $r$ with the individual indicators:
 \label{eq:a5}
 s_{\mathrm{A5}} = \sigma\Big(w_0 + w_1\,z_v + \textstyle\sum_{k} w_{k}\,f_k\Big).
 \end{equation}
-It is fitted and thresholded on validation exactly like A4, with no
+Both hybrids are fitted by minimising the penalised logistic loss on
+all validation images,
+\begin{equation}
+\label{eq:fit}
+\begin{aligned}
+\hat{w}=\arg\min_{w}\ &\sum_{x}\Big[\log\big(1+e^{u_w(x)}\big)-y(x)\,u_w(x)\Big]\\
+&+\frac{1}{2C}\,\lVert w_{\setminus 0}\rVert_2^2,
+\end{aligned}
+\end{equation}
+where $u_w(x)$ is the argument of $\sigma$ in (\ref{eq:a4}) or
+(\ref{eq:a5}), $w_{\setminus 0}$ excludes the intercept and $C=1$.
+A5 is fitted and thresholded on validation exactly like A4, with no
 other change: no feature selection, no tuning of $C$ and no second
 variant. Because A5 was designed after the main test split had been
 scored, its result on that split is post-hoc. Its design was therefore
@@ -1281,7 +1512,13 @@ with a C0 false-positive rate of at most 5\%, the same budget as the
 visual branch; and at the validation false-positive rate of each
 binary system that exceeds 5\% (rules-only and OR under OCR), so that
 the hybrid and that system are compared at an equal false-positive
-cost.
+cost. For a reference system $h_{\mathrm{ref}}$ the matched threshold is
+\begin{equation}
+\label{eq:matched}
+\tau_{\mathrm{ref}}=\arg\max_{t}\ R_{V}\big([s\ge t]\big)
+\quad\text{s.t.}\quad F_{V}\big([s\ge t]\big)\le F_{V}(h_{\mathrm{ref}}),
+\end{equation}
+with $V$ here the full validation split.
 
 \subsection{Rule-Level Explanations}
 \label{subsec:explanations}
@@ -1295,6 +1532,34 @@ only if it points at the right field, we score it:
 \emph{mechanism-aware recall} counts a rule flag on an eligible image
 only when the failed check is the one tied to the field that was
 actually corrupted (Section~\ref{sec:metrics}).
+Algorithm~\ref{alg:infer} summarises how one document is processed.
+
+\begin{algorithm}[!t]
+\caption{Verification of one document image}
+\label{alg:infer}
+\begin{algorithmic}[1]
+\Require image $x$ of type $d$; frozen tile models $g_{\theta_m}$ and
+  temperatures $T_m$ ($m=1..5$); visual threshold $t_v$; fusion weights
+  $w$ and threshold $\tau$
+\Ensure flag $h\in\{0,1\}$ and explanation set $E$
+\State $X\gets$ $x$ pasted on a white $1024{\times}640$ canvas
+\For{$m\gets 1$ \textbf{to} $5$}
+  \State $z_m\gets\max_t g_{\theta_m}(X[B_t])$ \Comment{(\ref{eq:maxtile})}
+\EndFor
+\State $p_v\gets\frac{1}{5}\sum_m\sigma(z_m/T_m)$ \Comment{(\ref{eq:calib})}
+\State $\hat t\gets\textsc{Ocr}(x,d)$ \Comment{$t^{\ast}$ in the oracle condition}
+\State $f\gets\textsc{Validate}_d(\hat t)$ \Comment{one bit per check}
+\State $s\gets\sigma\big(w_0+w_1\operatorname{logit}(p_v)+\sum_k w_k f_k\big)$
+\State $h\gets[\,s\ge\tau\,]$;\ \ $E\gets\emptyset$
+\If{$h=1$}
+  \State $E\gets\{\textsc{Template}(k,\hat t): f_k=1\}$ \Comment{Table~\ref{tab:explain}}
+  \If{$p_v\ge t_v$ \textbf{or} $E=\emptyset$}
+    \State $E\gets E\cup\{\text{location of the highest-scoring tile}\}$
+  \EndIf
+\EndIf
+\State \Return $(h,E)$
+\end{algorithmic}
+\end{algorithm}
 
 \begin{table}[!t]
 \caption{Explanation templates of the rule branch, as emitted by the released validators.}
@@ -1424,23 +1689,51 @@ false positive. We report precision, recall, F1, false-positive rate
 (FPR), false-negative rate and confusion matrices, overall, per document
 type and per category, and for C1 also per edit operation and for the
 fine-trace and coarse groups. Three recalls are kept apart.
-\emph{Detection recall} is computed over all forged images and is the
-only one compared across systems. \emph{Rule-coverage recall} is
-computed over the images the rules are designed to catch (Aadhaar C2,
-PAN C2 and PAN C3) and checks the implementation. \emph{Mechanism-aware
-recall} counts a rule flag on those images only when the failed check
-is tied to the corrupted field; flags raised by another check are
-reported as over-attribution. AUROC and PR-AUC are reported for
-continuous scores. Undefined ratios are reported as such, never as zero.
+\emph{Detection recall} $R$ of (\ref{eq:rates}) is computed over all
+forged images and is the only one compared across systems. With
+$\mathcal{E}$ the images the rules are designed to catch (Aadhaar C2,
+PAN C2 and PAN C3) and $\mathcal{K}^{\ast}(x)$ the checks tied to the
+corrupted field (format or checksum for Aadhaar C2, format or category
+for PAN C2, cross-field for PAN C3),
+\begin{equation}
+\label{eq:recalls}
+\begin{aligned}
+R_{\mathrm{cov}}&=\frac{1}{|\mathcal{E}|}\,\big|\{x\in\mathcal{E}: r(x)=1\}\big|,\\
+R_{\mathrm{mech}}&=\frac{1}{|\mathcal{E}|}\,\big|\{x\in\mathcal{E}: \textstyle\max_{k\in\mathcal{K}^{\ast}(x)} f_k(x)=1\}\big|.
+\end{aligned}
+\end{equation}
+\emph{Rule-coverage recall} $R_{\mathrm{cov}}$ checks the implementation;
+\emph{mechanism-aware recall} $R_{\mathrm{mech}}$ credits a flag only
+when the explanation points at the right field, and flags raised by
+another check are reported as over-attribution. AUROC and PR-AUC are
+reported for continuous scores. Undefined ratios are reported as such,
+never as zero.
 
 The 1{,}620 test images come from only \dsTestPer{} people, and images
 of one person are not independent. All 95\% confidence intervals are
-therefore person-clustered bootstrap intervals~\cite{efron} with
-10{,}000 resamples of people. Comparisons between systems use paired
-resampling of the same people to form an interval on the difference,
-with Holm correction~\cite{holm} inside each pre-defined family of
-comparisons. Image-level tests that assume independence are not used
-for inference.
+therefore person-clustered bootstrap intervals~\cite{efron}: each of
+$B=10{,}000$ replicates $G^{(b)}$ draws $n_g$ people with replacement
+and keeps all of their images, and the interval is formed by the 2.5th
+and 97.5th percentiles of the metric over the replicates. Two systems
+$a$ and $b$ are compared on the same replicates,
+\begin{equation}
+\label{eq:paired}
+\begin{aligned}
+\delta^{(b)}&=M_a\big(G^{(b)}\big)-M_b\big(G^{(b)}\big),\quad b=1,\dots,B,\\
+p&=2\min\big\{\widehat{\Pr}(\delta\le0),\ \widehat{\Pr}(\delta\ge0)\big\},
+\end{aligned}
+\end{equation}
+and within each pre-defined family of $m$ comparisons the ordered
+$p$-values are adjusted by Holm's step-down rule~\cite{holm},
+\begin{equation}
+\label{eq:holm}
+\tilde{p}_{(j)}=\max_{i\le j}\ \min\big\{1,\ (m-i+1)\,p_{(i)}\big\}.
+\end{equation}
+The incremental value $\Delta$ of (\ref{eq:delta}) and the retained
+fraction $\rho$ are estimated with the same resampling, and the
+recurrence~(\ref{eq:verhoeff}) and the rules of
+Section~\ref{sec:framework} need no estimation at all. Image-level tests
+that assume independence are not used for inference.
 
 \subsection{Visual Branch Development}
 \label{sec:dev}
@@ -1576,6 +1869,13 @@ protocol file with all amendments and the analysis outputs are released
 with the generator; every run records its code commit and environment,
 and a continuous-integration job re-checks that the validation results
 regenerate exactly.
+
+\paragraph*{Data and code availability.} The generator, configuration,
+manifests, frozen model scores, calibration and fusion parameters, the
+protocol file and all evaluation scripts are available at
+\url{https://github.com/ananya-csai/aadhaar-pan-structure-aware}.
+Images are not stored in the repository; they regenerate from the seed,
+and their SHA-256 digest verifies the rebuild.
 
 %======================================================================
 \section{Results}
