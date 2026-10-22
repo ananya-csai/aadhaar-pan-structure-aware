@@ -1,11 +1,12 @@
-# Paper source — version 08 (Sections I–VI complete, VII–IX in preparation)
+# Paper source — version 09 (Sections I–VI complete, VII–IX in preparation)
 
 ## Contents
 
 ```
 main.tex        the whole paper; compile this file
 generated/      numbers.tex (auto-generated from the frozen corpus) + earlier table exports
-figures/        fig_specimens.pdf, fig_quality_tiers.pdf, fig_ocr_quality.pdf
+figures/        fig_specimens.pdf, fig_quality_tiers.pdf, fig_ocr_quality.pdf,
+                fig_c1_ops.pdf (made by scripts/make_c1_figure.py from the released generator)
 ```
 
 All other figures (system overview, validation flows, generation pipeline,
@@ -18,7 +19,28 @@ inside `main.tex`, so they stay sharp and editable.
 2. Main document: `main.tex`. Compiler: **pdfLaTeX**. Compile twice.
 3. Do **not** add an `IEEEtran.cls` file; Overleaf provides the real class.
 
-## What changed from version 07
+## What changed from version 08
+
+- Title block now matches the requested format: every author marked `*†`,
+  one corresponding-author e-mail block (one address per line) and the
+  equal-contribution note. To change who is corresponding, edit the `*`
+  marks and the e-mail list in `\author{...}`.
+- Section III opens with a formal problem setting (recall, false-positive
+  rate, incremental value Δ, OCR retention ρ) and an explicit threat model;
+  adds a Verhoeff worked example and a table of the cross-field rule on
+  typical name forms.
+- Section IV adds the exact C1 edit parameters with a close-up figure of the
+  five operations, a capture-simulation parameter table, a per-check
+  false-positive chart and a table of real OCR misreads.
+- Section V adds the tile-score, tile-label, calibration, threshold, fusion
+  objective and matched-threshold equations, and Algorithm 1 (verification
+  of one document).
+- Section VI adds formulas for the three recalls, the person-clustered
+  paired bootstrap and Holm's correction, and a data/code availability note.
+- Layout: all lines fit the column even with columns 0.1 in narrower than
+  IEEE's; floats re-ordered so figures follow their first mention.
+
+## What changed from version 07 (in version 08)
 
 - Title block restyled: numbered affiliations, corresponding author and
   contributing-author e-mails. To mark equal contribution, un-comment the
