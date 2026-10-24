@@ -177,10 +177,10 @@ Scripts for each analysis can be written and checked on validation now; they are
 - ⬜ [CPU] Section VIII Discussion — the limitations part can be written now; the interpretation waits for results.
 - ⬜ [CPU] Section IX Conclusion, and final numbers in the abstract — last.
 
-### Step 19. Reproducibility section [GPU] — ✅ written (3 small GPU items left)
+### Step 19. Reproducibility section [GPU] — ✅ written (2 small GPU items left)
 - ✅ Paper Appendix A (levels of reproduction, all 11 training runs, environment, protocol record) and `docs/REPRODUCIBILITY.md` (commands, SHA-256 of every frozen file); DECISIONS §21.
 - ✅ Independent Linux rebuild of corpus v1: 10,791 / 10,800 images byte-identical after fixing the text-layout engine; the other 9 differ by ≤ 3 grey levels in ≤ 37 border pixels. Per-image digests released (`dataset/data/v1/IMAGE_SHA256.txt`).
-- ⬜ [GPU] Upload the five tile checkpoints (`best.pt`) as release assets or to Zenodo; check their SHA-256 against `docs/REPRODUCIBILITY.md`.
+- ✅ [GPU] Five tile checkpoints in a Zenodo draft, DOI 10.5281/zenodo.23618373 (reserved; hashes checked 24 Oct). ⬜ Publish it at acceptance / camera-ready.
 - ⬜ [GPU] Record the NVIDIA driver version (`nvidia-smi`).
 - ⬜ [GPU] Step 21 re-run fills the last TODO in Appendix A.
 
