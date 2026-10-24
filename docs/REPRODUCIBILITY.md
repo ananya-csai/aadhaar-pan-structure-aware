@@ -67,7 +67,7 @@ Per-image score files: each run's `summary.json` records the SHA-256 of its `sco
 **GPU laptop (training, inference, corpus build, OCR)**
 - NVIDIA GeForce RTX 4060 Laptop GPU, 8 GB; Windows 11, build 26200 (build 26300 after an automatic update on 19 Oct: whole-card seeds 3–4 and the fresh-set scoring).
 - Python 3.12.7; torch 2.14.1+cu130; torchvision 0.29.1+cu130; CUDA 13.0; cuDNN 9.24.0 (reported as `92400` in `experiments/e2_visual/logs/smoke_768x512.json`). Full list: `experiments/requirements-vision.txt`.
-- NVIDIA driver version: **not recorded** — run `nvidia-smi` once and add it here (Section 7).
+- NVIDIA driver: 616.92, read with `nvidia-smi` on 24 Oct 2026. It was not logged at training time (18–19 Oct); the 19 Oct Windows update may have changed it, so 616.92 is confirmed only for the period after the runs.
 - Corpus build: Python 3.13, numpy 2.4.4, pillow 12.2.0, opencv-python 4.13.0.92, matplotlib 3.10.9 (`dataset/requirements.txt`).
 - OCR: Tesseract 5.5.3, Leptonica 1.87.0, English model, installed 25 Jul 2026 (before v1 was built on 9 Oct). The protocol originally listed 5.3.4 / 1.82.0; see DECISIONS §20 run record.
 
@@ -132,5 +132,5 @@ In order. Full text in `DECISIONS.md`.
 ## 7. Still open
 
 - ✅ [GPU] Five tile checkpoints uploaded to a Zenodo draft (Section 2). ⬜ Publish the record at acceptance / camera-ready; for double-blind submission, give reviewers an anonymous copy if they need the files.
-- [GPU] Record the NVIDIA driver version (`nvidia-smi`, top line) in Section 3.
+- ✅ [GPU] NVIDIA driver version recorded (616.92, 24 Oct; Section 3).
 - [GPU] Step 21: one clean-environment re-run of a tile seed; acceptance rule in Section 4, item 1.
