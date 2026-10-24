@@ -187,7 +187,7 @@ In the reproducibility statement, cite three things, not one:
 > The dataset generation code, configuration and manifest are available at
 > `https://github.com/<user>/aadhaar-pan-structure-aware` (commit `abc1234`).
 > The built corpus is archived at `https://doi.org/10.5281/zenodo.XXXXXXX`.
-> Generation used Tesseract 5.3.4 and the Python versions pinned in
+> Generation used Tesseract 5.5.3 (Leptonica 1.87.0) and the Python versions pinned in
 > `requirements.txt`.
 
 Why all three: the URL locates it, **the commit hash pins the exact code** (a URL

@@ -177,8 +177,12 @@ Scripts for each analysis can be written and checked on validation now; they are
 - ⬜ [CPU] Section VIII Discussion — the limitations part can be written now; the interpretation waits for results.
 - ⬜ [CPU] Section IX Conclusion, and final numbers in the abstract — last.
 
-### Step 19. Reproducibility section [GPU] — ⬜
-- ⬜ [GPU] From the logs: architecture, weights, preprocessing, optimizer, learning rate, batch size, seeds, early stopping, calibration, hardware, software versions, runtime, commit hash and cache hashes; list every deviation from the protocol (A1–A4).
+### Step 19. Reproducibility section [GPU] — ✅ written (3 small GPU items left)
+- ✅ Paper Appendix A (levels of reproduction, all 11 training runs, environment, protocol record) and `docs/REPRODUCIBILITY.md` (commands, SHA-256 of every frozen file); DECISIONS §21.
+- ✅ Independent Linux rebuild of corpus v1: 10,791 / 10,800 images byte-identical after fixing the text-layout engine; the other 9 differ by ≤ 3 grey levels in ≤ 37 border pixels. Per-image digests released (`dataset/data/v1/IMAGE_SHA256.txt`).
+- ⬜ [GPU] Upload the five tile checkpoints (`best.pt`) as release assets or to Zenodo; check their SHA-256 against `docs/REPRODUCIBILITY.md`.
+- ⬜ [GPU] Record the NVIDIA driver version (`nvidia-smi`).
+- ⬜ [GPU] Step 21 re-run fills the last TODO in Appendix A.
 
 ### Step 20. Claims and limitations [BOTH] — ⬜
 - ⬜ Central claim, only if the results support it: a controlled evaluation of the incremental detection value and false-positive cost of structural/semantic evidence over a visual baseline on synthetic Aadhaar/PAN-format documents, including OCR degradation.
@@ -196,7 +200,7 @@ Scripts for each analysis can be written and checked on validation now; they are
 ### Step 21. Format, reproduce, submit [BOTH + mentor] — ⬜
 - ⬜ [CPU] Convert to Springer LNCS and cut to the page limit. The draft already has about 12,600 words before Results; 17 LNCS pages hold roughly 6,500–7,500. Sections III and IV need the largest cuts; move detail to an appendix or the repository.
 - ⬜ [CPU] Anonymise: remove author names, affiliation and acknowledgements. The repository URL contains an author's name, so link to an anonymised copy at submission.
-- ⬜ [GPU] Reproduce one `tiles` training run from a clean environment and match hashes and configs.
+- ⬜ [GPU] Reproduce one `tiles` training run from a clean environment. Pass if the config and input hashes match and validation AUROC / PR-AUC fall inside the five-seed range (0.685–0.773 / 0.611–0.684). Score-file hashes will not match: training is not bit-exact (docs/REPRODUCIBILITY.md, Section 4).
 - ⬜ [CPU] Regenerate every table from committed artefacts.
 - ⬜ [BOTH + Mentor] Reviewer-style read-through; freeze author order; release code and configs. Do not submit to two venues at once.
 

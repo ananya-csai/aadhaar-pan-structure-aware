@@ -335,3 +335,15 @@ If a check fails, the set is not used, and the failure is reported.
 - Identity check passed: no Aadhaar number, PAN or photo seed shared with v1; 14 of 90 full names also occur in v1.
 - All five checkpoints reproduced their v1 test logits exactly (maximum difference 0.00000).
 - **Outcome.** H1 supported: A5 − A4 recall +12.6 points [+11.2, +14.1], FPR +0.2 [−0.4, +0.7]. All three secondary comparisons have Holm p < 0.001 (`experiments/results/fresh/confirmatory.md`).
+
+## 21. Reproducibility record (roadmap Step 19; recorded 24 Oct 2026)
+
+**Status:** record only. No model, threshold, fusion weight or reported number changes. Long version: `docs/REPRODUCIBILITY.md`; paper Appendix A.
+
+- **Run inventory.** 11 visual runs (tiles ×5, base ×5, reg ×1), 438 GPU-minutes. All configs, epoch logs, summaries and score files are committed; checkpoints are not (git-ignored, ~94 MB each).
+- **Code commits.** Runs span six commits. `train_tiles.py` and `tiles.py` are identical across the tile runs; `train.py` changed only by adding `--variant` (A2), with the `base` path unchanged. Checked with `git diff`.
+- **cuDNN.** 9.24.0 (smoke-test log). The NVIDIA driver version was not recorded.
+- **Training determinism.** Seeds fixed, `cudnn.benchmark` off, but deterministic kernels not enforced and fp16 used: training is not bit-exact. The Step 21 re-run is therefore judged by metrics inside the five-seed range, not by score-file hashes (roadmap Step 21 corrected).
+- **Correction to Section 7.** The reference OCR environment listed there (Tesseract 5.3.4, Leptonica 1.82.0) is not the engine that produced v1 or the fresh set; that was 5.5.3 / 1.87.0 (Section 20 run record). `dataset/requirements.txt` and `docs/GITHUB_GUIDE.md` are corrected to match. Section 7 is left as written, following the rule not to rewrite records.
+- **Corpus rebuild on another OS (L3).** v1 was rebuilt under Linux (pinned Python packages, `--skip-ocr`) and compared image by image with the frozen files on the GPU laptop. First attempt: almost every image differed, because Pillow uses complex-script layout (libraqm) when FriBiDi is installed (Linux) and BASIC layout otherwise (the Windows build). **Fix:** `templates.font()` now passes `layout_engine=ImageFont.Layout.BASIC`, the engine that produced v1 and the fresh set, so their images do not change. With BASIC layout, 10,791 of 10,800 images are byte-identical; 9 differ in at most 37 pixels by at most 3 grey levels at the right image border. Swapping the 9 frozen originals into the rebuild gives exactly the frozen corpus digest `7253245a…`, which proves the other 10,791 are identical. Labels, identifiers, splits, records and GT verdicts are identical. Per-image digests: `dataset/data/v1/IMAGE_SHA256.txt`; checker: `dataset/scripts/compare_to_frozen.py`; log: `experiments/logs/corpus_rebuild_linux_2026-10-24.txt`. Consequence to state as a limitation: Devanagari text is drawn without complex-script shaping.
+- **Still open (GPU owner):** release the five tile checkpoints with the SHA-256 values in `docs/REPRODUCIBILITY.md`; record the NVIDIA driver version; Step 21 re-run.

@@ -1864,18 +1864,20 @@ corpus was built with Python 3.13, NumPy 2.4.4, Pillow 12.2.0 and
 OpenCV 4.13.0, and OCR uses Tesseract 5.5.3 with Leptonica 1.87.0 and
 the English model. One script scores every system from per-image
 prediction files and rejects missing, duplicate or foreign image
-identifiers. Code, configurations, per-run logs, per-image scores, the
-protocol file with all amendments and the analysis outputs are released
-with the generator; every run records its code commit and environment,
-and a continuous-integration job re-checks that the validation results
-regenerate exactly.
+identifiers. Every run records its code commit and environment, and a
+continuous-integration job checks that the frozen calibration and
+fusion files, applied to the committed validation scores, reproduce the
+validation summary exactly. Appendix~\ref{app:repro} lists every
+training run, how exactly each stage can be repeated, and every change
+made to the protocol.
 
 \paragraph*{Data and code availability.} The generator, configuration,
 manifests, frozen model scores, calibration and fusion parameters, the
 protocol file and all evaluation scripts are available at
 \url{https://github.com/ananya-csai/aadhaar-pan-structure-aware}.
 Images are not stored in the repository; they regenerate from the seed,
-and their SHA-256 digest verifies the rebuild.
+and released per-image SHA-256 digests show which rebuilt images, if
+any, differ (Appendix~\ref{app:repro}).
 
 %======================================================================
 \section{Results}
@@ -1920,6 +1922,196 @@ and their SHA-256 digest verifies the rebuild.
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 \todosec{}
+
+
+%======================================================================
+\appendices
+\section{Reproducibility Record}
+\label{app:repro}
+
+\begin{table*}[!t]
+\caption{Protocol record: amendments, corrections and run events, in
+order. ``Test'' gives the state of the test split when the entry was
+made.}
+\label{tab:protocol}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}l l l p{0.40\textwidth} p{0.27\textwidth}@{}}
+\toprule
+Entry & Date & Test & Change and reason & Effect on reported results \\
+\midrule
+A1 & before training & sealed
+  & Whole-card input raised from $384{\times}256$ to $768{\times}512$; fine-trace and coarse C1 edits reported separately. Reason: edit-survival measurement on training pairs (Fig.~\ref{fig:survival}).
+  & Defines the comparison model; no score existed. \\
+Batch rule & 17 Oct & sealed
+  & Batch chosen so that peak reserved memory stays within 92\% of physical VRAM, not merely ``no out-of-memory error'': the Windows driver silently spilled into system RAM.
+  & Whole-card batch 16 with 2-step accumulation (effective 32). \\
+A2 & 18 Oct & sealed
+  & Whole-card model memorised its training set (val.\ AUROC .578). Validation-only development allowed; a regularised variant and a tile model specified, each with its selection rule, before being run.
+  & All candidates reported (Table~\ref{tab:runs}). \\
+A3 & 18 Oct & sealed
+  & Tile model selected (val.\ PR-AUC .627 against a pre-set bar of .478). Planned $384{\times}256$ training arm dropped; resolution analysis replaced by the tiles vs.\ whole-card comparison.
+  & Tile model is the visual branch everywhere. \\
+Run event & 19 Oct & sealed
+  & Windows update stopped whole-card seed 3 in its first epoch; re-run from scratch. OS build changed to 26300 for whole-card seeds 3--4.
+  & None expected; libraries and code unchanged. \\
+A4 & 19--20 Oct & sealed
+  & Fusion rule, features and thresholds fixed on validation; approved by all three authors; freeze tag created at commit \texttt{1294c23}.
+  & Primary pre-registered fusion. \\
+Correction & 20 Oct & sealed
+  & Recorded corpus digest belonged to a pre-freeze build of 29 Aug; replaced by the digest of the frozen images after a file-by-file check.
+  & None; no image, label or score changed. \\
+Test scored & 21 Oct & scored once & All frozen systems scored on the test split. & -- \\
+A5 & 21 Oct & \textbf{scored}
+  & Per-check fusion added after inspecting test results.
+  & Reported as post-hoc on the test split. \\
+A6 & 21 Oct & scored
+  & Fresh 90-person test set pre-registered with hypothesis and analysis, then generated. First build stopped on a text-encoding error (Windows code page) and was re-run with UTF-8; nothing had been scored.
+  & Confirmatory test of A5 against A4. \\
+OCR record & 21 Oct & scored
+  & Protocol listed Tesseract 5.3.4; the engine that read v1 and the fresh set was 5.5.3 (Leptonica 1.87.0), installed before v1 was built.
+  & None; one engine produced all OCR text. Record corrected. \\
+Generator fix & 24 Oct & scored
+  & Text layout fixed to the plain engine on all platforms, the engine that produced the frozen images (Windows); found by an independent Linux rebuild.
+  & None; v1 and fresh images unchanged. Rebuilds elsewhere now match (L3). \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+This appendix states what a reader needs to repeat each stage of the
+study, how exactly each stage can be repeated, and every change made to
+the protocol after it was approved. The repository file
+\texttt{docs/REPRODUCIBILITY.md} gives the commands and the SHA-256
+digest of every frozen file.
+
+\subsection{Levels of Reproduction}
+\label{app:levels}
+
+Table~\ref{tab:repro-levels} separates four levels, because they do not
+reproduce equally well.
+
+\begin{table}[!t]
+\caption{What can be repeated, and how exactly.}
+\label{tab:repro-levels}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{0.26\columnwidth} p{0.31\columnwidth} p{0.35\columnwidth}@{}}
+\toprule
+Level & Starting point & Agreement observed \\
+\midrule
+L1 Scoring & released per-image scores, frozen calibration and fusion files
+  & exact; checked on validation by CI at every commit \\
+L2 Model inference & released checkpoints and corpus
+  & logits equal to the 6-decimal precision of the score files
+    (max.\ difference $5{\times}10^{-7}$, 40 images per seed) \\
+L3 Corpus & generator, configuration and seed
+  & 10,791 of 10,800 images byte-identical on another OS; 9 differ in ${\le}37$ pixels by ${\le}3$ levels \\
+L4 Training & training script, corpus, seed
+  & not bit-exact (see text); variation is reported across five seeds \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{L1.} Every number in Sections~\ref{sec:results} onward is computed
+by one script from per-image score files. A continuous-integration job
+re-applies the frozen calibration and fusion files to the validation
+split and fails if the rounded summary changes by one character. The
+test and fresh-set summaries are produced by the same code.
+
+\emph{L2.} Before the fresh set was scored, each of the five tile
+checkpoints re-scored 40 v1 test images and matched its stored logits
+to the stored precision. Inference is therefore deterministic for
+practical purposes on the same hardware.
+
+\emph{L3.} The corpus was built under Windows. We rebuilt all 10,800
+images under Linux with the same pinned library versions. The first
+attempt differed in almost every image: the imaging library applies
+complex-script text layout only when an optional library is installed,
+which is usually the case on Linux and not on Windows, so text landed a
+few pixels apart. With the generator now fixed to the plain layout
+engine on every platform, 10,791 images are byte-identical. The other
+nine differ in at most 37 pixels, by at most 3 of 255 grey levels, all
+at the right image border, which is consistent with a floating-point
+difference in the perspective warp. Labels, identifiers, splits and
+ground-truth rule verdicts are identical. Per-image digests are
+released so that any rebuild can be checked image by image. One
+consequence of the plain layout engine is that Devanagari text is drawn
+without complex-script shaping; no Devanagari field is validated.
+
+\emph{L4.} The seed fixes the weight initialisation of the new head,
+the data order and the negative tiles drawn each epoch, and cuDNN
+auto-tuning is off. Deterministic GPU kernels were not enforced, and
+training uses half precision, so a second run of the same seed is
+expected to differ slightly. We therefore treat the five seeds, not a
+single run, as the unit of variation (Table~\ref{tab:runs}).
+\TODO{Step 21: report the clean-environment re-run of one tile seed
+(validation AUROC and PR-AUC against the original run).}
+
+\subsection{Training Runs and Environment}
+
+Table~\ref{tab:runs} lists every visual model trained, including the
+two variants that were not selected. All runs used one NVIDIA GeForce
+RTX 4060 Laptop GPU (8\,GB), Python 3.12.7, PyTorch 2.14.1,
+torchvision 0.29.1, CUDA 13.0 and cuDNN 9.24, under Windows~11 (build
+26200; whole-card seeds 3--4 and the fresh-set scoring ran on build
+26300 after an automatic update). Training took 7.3 GPU-hours in total
+(3.7 for the tile model). Each run records the code commit it ran from
+and refuses to start if tracked files are modified. The runs span six
+commits; we checked that the tile training script is identical across
+its runs, and that the whole-card script changed only by adding the
+variant switch used for the regularised pilot.
+
+\begin{table}[!t]
+\caption{All visual training runs (validation, C0 vs.\ C1). Ep.: best
+epoch / epochs run; $T$: fitted temperature; ECE after scaling.}
+\label{tab:runs}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}l c c r c c c c@{}}
+\toprule
+Model & Seed & Ep. & Min & AUROC & PR-AUC & $T$ & ECE \\
+\midrule
+Tiles & 0 & 12/17 & 42.6 & .699 & .627 & 4.40 & .109 \\
+      & 1 & \hphantom{0}6/11 & 30.9 & .685 & .611 & 1.52 & .055 \\
+      & 2 & 17/22 & 53.9 & .735 & .661 & 4.54 & .052 \\
+      & 3 & 15/20 & 49.3 & .717 & .661 & 4.16 & .089 \\
+      & 4 & 13/18 & 45.0 & .773 & .684 & 3.42 & .058 \\
+      & ens. & -- & -- & \textbf{.780} & \textbf{.702} & -- & .073 \\
+\midrule
+Whole card & 0 & 18/23 & 38.6 & .578 & .448 & 6.48 & .098 \\
+           & 1 & 20/25 & 41.6 & .613 & .500 & 5.40 & .082 \\
+           & 2 & 19/24 & 39.9 & .629 & .501 & 4.94 & .052 \\
+           & 3 & 18/23 & 39.9 & .622 & .507 & 5.17 & .078 \\
+           & 4 & 18/23 & 37.9 & .611 & .518 & 5.90 & .112 \\
+           & ens. & -- & -- & .638 & .531 & -- & .082 \\
+\midrule
+Regularised & 0 & \hphantom{0}5/10 & 18.5 & .564 & .435 & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Protocol Record}
+
+Table~\ref{tab:protocol} lists, in order, every change to the approved
+protocol and every irregular event during the runs. Each entry is dated
+in the protocol file; entries made after the test split was scored are
+marked as such. Two points deserve a plain statement. First, the
+training script wrote the test-split score files when each model
+finished and recorded their digests; the files were not read before the
+freeze, and the scoring script refuses to run unless the freeze tag
+exists, the frozen files equal their tagged versions and every score
+file matches its recorded digest. This shows that the files were not changed, not
+that they were never opened; the latter rests on the authors' record.
+Second, per-check fusion (A5) was designed after the test split had
+been scored, so on that split it is a post-hoc result. Only its
+confirmation on the fresh set, which was generated after A5 was fixed,
+is confirmatory.
 
 %======================================================================
 \begin{thebibliography}{00}

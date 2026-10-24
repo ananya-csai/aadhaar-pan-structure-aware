@@ -38,7 +38,14 @@ _font_cache: dict = {}
 def font(name: str, size: int) -> ImageFont.FreeTypeFont:
     key = (name, size)
     if key not in _font_cache:
-        _font_cache[key] = ImageFont.truetype(FONTS[name], size)
+        # BASIC layout on every platform. Pillow uses libraqm (complex-script
+        # shaping) only where FriBiDi is installed: usually yes on Linux, no on
+        # Windows. The frozen corpus was built on Windows, i.e. with BASIC
+        # layout, so forcing it makes Linux/macOS rebuilds match the frozen
+        # images (DECISIONS.md Section 21). Consequence: Devanagari is drawn
+        # without complex-script shaping.
+        _font_cache[key] = ImageFont.truetype(FONTS[name], size,
+                                              layout_engine=ImageFont.Layout.BASIC)
     return _font_cache[key]
 
 
