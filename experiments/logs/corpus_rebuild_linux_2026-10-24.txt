@@ -36,3 +36,18 @@ worst pixel difference: 3
 
 Result: 10,791 / 10,800 byte-identical. With the 9 frozen originals swapped in, the digest equals the frozen corpus digest 7253245a..., so the other 10,791 are byte-identical.
 manifest.jsonl: 31 non-OCR fields compared for all 10,800 images, 0 differences; splits.json and records.jsonl byte-identical.
+
+## Run 3: committed generator (templates.py with BASIC layout, no patch)
+Same command on commit c2916b5. dataset/scripts/compare_to_frozen.py:
+  images/test/pan/P000186_pan_C3_clean.jpg: 9 pixels differ, max 1 levels
+images 10800: identical 10791, different 9, missing 0
+  images/test/aadhaar/P000058_aadhaar_C2_severe.jpg
+  images/test/pan/P000186_pan_C3_clean.jpg
+  images/train/aadhaar/P000007_aadhaar_C01_clean.jpg
+  images/train/aadhaar/P000026_aadhaar_C2_clean.jpg
+  images/train/aadhaar/P000048_aadhaar_C1_clean.jpg
+  images/train/aadhaar/P000292_aadhaar_C4_clean.jpg
+  images/train/pan/P000240_pan_C01_clean.jpg
+  images/val/aadhaar/P000115_aadhaar_C01_clean.jpg
+  images/val/pan/P000164_pan_C3_clean.jpg
+Same 9 images as run 2; the committed code reproduces run 2 exactly.
