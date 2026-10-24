@@ -40,15 +40,15 @@ Recorded 24 Oct 2026. Everything below comes from committed files (run configs, 
 
 ### Tile-model checkpoints (`best.pt`, ~94 MB each, git-ignored)
 
-| Seed | SHA-256 |
-|---|---|
-| 0 | `45af4819f39d1e250802f2d40b171b91083e257dbcdcaa557ebffd54ab552190` |
-| 1 | `6345fc360d84842465226724577bb92abb6f2b37d327a99a053b151829087eb6` |
-| 2 | `1d3ef7d9b2cc34916ca853544c50f295c83b358aa741927bc752bb1c843aef52` |
-| 3 | `5c9b1159472374413f471e398c37db64f99d35223261a412f1e80844699b4080` |
-| 4 | `c0eb2d121c1a381a24359556c2eedaa38547d64720a35f7d743ba1e2e5546952` |
+| Seed | SHA-256 | MD5 (as shown by Zenodo) |
+|---|---|---|
+| 0 | `45af4819f39d1e250802f2d40b171b91083e257dbcdcaa557ebffd54ab552190` | `d22ff95731aa8574ea1a7cebc4189fef` |
+| 1 | `6345fc360d84842465226724577bb92abb6f2b37d327a99a053b151829087eb6` | `ccf8b7699d62229e3ccd7ba3811c276d` |
+| 2 | `1d3ef7d9b2cc34916ca853544c50f295c83b358aa741927bc752bb1c843aef52` | `6d4622b8b1a89043aa5ee2e2cd22e157` |
+| 3 | `5c9b1159472374413f471e398c37db64f99d35223261a412f1e80844699b4080` | `e3160da8bcc17da9b022a675e7469ade` |
+| 4 | `c0eb2d121c1a381a24359556c2eedaa38547d64720a35f7d743ba1e2e5546952` | `2766cb2c804225524da3805fc151ff02` |
 
-**Not yet released.** The checkpoints exist only on the GPU laptop. Without them, L2 cannot be checked by anyone else, and a reader who re-trains gets different scores (L4). Releasing them is a GPU-owner task (Section 7).
+**Archived (draft, 24 Oct 2026).** Zenodo record, version DOI `10.5281/zenodo.23618373` (concept DOI `10.5281/zenodo.23618372`), files `tiles_seed{0..4}_best.pt`. The DOI is reserved and resolves only once the record is published, which is planned for acceptance or camera-ready, because a published record shows the authors' names (double-blind review). Checked 24 Oct: the MD5 that Zenodo shows for each file equals the MD5 of the laptop file, and that file's SHA-256 equals the value above.
 
 Per-image score files: each run's `summary.json` records the SHA-256 of its `scores_trainval.csv` and `scores_test.csv`; `score_frozen.py` refuses to score if any file differs.
 
@@ -131,6 +131,6 @@ In order. Full text in `DECISIONS.md`.
 
 ## 7. Still open
 
-- [GPU] Upload the five tile checkpoints (and, optionally, the five base checkpoints) as release assets or to an archive (Zenodo/OSF), and check the SHA-256 values in Section 2 after upload. For a double-blind venue, use an anonymous host at submission time.
+- ✅ [GPU] Five tile checkpoints uploaded to a Zenodo draft (Section 2). ⬜ Publish the record at acceptance / camera-ready; for double-blind submission, give reviewers an anonymous copy if they need the files.
 - [GPU] Record the NVIDIA driver version (`nvidia-smi`, top line) in Section 3.
 - [GPU] Step 21: one clean-environment re-run of a tile seed; acceptance rule in Section 4, item 1.
