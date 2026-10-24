@@ -25,6 +25,7 @@ matplotlib==3.10.9
 opencv-python-headless==4.13.0.92
 
 # External binary, NOT a Python package and therefore not pinnable here:
-#   tesseract-ocr 5.3.4 (leptonica 1.82.0), English model only.
+#   tesseract-ocr 5.5.3 (leptonica 1.87.0), English model only -- the engine that
+#   produced v1 and the fresh set (DECISIONS.md Sections 20-21).
 # It determines every OCR number reported in Section IV, so record its version
 # alongside the commit hash when citing the dataset.

@@ -192,3 +192,13 @@ claim:
   abbreviated token. Results conditioned on `pan_fifth_source` are independent
   of it; corpus-level false-positive rates for the strict rule variant are not,
   and must be reported as a function of it.
+
+Also recorded (24 Oct 2026, DECISIONS.md Section 21):
+
+* Devanagari text is drawn with Pillow's basic text layout, i.e. without
+  complex-script shaping, so some Hindi conjuncts and vowel signs are not
+  formed as they would be in print. No Devanagari field is validated, so the
+  rule branch is unaffected, but the cards are less faithful in that script.
+* Bit-exact rebuilds: on a different OS with the pinned packages, 10,791 of
+  10,800 images rebuild byte-identically and 9 differ by at most 3 grey levels
+  in at most 37 border pixels. Use `dataset/scripts/compare_to_frozen.py`.

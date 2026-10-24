@@ -1,4 +1,4 @@
-# Paper source — version 09 (Sections I–VI complete, VII–IX in preparation)
+# Paper source — version 10 (Sections I–VI and Appendix A complete, VII–IX in preparation)
 
 ## Contents
 
@@ -19,7 +19,20 @@ inside `main.tex`, so they stay sharp and editable.
 2. Main document: `main.tex`. Compiler: **pdfLaTeX**. Compile twice.
 3. Do **not** add an `IEEEtran.cls` file; Overleaf provides the real class.
 
-## What changed from version 08
+## What changed from version 09
+
+- New Appendix A, Reproducibility Record (roadmap Step 19): how exactly each
+  stage can be repeated (Table XV), all eleven visual training runs with
+  epochs, minutes, validation metrics and temperatures (Table XVI), the
+  training environment, and a dated protocol record of every amendment,
+  correction and run event (Table XIV).
+- Appendix A reports an independent Linux rebuild of the corpus: 10,791 of
+  10,800 images byte-identical after fixing the text-layout engine.
+- Section VI-G shortened; the continuous-integration claim now states exactly
+  what is checked; the data-availability note mentions per-image digests.
+- One new red TODO in Appendix A, filled after the Step 21 re-run.
+
+## What changed from version 08 (in version 09)
 
 - Title block now matches the requested format: every author marked `*†`,
   one corresponding-author e-mail block (one address per line) and the
@@ -65,5 +78,4 @@ inside `main.tex`, so they stay sharp and editable.
 | Section II-E | search date, year range, n1, n2, count of non-peer-reviewed records |
 | Ref. [5] (`itd-pan`) | access date |
 | Ref. [3] (`uidai-scheme`) | page reference in the primary PDF |
-
-> `main_single_file.tex` and `section_IV.tex` in this folder are superseded earlier drafts (v7 and the August Section IV). `main.tex` is the current paper.
+| Appendix A-1 (L4) | result of the Step 21 clean re-run of one tile seed |

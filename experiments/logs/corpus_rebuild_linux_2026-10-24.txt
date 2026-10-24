@@ -1,0 +1,52 @@
+# Independent rebuild of corpus v1 on Linux (roadmap Step 19), 24 Oct 2026
+
+Environment: Linux (cloud container), Python 3.13.16, numpy 2.4.4, pillow 12.2.0, opencv-python-headless 4.13.0.92 (dataset/requirements.txt).
+Command: PYTHONPATH=src python -m idforge.build --config configs/dataset_v1.yaml --out <dir> --workers 2 --skip-ocr
+Frozen images compared on the GPU laptop (Windows build of 9 Oct).
+
+## Run 1: generator as frozen (Pillow picks raqm layout on Linux)
+Corpus digest differed; 3 sample images compared: text glyphs displaced by a few pixels across the card (mean |diff| 2.0-5.0 grey levels, 6-7% of pixels > 8 levels). Aborted.
+
+## Run 2: BASIC text layout forced (now the committed default)
+Rebuild digest: a18a6d363a6aef7dd9227c4e935285bd3bb8c948237cdae0746dbaedefe3e438  10800 images  941456654 bytes
+Per-image SHA-256 of the frozen images computed on the GPU laptop, compared by person and document type, then per image:
+
+images 10800; size mismatches 9
+   images/train/aadhaar/P000007_aadhaar_C01_clean.jpg
+   images/train/aadhaar/P000026_aadhaar_C2_clean.jpg
+   images/train/aadhaar/P000048_aadhaar_C1_clean.jpg
+   images/test/aadhaar/P000058_aadhaar_C2_severe.jpg
+   images/val/aadhaar/P000115_aadhaar_C01_clean.jpg
+   images/val/pan/P000164_pan_C3_clean.jpg
+   images/test/pan/P000186_pan_C3_clean.jpg
+   images/train/pan/P000240_pan_C01_clean.jpg
+   images/train/aadhaar/P000292_aadhaar_C4_clean.jpg
+digest with originals swapped in: 7253245a10732303a0b22520a502a0e1f1390bf4a88b83e77ea920781abdedef
+EQUAL to frozen digest
+  images/train/aadhaar/P000007_aadhaar_C01_clean.jpg: 12 pixels differ, max 3 levels, box (984, 376, 985, 382), size 986x622
+  images/train/aadhaar/P000026_aadhaar_C2_clean.jpg: 5 pixels differ, max 2 levels, box (976, 464, 979, 470), size 980x618
+  images/train/aadhaar/P000048_aadhaar_C1_clean.jpg: 7 pixels differ, max 1 levels, box (1000, 16, 1002, 23), size 1004x633
+  images/test/aadhaar/P000058_aadhaar_C2_severe.jpg: 37 pixels differ, max 3 levels, box (616, 88, 620, 95), size 621x391
+  images/val/aadhaar/P000115_aadhaar_C01_clean.jpg: 3 pixels differ, max 1 levels, box (960, 435, 960, 437), size 961x606
+  images/val/pan/P000164_pan_C3_clean.jpg: 11 pixels differ, max 2 levels, box (936, 580, 939, 583), size 940x593
+  images/test/pan/P000186_pan_C3_clean.jpg: 9 pixels differ, max 1 levels, box (960, 440, 962, 447), size 963x607
+  images/train/pan/P000240_pan_C01_clean.jpg: 17 pixels differ, max 2 levels, box (944, 368, 948, 375), size 949x598
+  images/train/aadhaar/P000292_aadhaar_C4_clean.jpg: 12 pixels differ, max 2 levels, box (928, 8, 933, 15), size 934x589
+worst pixel difference: 3
+
+Result: 10,791 / 10,800 byte-identical. With the 9 frozen originals swapped in, the digest equals the frozen corpus digest 7253245a..., so the other 10,791 are byte-identical.
+manifest.jsonl: 31 non-OCR fields compared for all 10,800 images, 0 differences; splits.json and records.jsonl byte-identical.
+
+## Run 3: committed generator (templates.py with BASIC layout, no patch)
+Same command on commit c2916b5. dataset/scripts/compare_to_frozen.py:
+images 10800: identical 10791, different 9, missing 0
+  images/test/aadhaar/P000058_aadhaar_C2_severe.jpg
+  images/test/pan/P000186_pan_C3_clean.jpg
+  images/train/aadhaar/P000007_aadhaar_C01_clean.jpg
+  images/train/aadhaar/P000026_aadhaar_C2_clean.jpg
+  images/train/aadhaar/P000048_aadhaar_C1_clean.jpg
+  images/train/aadhaar/P000292_aadhaar_C4_clean.jpg
+  images/train/pan/P000240_pan_C01_clean.jpg
+  images/val/aadhaar/P000115_aadhaar_C01_clean.jpg
+  images/val/pan/P000164_pan_C3_clean.jpg
+Same 9 images as run 2; the committed code reproduces run 2 exactly.
