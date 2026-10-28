@@ -1,0 +1,22 @@
+\begin{table}[!t]
+\caption{Confusion matrices on the v1 test split (1{,}080 forged, 540 genuine images) at the frozen operating points. TP/FN: forged images flagged/missed; FP/TN: genuine images flagged/passed. The A4 rows with ground-truth text equal the OR rule.}
+\label{tab:confusion}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{@{}l r r r r r@{}}
+\toprule
+System & TP & FN & FP & TN & FNR (\%) \\
+\midrule
+Visual (tiles) & 145 & 935 & 26 & 514 & 86.6 \\
+Rules, GT & 405 & 675 & 0 & 540 & 62.5 \\
+Rules, OCR & 466 & 614 & 59 & 481 & 56.9 \\
+OR, OCR & 580 & 500 & 83 & 457 & 46.3 \\
+A4, GT & 527 & 553 & 26 & 514 & 51.2 \\
+A4, OCR & 237 & 843 & 22 & 518 & 78.1 \\
+A4, OCR, $=$Rules & 516 & 564 & 59 & 481 & 52.2 \\
+A5, OCR (post-hoc) & 390 & 690 & 27 & 513 & 63.9 \\
+\bottomrule
+\end{tabular}
+\end{table}

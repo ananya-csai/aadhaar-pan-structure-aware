@@ -1,6 +1,6 @@
 %======================================================================
 %  Structure-Aware Forgery Detection for Aadhaar and PAN
-%  Version 08 -- Sections I-VI rewritten; VII-IX in preparation.
+%  Version 14 -- complete draft.
 %
 %  Overleaf: upload this zip as a new project, compile main.tex with
 %  pdfLaTeX (twice). IEEEtran.cls is supplied by Overleaf -- do not add a
@@ -56,12 +56,6 @@
 \newcommand{\xmark}{\textcolor{cbad}{\ding{55}}}
 \newcommand{\email}[1]{\href{mailto:#1}{\textcolor{blue}{#1}}}
 
-% --- placeholder for sections still to be written ---------------------
-\newcommand{\todosec}[1]{%
-  \par\vspace{2pt}\noindent\textit{\small [Section in preparation.%
-  \if\relax\detokenize{#1}\relax\else\ #1\fi]}\par\vspace{2pt}}
-% --- inline marker for a value only the authors can supply -------------
-\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
 
 % --- shaded box for the research questions ----------------------------
 \newtcolorbox{rqbox}[1]{enhanced, colback=cvis!5, colframe=cvis!60,
@@ -80,7 +74,7 @@ Semantic Evidence Fusion}
 \author{%
 \IEEEauthorblockN{Ananya Shukla\textsuperscript{1*\dag},
 Soham Phulwaria\textsuperscript{2*\dag} and
-Dr.\ Dinesh Saini\textsuperscript{3*\dag}}
+Dinesh Saini\textsuperscript{3*}}
 \IEEEauthorblockA{%
 \textsuperscript{1}Department of Computer Science and Engineering,
 Manipal University Jaipur, Jaipur, Rajasthan, India.\\
@@ -92,7 +86,8 @@ Manipal University Jaipur, Jaipur, Rajasthan, India.\\[7pt]
 \email{ananya.2427030029@muj.manipal.edu};\\
 \email{soham.2427010107@muj.manipal.edu};\\
 \email{dineshkumar.saini@jaipur.manipal.edu};\\
-\textsuperscript{\dag}These authors contributed equally to this work.}}
+\textsuperscript{\dag}These authors contributed equally to this work
+and share first authorship.}}
 
 \maketitle
 
@@ -119,7 +114,7 @@ with OCR text the rules alone flag 10.9\% of genuine documents.
 Feeding each rule to the fusion as a separate input recovers about half
 of this loss (36.1\%), and a fresh, pre-registered set of 90 unseen
 identities confirms the improvement ($+12.6$ points, 95\% CI
-$[11.2, 14.1]$, no change in false positives). Fabricated identifiers
+$[11.2, 14.1]$, with no measurable increase in false positives). Fabricated identifiers
 with valid check digits are flagged by every configuration at about the
 rate at which it flags genuine documents, which shows directly that a passed
 checksum is not evidence of authenticity.
@@ -197,8 +192,8 @@ benchmark
 pixels and returns a calibrated probability $p_v$; the
 structural/semantic branch reads only field values, from OCR or, in the
 oracle condition, from ground truth, and returns the outcome of each
-rule. The two branches never share inputs, which is what allows the
-contribution of each to be measured separately. Fusion parameters and
+rule. The two branches never share inputs, so the contribution of
+each can be measured separately. Fusion parameters and
 every threshold are fixed on validation data (Section~\ref{sec:setup}).}
 \label{fig:overview}
 \end{figure*}
@@ -238,7 +233,7 @@ public specification of the algorithm that generates it, so an external
 system can check the PAN's format, category and name initial and
 nothing more. A fair study has to keep
 this asymmetry rather than treating both cards as equally
-``checksum-verifiable''. Structural evidence also cuts both ways. A
+``checksum-verifiable''. Structural evidence is also ambiguous. A
 failed rule shows that the extracted text is internally inconsistent,
 which may be caused by a forger, but equally by an OCR misread.
 Conversely, a passed checksum proves very little, because anyone who
@@ -325,7 +320,7 @@ of presenting explanations as an unevaluated feature.
 
 We do not claim to have introduced checksum validation, OCR-based
 verification or hybrid document checking. The contribution is
-methodological and empirical: a careful measurement of what such
+methodological and empirical: a measurement of what such
 evidence is worth for these two document formats, and where it fails.
 
 The rest of the paper is organised as follows. Section~\ref{sec:related}
@@ -829,8 +824,8 @@ third-party service.
 
 \emph{Format-faithful but not design-faithful.} The layouts reproduce
 the field structure of the two cards (which fields appear, in what
-order, with what digit grouping), because that is what the validators
-read. They do not reproduce any official emblem, seal, hologram, colour
+order, with what digit grouping), because the validators read exactly
+that structure. They do not reproduce any official emblem, seal, hologram, colour
 scheme or authority name: a geometric placeholder and a fictitious
 authority stand in their place, and every image carries the same
 low-opacity \textsc{synthetic specimen} overlay. Three layout variants
@@ -896,7 +891,7 @@ Each of the \dsPersons{} identity records holds a Latin and a
 Devanagari name, a date of birth, a gender, an Aadhaar number, a PAN, a
 procedurally drawn photograph and signature, and one layout variant per
 document type. Every image derived from a record carries the same
-\texttt{person\_id}, which is what makes a person-level split possible.
+\texttt{person\_id}, so the corpus can be split by person.
 Aadhaar numbers are an eleven-digit body plus a Verhoeff check digit
 computed by the validator's own code. PANs consist of three random
 letters, a category code, a fifth character derived from the name, four
@@ -1084,15 +1079,16 @@ capture homography, and running Tesseract~\cite{tesseract} with a
 character whitelist for the field type. Before validation the output is
 only stripped of whitespace (identifiers) or whitespace-normalised
 (names). There is no character substitution, dictionary lookup,
-checksum-guided repair or confidence filter, because the gap between
-ground-truth and OCR verdicts is exactly what RQ4 measures. For the same
+checksum-guided repair or confidence filter: RQ4 measures the gap
+between ground-truth and OCR verdicts, and any repair would hide part of
+it. For the same
 reason the whitelists are flat over the character class rather than
 position-aware. A PAN whitelist that forced letters at positions 1--5
 and 10 would remove most misreads, but it would build the very format
 the validator checks into the extractor and make the format check
 partly self-fulfilling. Only the English model is used, so the
-Devanagari line is rendered but never read; this is what makes Aadhaar
-C3 an intended miss.
+Devanagari line is rendered but never read, which is why Aadhaar C3 is
+an intended miss.
 
 \subsection{Corpus Characterisation}
 \label{subsec:characterisation}
@@ -1151,8 +1147,8 @@ never fires, and the cross-field check fires only on severe captures
 (5.8\%), when the name itself is misread. On Aadhaar both checks fire
 only on severe captures. Table~\ref{tab:misreads} gives typical cases.
 The checks of one document type are therefore far from equally reliable
-under OCR, which is what the per-check fusion of
-Section~\ref{sec:fusion} exploits.
+under OCR, and the per-check fusion of Section~\ref{sec:fusion} uses
+this difference.
 
 \begin{figure}[!t]
 \centering
@@ -1289,8 +1285,7 @@ share the control's render seed, a forged render must equal its control
 outside the corrupted field's box. We re-render all categories for
 \dsProbeRecords{} records and count differing pixels outside the
 expected region; over \dsProbeComparisons{} comparisons the count is
-\dsProbeOutside. The audit has already paid for itself. During
-development it caught a real defect: the Aadhaar layout advanced each
+\dsProbeOutside. During development the audit caught a real defect: the Aadhaar layout advanced each
 field by the height of the text above it, so a Devanagari name of a
 different height shifted every field below, and C3 became visually
 separable through the reflow. We switched to fixed vertical advances and
@@ -1365,7 +1360,7 @@ The system has two branches that never share inputs, and a fusion stage
 outputs a calibrated forgery probability $p_v$. The
 structural/semantic branch sees only field values and outputs the
 outcome of each rule of Section~\ref{sec:framework}. Keeping the inputs
-disjoint is deliberate: it is what lets us attribute a detection to one
+disjoint is deliberate: it lets us attribute a detection to one
 source of evidence or the other.
 
 \subsection{Visual Branch}
@@ -1581,7 +1576,7 @@ Algorithm~\ref{alg:infer} summarises how one document is processed.
 \State $p_v\gets\frac{1}{5}\sum_m\sigma(z_m/T_m)$ \Comment{(\ref{eq:calib})}
 \State $\hat t\gets\textsc{Ocr}(x,d)$ \Comment{$t^{\ast}$ in the oracle condition}
 \State $f\gets\textsc{Validate}_d(\hat t)$ \Comment{one bit per check}
-\State $s\gets\sigma\big(w_0+w_1\operatorname{logit}(p_v)+\sum_k w_k f_k\big)$
+\State $s\gets$ fused score from $\operatorname{logit}(p_v)$ and $f$ \Comment{(\ref{eq:a4}) or (\ref{eq:a5})}
 \State $h\gets[\,s\ge\tau\,]$;\ \ $E\gets\emptyset$
 \If{$h=1$}
   \State $E\gets\{\textsc{Template}(k,\hat t): f_k=1\}$ \Comment{Table~\ref{tab:explain}}
@@ -1852,7 +1847,7 @@ could not see the fine-trace edits.
 \subsection{Frozen Fusion Parameters}
 
 Table~\ref{tab:weights} lists the fusion weights fitted on validation
-and then frozen. Two patterns are worth noting before any test result.
+and then frozen. Two patterns are already visible before any test result.
 Under ground-truth text, every rule that ever fires receives a large
 positive weight, because a failure is then always a real
 inconsistency. Under OCR
@@ -1922,7 +1917,8 @@ Section~\ref{subsec:res-a5}, from the fresh set. Nothing was refitted or
 re-thresholded after either run. Table~\ref{tab:main} lists every
 system, Table~\ref{tab:tests} every paired comparison with its
 family-wise correction, and the remaining tables break the results down
-by the factor each research question concerns. Intervals are 95\%
+by the factor each research question concerns; Table~\ref{tab:confusion}
+gives the underlying counts. Intervals are 95\%
 person-clustered bootstrap intervals; percentages refer to 270 forged
 images per category and 540 genuine images unless stated otherwise.
 The comparison families were fixed from lists written before the test
@@ -1931,6 +1927,8 @@ test reports had been produced; Appendix~\ref{app:repro} gives the
 record.
 
 \input{generated/res_main}
+
+\input{generated/res_confusion}
 
 \subsection{RQ1: Visual Detection of Pixel-Level Forgery}
 \label{subsec:res-rq1}
@@ -1994,9 +1992,9 @@ whose name was misread on severe captures. Over all images in these
 cells, rule-coverage recall is 100\% with ground-truth text and 98.8\%
 [97.5, 99.8] with OCR text. Aadhaar C3 is not caught under either text
 (0 of 130 visual misses with ground-truth text), because no Aadhaar rule
-reads the Devanagari name line; the 4.6\% flagged with OCR text are
-OCR-induced checksum failures, all on severe captures, as on genuine
-cards. This is the capability boundary of Table~\ref{tab:capability},
+reads the Devanagari name line; the 4.6\% of them flagged with OCR
+text are OCR-induced failures of the Aadhaar checks, all on severe
+captures, as on genuine cards. This is the capability boundary of Table~\ref{tab:capability},
 measured.
 
 The explanations name the right check whenever the text is correct.
@@ -2047,7 +2045,13 @@ fusion is useless here (2.1\% recall), because the branches rarely
 agree. Threshold-free, the fused score separates forged from genuine
 images with an AUROC of 0.744 with ground-truth text and 0.714 with OCR
 text, against 0.550 for the visual score alone (PR-AUC 0.881, 0.841 and
-0.734; chance level 0.667).
+0.734; chance level 0.667). Fig.~\ref{fig:roc} shows the shape of
+this advantage. With ground-truth text the fused curve lies above the
+visual one over the whole plotted range; with OCR text the gain builds
+up in steps between about 1\% and 15\% FPR, because genuine documents
+now fail rules as well.
+
+\input{generated/res_roc_fig}
 
 With OCR text, A4 at the 5\% operating point reaches 21.9\% [20.0, 24.0]
 at an FPR of 4.1\%, 8.5 points [6.3, 10.6] above the visual branch
@@ -2220,12 +2224,11 @@ points of its v1 test value (Table~\ref{tab:fresh}).
 \subsection{Interpretation of Results}
 \label{subsec:interpretation}
 
-\paragraph*{The two sources are complementary by design, and the size
-of the gain is a property of the benchmark.} The visual branch and the
+\paragraph*{Complementarity and the size of the gain.} The visual branch and the
 rules detect almost disjoint sets of forgeries: only 23 of 527 flagged
-forgeries are caught by both. This is what the benchmark was built to
-test, since C1 edits keep every value valid and C2--C4 are rendered
-without pixel traces. The direction of the result and the per-category
+forgeries are caught by both. The benchmark was built to test exactly
+this: C1 edits keep every value valid, and C2--C4 are rendered without
+pixel traces. The direction of the result and the per-category
 pattern are therefore the findings; the overall 35.4-point gain is not
 an estimate of what rules would add in practice. It scales with the
 share of rule-detectable categories, which is 37.5\% of forged images
@@ -2233,7 +2236,7 @@ here by construction. In a stream with fewer lookalike forgeries the
 gain would shrink in proportion; in a stream of mostly pixel edits it
 would be close to zero.
 
-\paragraph*{OCR is the bottleneck, and it fails mostly in one direction.} The
+\paragraph*{OCR as the bottleneck.} The
 rules lose almost no detection capability under OCR (98.8\% coverage);
 what changes is that genuine documents start to fail. A fusion model
 that sees a single ``some rule failed'' input then has to discount all
@@ -2245,7 +2248,7 @@ on genuine cards (PAN format) from the checks that rarely fire falsely
 about half of the loss. The fresh-set result shows that this is not an
 artefact of designing A5 after seeing the test split.
 
-\paragraph*{A richer rule set is a larger target for OCR error.} PAN has
+\paragraph*{More rules, more exposure to OCR error.} PAN has
 more independently checkable structure than Aadhaar and, with correct
 text, more than twice the incremental value. Under OCR this reverses,
 because a ten-character alphanumeric field gives the reader more ways to
@@ -2253,15 +2256,14 @@ fail than a twelve-digit numeric one. Any extension to other documents
 should expect the value of a rule to depend on the robustness of the
 field it reads as much as on its logical power.
 
-\paragraph*{A passed check is not evidence of authenticity.} Every
+\paragraph*{What a passed check means.} Every
 configuration flags fabricated identifiers with valid check digits (C4)
 at its false-positive rate. Structural validation can reject a careless
 or inconsistent forgery; it cannot accept a document as genuine. Systems
 that report a passed checksum as positive evidence of authenticity
 overstate what the check can show.
 
-\paragraph*{The visual baseline is modest, and that bounds the
-conclusions.} The tile model is far better than the whole-card CNN on
+\paragraph*{Dependence on the visual baseline.} The tile model is far better than the whole-card CNN on
 the same data, but it is near chance on severe captures and resampled
 patches, and its AUROC fell from 0.780 on validation to 0.720 on test.
 A stronger visual detector would raise C1 recall and thus the recall
@@ -2311,8 +2313,9 @@ this only for the pre-registered comparisons.
 identities but the same generator, templates and capture model. It
 confirms generalisation to unseen people, not to unseen document
 designs or capture conditions.
-\item \emph{Scope of the rules.} PAN coverage is limited to the
-Individual format, the PAN tenth character is not verified, and no
+\item \emph{Scope of the rules.} The corpus contains only individual
+PANs ($p_4=\texttt{P}$), so the entity branch of the cross-field rule is
+unit-tested but not evaluated. The PAN tenth character is not verified, and no
 Aadhaar rule reads the Devanagari line, so Aadhaar C3 is outside the
 rule branch's reach. Devanagari text is also drawn without
 complex-script shaping (Appendix~\ref{app:repro}).
@@ -2320,6 +2323,14 @@ complex-script shaping (Appendix~\ref{app:repro}).
 training tiles, its performance is modest, and only one architecture was
 selected; Section~\ref{subsec:interpretation} states which conclusions
 depend on it.
+\item \emph{Reuse of the validation split.} Early stopping, model
+selection, temperature scaling, the visual threshold and the fusion
+weights all use the same 45-person validation split. Visual scores on
+that split are therefore somewhat optimistic (AUROC 0.780 against 0.720
+on test), which may give the visual input more weight in fusion than it
+deserves. The test and fresh-set results remain unbiased estimates for
+the frozen systems, but the fitted weights need not be the best
+achievable.
 \item \emph{Post-hoc elements.} A5 was designed after the test split had
 been scored; its confirmatory evidence is the fresh-set H1 only. The
 grouping of comparisons into families was recorded after the test
@@ -2449,7 +2460,7 @@ Correction & 20 Oct & sealed
   & None; no image, label or score changed. \\
 Test scored & 21 Oct & scored once & All frozen systems scored on the test split. & -- \\
 A5 & 21 Oct & \textbf{scored}
-  & Per-check fusion added after inspecting test results.
+  & Per-check fusion designed after inspecting test results; design recorded before fitting. Agreed by S.P.\ on 21 Oct, confirmed by A.S.\ and D.S.\ on 23 Oct.
   & Reported as post-hoc on the test split. \\
 A6 & 21 Oct & scored
   & Fresh 90-person test set pre-registered with hypothesis and analysis, then generated. First build stopped on a text-encoding error (Windows code page) and was re-run with UTF-8; nothing had been scored.
@@ -2614,7 +2625,7 @@ Regularised & 0 & \hphantom{0}5/10 & 18.5 & .564 & .435 & -- & -- \\
 Table~\ref{tab:protocol} lists, in order, every change to the approved
 protocol and every irregular event during the runs. Each entry is dated
 in the protocol file; entries made after the test split was scored are
-marked as such. Two points deserve a plain statement. First, the
+marked as such. Two points need to be stated explicitly. First, the
 training script wrote the test-split score files when each model
 finished and recorded their digests; the files were not read before the
 freeze, and the scoring script refuses to run unless the freeze tag

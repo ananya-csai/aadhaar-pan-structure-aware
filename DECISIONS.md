@@ -273,7 +273,7 @@ Validation AUROC by subgroup, seed 0 (`base` → `tiles`): all C1 0.578 → 0.69
 
 ## 19. Amendment A5 — per-check fusion (post-hoc; recorded 21 Oct 2026, after the test split was scored)
 
-**Status.** Post-hoc. Written after the single test scoring of 21 Oct 2026 (Step 15, tag `frozen-before-test`), before any A5 model was fitted. A4 remains the primary, pre-registered result. A5 is reported beside it and is always labelled post-hoc. Agreed by Soham Phulwaria on 21 Oct 2026; Ananya Shukla and Dinesh Saini to confirm.
+**Status.** Post-hoc. Written after the single test scoring of 21 Oct 2026 (Step 15, tag `frozen-before-test`), before any A5 model was fitted. A4 remains the primary, pre-registered result. A5 is reported beside it and is always labelled post-hoc. Agreed by Soham Phulwaria on 21 Oct 2026. Confirmed by Ananya Shukla and Dinesh Saini on 23 Oct 2026, as reported by Soham Phulwaria; this confirmation was recorded here on 29 Oct 2026. The confirmation came after the fresh-set evaluation of 21 Oct (Section 20); it changes nothing, because the A5 design above was committed on 21 Oct before A5 was fitted and before the fresh set was generated.
 
 **Motivation (from the test results).** Under OCR text, the A4 fusion has one rule input r ("any check failed"). On genuine PAN, the format check fails on 15.2% of documents (OCR misreads), while the cross-field (semantic) check fails on 3.0% and still catches 76.3% of PAN C3. A single r cannot separate the reliable check from the noisy one, so A4 largely discounts all PAN rule failures (PAN C3 recall 12.6% at 5% FPR).
 
