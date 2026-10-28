@@ -1,8 +1,9 @@
 """Generate the Section VII tables and figure data from committed results.
 
-Reads experiments/results/analysis/test/analysis.json (Step 16-17 analyses) and
-experiments/results/fresh/*_fresh.json, confirmatory.json; writes
-paper/generated/res_*.tex. No number in these tables is typed by hand.
+Reads experiments/results/analysis/test/analysis.json (Step 16-17 analyses),
+experiments/results/fresh/*_fresh.json, confirmatory.json and, for the ROC figure,
+the per-image test prediction files; writes paper/generated/res_*.tex. No number in
+these tables is typed by hand.
 
     python paper/scripts/make_results_tables.py
 """
@@ -61,7 +62,7 @@ L = [r"\begin{table*}[!t]",
      r"(genuine images) in \%, with 95\% person-clustered bootstrap intervals. C1--C4: recall per "
      r"category. ``$=$ X'': threshold set on validation to the FPR that system X reaches there. "
      r"A5 with ground-truth text makes the same decisions as A4 and is not listed. "
-     r"FNR $=100-{}$Recall; confusion matrices of all systems are released with the results.}",
+     r"FNR $=100-{}$Recall; counts in Table~\ref{tab:confusion}.}",
      r"\label{tab:main}", r"\centering", r"\footnotesize", r"\setlength{\tabcolsep}{4.2pt}",
      r"\renewcommand{\arraystretch}{1.08}",
      r"\begin{tabular}{@{}l l l r r r c r r r r@{}}", r"\toprule",
@@ -215,7 +216,7 @@ fig = r"""\begin{figure}[!t]
 \caption{Incremental value $\Delta$ of rule evidence over the visual branch at the 5\% operating
 point, by document type (test split, 95\% intervals). With ground-truth text PAN gains twice as much
 as Aadhaar; with OCR text and a single rule input (A4) the PAN gain vanishes, and per-check fusion
-(A5) restores most of it.}
+(A5) restores about half of it.}
 \label{fig:delta}
 \end{figure}
 """
@@ -247,4 +248,103 @@ for lab_, tk, fk in pairs:
              rf"{100 * o['fpr']['value']:.1f} {{\tiny[{100 * b['fpr']['lo']:.1f}, {100 * b['fpr']['hi']:.1f}]}} \\")
 L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
 (OUT / "res_fresh.tex").write_text("\n".join(L) + "\n", encoding="utf-8")
+
+# ---------------------------------------------------------------- confusion matrices
+conf_rows = [("Visual (tiles)", "visual"), ("Rules, GT", "rules_GT"), ("Rules, OCR", "rules_OCR"),
+             ("OR, OCR", "OR_OCR"), ("A4, GT", "A4_GT"), ("A4, OCR", "A4_OCR"),
+             (r"A4, OCR, $=$Rules", "A4_OCR@rules"), ("A5, OCR (post-hoc)", "A5_OCR")]
+L = [r"\begin{table}[!t]",
+     r"\caption{Confusion matrices on the v1 test split (1{,}080 forged, 540 genuine images) at the "
+     r"frozen operating points. TP/FN: forged images flagged/missed; FP/TN: genuine images "
+     r"flagged/passed. The A4 rows with ground-truth text equal the OR rule.}",
+     r"\label{tab:confusion}", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{4pt}",
+     r"\renewcommand{\arraystretch}{1.06}",
+     r"\begin{tabular}{@{}l r r r r r@{}}", r"\toprule",
+     r"System & TP & FN & FP & TN & FNR (\%) \\", r"\midrule"]
+for lab_, k in conf_rows:
+    c = S[k]["confusion"]
+    assert c["TP"] + c["FN"] == 1080 and c["FP"] + c["TN"] == 540, k
+    L.append(rf"{lab_} & {c['TP']} & {c['FN']} & {c['FP']} & {c['TN']} & {100 * c['FN'] / 1080:.1f} \\")
+L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+(OUT / "res_confusion.tex").write_text("\n".join(L) + "\n", encoding="utf-8")
+
+# ---------------------------------------------------------------- ROC curves (test split)
+import sys  # noqa: E402
+import numpy as np  # noqa: E402
+sys.path.insert(0, str(ROOT / "experiments" / "analysis"))
+import step16_analyses as st  # noqa: E402
+
+_man, _ocr, _rules, _ids, _preds, _scores = st.load("test")
+_y = np.array([int(_man[i]["label"]) for i in _ids])
+
+
+def roc_points(y, s):
+    """Exact ROC vertices (one per distinct score), as (FPR, TPR) in %."""
+    order = np.argsort(-s, kind="mergesort")
+    ss, yy = s[order], y[order]
+    tp = np.cumsum(yy == 1); fp = np.cumsum(yy == 0)
+    last = np.r_[ss[1:] != ss[:-1], True]           # keep the last index of each tie group
+    tpr = np.r_[0, tp[last]] / (y == 1).sum(); fpr = np.r_[0, fp[last]] / (y == 0).sum()
+    return 100 * fpr, 100 * tpr
+
+
+def thin(fx, ty, step=0.5):
+    """Drop vertices closer than `step` points to the previous kept one (keeps the curve shape)."""
+    keep, lx, ly = [0], fx[0], ty[0]
+    for i in range(1, len(fx) - 1):
+        if abs(fx[i] - lx) >= step or abs(ty[i] - ly) >= step:
+            keep.append(i); lx, ly = fx[i], ty[i]
+    keep.append(len(fx) - 1)
+    return " ".join(f"({fx[i]:.2f},{ty[i]:.2f})" for i in keep)
+
+
+curves = [("visual", "cvis", "solid", "Visual"), ("A4_GT", "cfuse", "solid", "A4, GT"),
+          ("A4_OCR", "cbad", "solid", "A4, OCR"), ("A5_OCR", "crule", "dashed", "A5, OCR (post-hoc)")]
+plots, legend = [], []
+for k, col, sty, lab_ in curves:
+    fx, ty = roc_points(_y, _scores[k])
+    assert abs(st.roc_auc(_y, _scores[k]) - S[k]["auroc_forged_vs_c0"]) < 5e-4, k
+    plots.append(rf"\addplot[{col}, {sty}, thick] coordinates {{{thin(fx, ty)}}};")
+    legend.append(rf"{{{lab_} ({S[k]['auroc_forged_vs_c0']:.3f})}}")
+pts = []
+for k, mk, col in (("visual", "*", "cvis"), ("A4_GT", "square*", "cfuse"), ("A4_OCR", "triangle*", "cbad"),
+                   ("A5_OCR", "diamond*", "crule"), ("rules_OCR", "o", "cink"), ("OR_OCR", "x", "cink")):
+    pts.append(rf"\addplot[only marks, mark={mk}, mark size=1.8pt, {col}, forget plot] coordinates "
+               rf"{{({S[k]['c0']['value']:.1f},{S[k]['forged']['value']:.1f})}};")
+fig = r"""\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth, height=5.6cm, xmin=0, xmax=30, ymin=0, ymax=70,
+  xlabel={false-positive rate on genuine images (\%)}, ylabel={detection recall (\%)},
+  xlabel style={font=\scriptsize}, ylabel style={font=\scriptsize},
+  xticklabel style={font=\scriptsize}, yticklabel style={font=\scriptsize},
+  xtick={0,5,10,15,20,25,30}, ytick={0,10,20,30,40,50,60,70},
+  grid=major, grid style={cgrey!20}, axis lines*=left,
+  legend style={font=\tiny, at={(0.98,0.03)}, anchor=south east, draw=cgrey!40, fill=white,
+                row sep=-1pt},
+  legend cell align=left,
+]
+@PLOTS@
+\legend{@LEGEND@}
+\draw[cgrey, dashed] (axis cs:5,0) -- (axis cs:5,70);
+@POINTS@
+\node[font=\tiny, anchor=west, cink] at (axis cs:@RX@,@RY@) {Rules, OCR};
+\node[font=\tiny, anchor=north west, cink] at (axis cs:@OX@,@OY@) {OR, OCR};
+\end{axis}
+\end{tikzpicture}
+\caption{ROC curves of the continuous scores on the v1 test split, restricted to FPR ${\le}30\%$
+(forged vs.\ genuine; AUROC over the full range in the legend). Markers: the frozen operating points
+of Table~\ref{tab:main}; dashed line: the 5\% budget. With ground-truth text the fused curve starts
+high, because rule failures place many forged images above every genuine score. With OCR text genuine
+documents fail rules too, so the fused curves climb in steps and meet OR fusion near its operating
+point.}
+\label{fig:roc}
+\end{figure}
+"""
+fig = (fig.replace("@PLOTS@", "\n".join(plots)).replace("@LEGEND@", ",".join(legend))
+       .replace("@POINTS@", "\n".join(pts))
+       .replace("@RX@", f"{S['rules_OCR']['c0']['value'] + 0.6:.1f}").replace("@RY@", f"{S['rules_OCR']['forged']['value'] - 2.5:.1f}")
+       .replace("@OX@", f"{S['OR_OCR']['c0']['value'] + 0.4:.1f}").replace("@OY@", f"{S['OR_OCR']['forged']['value'] - 2.0:.1f}"))
+(OUT / "res_roc_fig.tex").write_text(fig, encoding="utf-8")
 print("wrote", ", ".join(p.name for p in sorted(OUT.glob("res_*.tex"))))
