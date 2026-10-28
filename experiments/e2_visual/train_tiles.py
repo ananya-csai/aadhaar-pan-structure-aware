@@ -13,6 +13,11 @@ negative tiles drawn afresh (seeded) from all negative tiles of train C0/C1.
 
     python experiments/e2_visual/train_tiles.py --dry-run          # 1-2 minute code check, no outputs kept
     python experiments/e2_visual/train_tiles.py --seed 0
+    python experiments/e2_visual/train_tiles.py --seed 0 --run-name native_tiles_rerun   # Step 21
+
+Step 21 re-run (DECISIONS.md Section 23): --run-name native_tiles_rerun writes to
+runs/native_tiles_rerun/seed<k>/ and does NOT score the test split (validation and
+training scores only). Training is otherwise identical.
 
 Outputs in experiments/e2_visual/runs/native_tiles/seed<k>/:
   config.json, epochs.jsonl, best.pt (git-ignored), summary.json,
@@ -92,6 +97,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=int, choices=[0, 1, 2, 3, 4])
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--run-name", default="native_tiles", choices=["native_tiles", "native_tiles_rerun"],
+                    help="native_tiles_rerun = Step 21 reproduction run; the test split is not scored")
     ap.add_argument("--dry-run", action="store_true",
                     help="20 training steps + scoring 40 val images; checks the code, keeps nothing")
     a = ap.parse_args()
@@ -111,7 +118,8 @@ def main():
     if not torch.cuda.is_available():
         sys.exit("STOP: CUDA is not available.")
 
-    run = ROOT / "experiments" / "e2_visual" / "runs" / "native_tiles" / f"seed{seed}"
+    run = ROOT / "experiments" / "e2_visual" / "runs" / a.run_name / f"seed{seed}"
+    score_test = a.run_name == "native_tiles"
     if not a.dry_run:
         if (run / "summary.json").exists():
             sys.exit(f"STOP: {run} already holds a completed run. Runs are never overwritten.")
@@ -209,13 +217,18 @@ def main():
 
     model.load_state_dict(torch.load(run / "best.pt", map_location=dev, weights_only=True))
     trainval_rows = read_index(ROOT, INDEX_SIZE, ("train", "val"), ALL_CATS)
-    test_rows = read_index(ROOT, INDEX_SIZE, ("test",), ALL_CATS)
     ids, tl, _ = score_images(model, TileImageSet(ROOT, trainval_rows), a.workers, dev)
     sha_tv = write_scores(run / "scores_trainval.csv", trainval_rows, ids, tl)
-    ids_t, tl_t, _ = score_images(model, TileImageSet(ROOT, test_rows), a.workers, dev)
-    sha_t = write_scores(run / "scores_test.csv", test_rows, ids_t, tl_t)
-    if len(set(ids) | set(ids_t)) != 10800:
-        sys.exit("STOP: did not score exactly 10,800 distinct images.")
+    if score_test:
+        test_rows = read_index(ROOT, INDEX_SIZE, ("test",), ALL_CATS)
+        ids_t, tl_t, _ = score_images(model, TileImageSet(ROOT, test_rows), a.workers, dev)
+        sha_t = write_scores(run / "scores_test.csv", test_rows, ids_t, tl_t)
+        if len(set(ids) | set(ids_t)) != 10800:
+            sys.exit("STOP: did not score exactly 10,800 distinct images.")
+    else:
+        ids_t, sha_t = [], None
+        if len(set(ids)) != 9180:
+            sys.exit("STOP: did not score exactly 9,180 train/val images.")
     summary = dict(best_epoch=best_epoch, best_val_pr_auc=round(best_ap, 5),
                    best_val_auroc=round(best_auc, 5), epochs_run=epoch,
                    minutes=round((time.time() - t_start) / 60, 1),
@@ -223,7 +236,10 @@ def main():
                    n_trainval_scored=len(ids), n_test_scored=len(ids_t))
     (run / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print("\nDONE", json.dumps(summary, indent=2))
-    print("Do not open scores_test.csv before Step 15.")
+    if score_test:
+        print("Do not open scores_test.csv before Step 15.")
+    else:
+        print("Step 21 re-run: compare with  python experiments/e2_visual/compare_rerun.py --seed", seed)
 
 
 if __name__ == "__main__":
