@@ -74,3 +74,9 @@ jobs:
           python experiments/rules/recovery.py --split val > /dev/null
           git diff --exit-code -- experiments/results/val/recovery.md experiments/results/val/recovery.csv
           echo "fusion tests pass; recovery table reproduces"
+          # Section VII: Step 16-17 analyses and the generated paper tables must regenerate exactly.
+          python experiments/analysis/step16_analyses.py --split val > /dev/null
+          python experiments/analysis/step16_analyses.py --split test > /dev/null
+          python paper/scripts/make_results_tables.py > /dev/null
+          git diff --exit-code -- experiments/results/analysis/val/report.md experiments/results/analysis/test/report.md 'paper/generated/res_*.tex'
+          echo "Section VII analyses and tables reproduce"

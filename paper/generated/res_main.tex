@@ -1,0 +1,35 @@
+\begin{table*}[!t]
+\caption{Detection on the v1 test split (1{,}620 images of 45 people; 540 genuine and 270 per forgery category) at the operating points fixed on validation. Recall (all forged images) and FPR (genuine images) in \%, with 95\% person-clustered bootstrap intervals. C1--C4: recall per category. ``$=$ X'': threshold set on validation to the FPR that system X reaches there. A5 with ground-truth text makes the same decisions as A4 and is not listed. FNR $=100-{}$Recall; confusion matrices of all systems are released with the results.}
+\label{tab:main}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4.2pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}l l l r r r c r r r r@{}}
+\toprule
+System & Text & Threshold & \multicolumn{1}{c}{Recall} & \multicolumn{1}{c}{FPR} & Prec. & F1 & C1 & C2 & C3 & C4 \\
+\midrule
+\multicolumn{11}{@{}l}{\emph{Single source}} \\
+\quad Visual (tiles) & -- & $t_v$, 5\% & 13.4 {\tiny[11.3, 15.6]} & 4.8 {\tiny[3.1, 6.5]} & 84.8 & 0.232 & 37.4 & 7.0 & 3.3 & 5.9 \\
+\quad Whole-card CNN & -- & own $t$, 5\% & 9.3 {\tiny[7.5, 11.1]} & 5.2 {\tiny[3.1, 7.4]} & 78.1 & 0.166 & 22.2 & 3.3 & 4.4 & 7.0 \\
+\quad Rules & GT & -- & 37.5 {\tiny[37.5, 37.5]} & 0.0 {\tiny[0.0, 0.0]} & 100.0 & 0.545 & 0.0 & 100.0 & 50.0 & 0.0 \\
+\quad Rules & OCR & -- & 43.1 {\tiny[41.3, 45.1]} & 10.9 {\tiny[7.4, 14.8]} & 88.8 & 0.581 & 11.1 & 100.0 & 50.4 & 11.1 \\
+\midrule
+\multicolumn{11}{@{}l}{\emph{Fusion, ground-truth text}} \\
+\quad OR & GT & inherited & 48.8 {\tiny[46.9, 50.7]} & 4.8 {\tiny[3.1, 6.5]} & 95.3 & 0.645 & 37.4 & 100.0 & 51.9 & 5.9 \\
+\quad AND & GT & inherited & 2.1 {\tiny[1.2, 3.1]} & 0.0 {\tiny[0.0, 0.0]} & 100.0 & 0.042 & 0.0 & 7.0 & 1.5 & 0.0 \\
+\quad A4 logistic & GT & 5\% & \textbf{48.8} {\tiny[46.9, 50.7]} & 4.8 {\tiny[3.1, 6.5]} & 95.3 & 0.645 & 37.4 & 100.0 & 51.9 & 5.9 \\
+\midrule
+\multicolumn{11}{@{}l}{\emph{Fusion, OCR text}} \\
+\quad OR & OCR & inherited & 53.7 {\tiny[51.2, 56.3]} & 15.4 {\tiny[12.2, 18.9]} & 87.5 & 0.666 & 45.9 & 100.0 & 52.2 & 16.7 \\
+\quad AND & OCR & inherited & 2.9 {\tiny[1.8, 4.1]} & 0.4 {\tiny[0.0, 0.9]} & 93.9 & 0.056 & 2.6 & 7.0 & 1.5 & 0.4 \\
+\quad A4 logistic & OCR & 5\% & 21.9 {\tiny[20.0, 24.0]} & 4.1 {\tiny[2.8, 5.6]} & 91.5 & 0.354 & 18.5 & 56.7 & 8.5 & 4.1 \\
+\quad A4 logistic & OCR & = Rules-OCR & 47.8 {\tiny[45.4, 50.2]} & 10.9 {\tiny[7.4, 14.8]} & 89.7 & 0.624 & 32.6 & 99.6 & 47.8 & 11.1 \\
+\quad A4 logistic & OCR & = OR-OCR & 53.6 {\tiny[51.1, 56.2]} & 15.4 {\tiny[12.2, 18.9]} & 87.5 & 0.665 & 45.6 & 100.0 & 52.2 & 16.7 \\
+\midrule
+\multicolumn{11}{@{}l}{\emph{Per-check fusion (post-hoc, \S\ref{subsec:res-a5})}} \\
+\quad A5 per-check & OCR & 5\% & \textbf{36.1} {\tiny[33.9, 38.4]} & 5.0 {\tiny[3.5, 6.5]} & 93.5 & 0.521 & 26.3 & 71.9 & 42.2 & 4.1 \\
+\quad A5 per-check & OCR & = Rules-OCR & 48.2 {\tiny[45.9, 50.6]} & 11.9 {\tiny[9.1, 15.0]} & 89.1 & 0.626 & 38.5 & 93.7 & 48.1 & 12.6 \\
+\bottomrule
+\end{tabular}
+\end{table*}

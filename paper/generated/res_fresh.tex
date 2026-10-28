@@ -1,0 +1,23 @@
+\begin{table}[!t]
+\caption{Replication on the fresh set (3{,}240 images of 90 unseen people) with every parameter frozen. Recall and FPR in \%; fresh-set values with 95\% person-clustered intervals.}
+\label{tab:fresh}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{@{}l r r r r@{}}
+\toprule
+ & \multicolumn{2}{c}{v1 test} & \multicolumn{2}{c}{Fresh set} \\ \cmidrule(lr){2-3}\cmidrule(l){4-5}
+System & Recall & FPR & Recall & FPR \\
+\midrule
+Visual (tiles) & 13.4 & 4.8 & 12.8 {\tiny[11.4, 14.2]} & 4.9 {\tiny[3.7, 6.2]} \\
+Rules, GT & 37.5 & 0.0 & 37.5 {\tiny[37.5, 37.5]} & 0.0 {\tiny[0.0, 0.0]} \\
+Rules, OCR & 43.1 & 10.9 & 42.0 {\tiny[40.9, 43.2]} & 10.5 {\tiny[7.7, 13.6]} \\
+OR, OCR & 53.7 & 15.4 & 52.1 {\tiny[50.7, 53.5]} & 14.4 {\tiny[11.4, 17.5]} \\
+A4, GT & 48.8 & 4.8 & 48.5 {\tiny[47.3, 49.8]} & 4.9 {\tiny[3.7, 6.2]} \\
+A4, OCR & 21.9 & 4.1 & 23.5 {\tiny[22.1, 24.9]} & 3.7 {\tiny[2.6, 4.9]} \\
+A4, OCR, $=$Rules & 47.8 & 10.9 & 47.7 {\tiny[46.4, 49.0]} & 10.6 {\tiny[7.8, 13.6]} \\
+A5, OCR & 36.1 & 5.0 & 36.1 {\tiny[34.5, 37.8]} & 3.9 {\tiny[2.8, 5.1]} \\
+\bottomrule
+\end{tabular}
+\end{table}

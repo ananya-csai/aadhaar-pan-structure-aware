@@ -1,0 +1,21 @@
+\begin{table}[!t]
+\caption{Genuine (C0) test images by document type and capture tier ($n=90$ each). OCR-induced: rule verdict PASS on ground-truth text but FAIL on OCR text; this equals the Rules-OCR FPR, since the rules never fail on ground-truth text. FPR (\%) of the systems that read OCR text, and of the visual branch.}
+\label{tab:rq46}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{@{}l l r r r r r@{}}
+\toprule
+Doc. & Tier & OCR-ind. & Rules-OCR [95\% CI] & A4-OCR & A5-OCR & Visual \\
+\midrule
+Aadhaar & clean & 0 & 0.0 {\tiny[0.0, 0.0]} & 0.0 & 0.0 & 0.0 \\
+ & mild & 0 & 0.0 {\tiny[0.0, 0.0]} & 0.0 & 0.0 & 4.4 \\
+ & severe & 10 & 11.1 {\tiny[5.6, 17.8]} & 11.1 & 11.1 & 12.2 \\
+\addlinespace[1.5pt]
+PAN & clean & 7 & 7.8 {\tiny[1.1, 15.6]} & 0.0 & 0.0 & 0.0 \\
+ & mild & 8 & 8.9 {\tiny[2.2, 16.7]} & 0.0 & 0.0 & 2.2 \\
+ & severe & 34 & 37.8 {\tiny[27.8, 48.9]} & 13.3 & 18.9 & 10.0 \\
+\bottomrule
+\end{tabular}
+\end{table}

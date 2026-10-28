@@ -1,4 +1,4 @@
-# Paper source — version 10 (Sections I–VI and Appendix A complete, VII–IX in preparation)
+# Paper source — version 11 (Sections I–VIII and Appendix A complete, IX in preparation)
 
 ## Contents
 
@@ -19,7 +19,21 @@ inside `main.tex`, so they stay sharp and editable.
 2. Main document: `main.tex`. Compiler: **pdfLaTeX**. Compile twice.
 3. Do **not** add an `IEEEtran.cls` file; Overleaf provides the real class.
 
-## What changed from version 09
+## What changed from version 10
+
+- Section VII Results written: RQ1–RQ6 and per-check fusion / fresh
+  confirmation. Tables XIV–XVIII and Fig. 11 are generated from the committed
+  analysis output by `paper/scripts/make_results_tables.py` in the repository
+  (files `generated/res_*.tex`);
+  no table number is typed by hand.
+- Section VIII Discussion written: interpretation, relation to prior work,
+  limitations, threats to validity.
+- Abstract and contributions corrected to match the results: C4 is flagged at
+  each system's false-positive rate (not "evades every configuration"), and OCR
+  removes about three quarters of the ground-truth gain (not "more than half").
+- Appendix A: new protocol row for the analysis plan (DECISIONS.md §22).
+
+## What changed from version 09 (in version 10)
 
 - New Appendix A, Reproducibility Record (roadmap Step 19): how exactly each
   stage can be repeated (Table XV), all eleven visual training runs with
