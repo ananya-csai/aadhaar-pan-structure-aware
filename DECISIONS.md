@@ -389,3 +389,15 @@ If a check fails, the set is not used, and the failure is reported.
 Bit-identical scores are not expected (fp16, non-deterministic kernels) and are not part of the rule. `experiments/e2_visual/compare_rerun.py --seed 0` applies the rule and writes `comparison.md`.
 
 **Reporting.** The result is reported in Appendix A whether it passes or fails. A failure is investigated and reported, not replaced by a second attempt.
+
+### Run record (29 Oct 2026)
+
+**Outcome under the rule: FAIL** (checks 1 and 2). Reported as a failure, as this section requires; not re-attempted.
+
+- **Cause of the failure.** Both failed checks have one cause: the `c1_regions_sha256` value in `config.json`. Git for Windows checked `experiments/e2_visual/c1_regions.csv` out with CRLF line endings in the fresh clone (`git ls-files --eol`: `i/lf w/crlf`; the repository had no `.gitattributes`). The file hash was therefore `c5417e9f…` instead of `b0138b52…`. With the carriage returns removed it is `b0138b52…`, identical to the original (`experiments/logs/step21_eol_check.txt`). The original working copy had LF endings. No other config key differed; the only environment difference was the OS build (26200 → 26300).
+- **Check 3: passed.** Best epoch 12 of 17 (original 12 of 17); validation AUROC 0.699 and PR-AUC 0.627, equal to the original to every logged digit.
+- **Beyond the rule (information only).** The re-run is bit-identical to the original: every epoch's loss and validation metrics match; `scores_trainval.csv` SHA-256 `0aa26c36…` and `best.pt` SHA-256 `45af4819…` are identical to the original seed-0 files. This contradicts the expectation stated above ("bit-identical scores are not expected"). The expectation was wrong for this setting: same GPU, same Python/PyTorch/CUDA build, same seed. It does not show that training is bit-exact on other GPUs, drivers or library versions; that was not tested.
+- **Corpus:** verified before training, digest `7253245a…` MATCH (`experiments/logs/step21_corpus_verify.txt`).
+- **Environment:** Python 3.12.7, torch 2.14.1+cu130, CUDA 13.0, RTX 4060 Laptop GPU, Windows 11 build 26300.
+- **Correction (prevents a repeat; changes no data):** `.gitattributes` added with `* -text`, so Git checks every file out byte for byte as stored, on every platform. (A first attempt with `text=auto eol=lf` was rejected before commit: it would have rewritten `dataset/data/v1/manifest.csv`, which is stored with CRLF, and changed its frozen hash.) `git add --renormalize .` with `-text` changes no file.
+- **Effect on the paper:** none on any result. Appendix A reports the formal failure, its cause and the bit-identical reproduction; the L4 statement "not bit-exact" is replaced by what was observed.

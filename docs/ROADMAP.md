@@ -167,7 +167,7 @@ Scripts for each analysis can be written and checked on validation now; they are
 
 ## Phase 6 — Paper and submission
 
-### Step 18. Write the paper [CPU lead; BOTH] — ✅ (paper v12; only the Step 21 number is pending)
+### Step 18. Write the paper [CPU lead; BOTH] — ✅ (paper v13; Step 21 result in Appendix A)
 - ✅ [CPU] Sections I–IV written; Section IV numbers generated from committed statistics (Section II-E details are the next task).
 - ✅ [CPU] Sections V (Methodology) and VI (Experimental Setup) drafted, all numbers checked (PR #2).
 - ✅ [CPU] Paper v8–v9: Sections I–VI rewritten and tightened (v9 adds problem setting, threat model, C1 close-ups, capture parameters, OCR misread analysis, method and statistics equations, Algorithm 1); new overview, positioning, validation-flow, tile-grid, protocol and edit-survival figures; A4/A5/A6 described; Tesseract version corrected to 5.5.3 (`paper/main.tex`).
@@ -177,12 +177,12 @@ Scripts for each analysis can be written and checked on validation now; they are
 - ✅ Section VIII Discussion (paper v11): interpretation, prior work, limitations, threats to validity.
 - ✅ Section IX Conclusion and final abstract numbers (paper v12).
 
-### Step 19. Reproducibility section [GPU] — ✅ written (only the Step 21 re-run left)
+### Step 19. Reproducibility section [GPU] — ✅
 - ✅ Paper Appendix A (levels of reproduction, all 11 training runs, environment, protocol record) and `docs/REPRODUCIBILITY.md` (commands, SHA-256 of every frozen file); DECISIONS §21.
 - ✅ Independent Linux rebuild of corpus v1: 10,791 / 10,800 images byte-identical after fixing the text-layout engine; the other 9 differ by ≤ 3 grey levels in ≤ 37 border pixels. Per-image digests released (`dataset/data/v1/IMAGE_SHA256.txt`).
 - ✅ [GPU] Five tile checkpoints in a Zenodo draft, DOI 10.5281/zenodo.23618373 (reserved; hashes checked 24 Oct). ⬜ Publish it at acceptance / camera-ready.
 - ✅ [GPU] NVIDIA driver version recorded: 616.92 (read 24 Oct; not logged at training time).
-- ⬜ [GPU] Step 21 re-run fills the last TODO in Appendix A.
+- ✅ [GPU] Step 21 re-run reported in Appendix A (paper v13).
 
 ### Step 20. Claims and limitations [BOTH] — ⬜
 - ⬜ Central claim, only if the results support it: a controlled evaluation of the incremental detection value and false-positive cost of structural/semantic evidence over a visual baseline on synthetic Aadhaar/PAN-format documents, including OCR degradation.
@@ -200,7 +200,7 @@ Scripts for each analysis can be written and checked on validation now; they are
 ### Step 21. Format, reproduce, submit [BOTH + mentor] — ⬜
 - ⬜ [CPU] Convert to Springer LNCS and cut to the page limit. The draft already has about 12,600 words before Results; 17 LNCS pages hold roughly 6,500–7,500. Sections III and IV need the largest cuts; move detail to an appendix or the repository.
 - ⬜ [CPU] Anonymise: remove author names, affiliation and acknowledgements. The repository URL contains an author's name, so link to an anonymised copy at submission.
-- ⬜ [GPU] Reproduce one `tiles` training run from a clean environment. Pass if the config and input hashes match and validation AUROC / PR-AUC fall inside the five-seed range (0.685–0.773 / 0.611–0.684). Score-file hashes will not match: training is not bit-exact (docs/REPRODUCIBILITY.md, Section 4).
+- ✅ [GPU] Reproduce one `tiles` training run from a clean environment (29 Oct 2026, seed 0; DECISIONS §23). Formal FAIL on the config/input-hash checks: `c1_regions.csv` was checked out with CRLF on Windows (content identical after removing CR; `.gitattributes` added). Validation metrics pass, and the run is bit-identical to the original (scores and checkpoint).
 - ⬜ [CPU] Regenerate every table from committed artefacts.
 - ⬜ [BOTH + Mentor] Reviewer-style read-through; freeze author order; release code and configs. Do not submit to two venues at once.
 

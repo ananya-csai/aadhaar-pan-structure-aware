@@ -1,0 +1,13 @@
+# Step 21 line-ending check (29 Oct 2026)
+c1_regions.csv in fresh Windows clone (as checked out):
+c5417e9fcc6576c17dddf062d19040382b2aba3b773f8c4c09970f4c7e2e9618  experiments/e2_visual/c1_regions.csv
+same file with CR removed:
+b0138b52d37f7312b2b77e6f0735e5a429d62427c11f4175f0cfe60173597c91  -
+git eol info (index / working tree):
+i/lf    w/crlf  attr/                 	experiments/e2_visual/c1_regions.csv
+git config core.autocrlf: 
+
+best.pt SHA-256 (re-run):
+45af4819f39d1e250802f2d40b171b91083e257dbcdcaa557ebffd54ab552190  experiments/e2_visual/runs/native_tiles_rerun/seed0/best.pt
+best.pt SHA-256 (original seed 0, recorded): 45af4819f39d1e250802f2d40b171b91083e257dbcdcaa557ebffd54ab552190
+git config --show-origin core.autocrlf:
