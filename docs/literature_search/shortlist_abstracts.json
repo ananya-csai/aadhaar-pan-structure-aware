@@ -1,0 +1,212 @@
+{
+ "130": {
+  "doi": "10.1109/access.2025.3563786",
+  "title": "NetraAadhaar: A Deep Learning-Driven Aadhaar Verification Platform for the Aid of Visually Impaired",
+  "venue": "IEEE Access",
+  "type": "journal-article",
+  "year": "2025",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "authors": "Patil, Khan, Mollah",
+  "abstract": ""
+ },
+ "131": {
+  "doi": "10.52783/cana.v33.6859",
+  "title": "AI-Driven Multimodal Fraud Detection Framework for UID Aadhaar e-KYC Using Biometric and Document Verification",
+  "venue": "Communications on Applied Nonlinear Analysis",
+  "type": "journal-article",
+  "year": "2026",
+  "publisher": "Science Research Society",
+  "authors": "N. Murali Krishna",
+  "abstract": "Electronic Know Your Customer verification is widely used in banking, government services, and digital platforms to verify user information during digital onboarding. However, most verification methods in use today are based on manual document verification or partially automated verification techniques, which may be time-consuming and prone to identity fraud. This paper proposes an AI-powered multimodal fraud detection framework for Aadhaar Card-based Electronic Know Your Customer verification. The framework is based on integrating document verification, biometric verification, and machine learning for fraud detection. The framework employs Optical Character Recognition technology for verification using user-provided Aadhaar Card images and biometric fingerprint verification for user identification. The extracted user information is further validated through registry cross-checking and One-Time Password email verification. Furthermore, a machine learning algorithm is also used to evaluate the verification process for fraud based on the outcomes of Optical Character Recognition technology, biometric fingerprint verification, and email verification. Additionally, an administrative interface is also proposed for monitoring verification records, fraud patterns, and authentication statistics. The experimental results demonstrate the effectiveness of the proposed framework in ensuring the reliability of verification and reducing fraud in digital identity verification systems. "
+ },
+ "132": {
+  "doi": "10.25258/ijddt.16.48s.101",
+  "title": "A Review on Predictive Loan Approval System Using Machine Learning with Integrated Aadhaar and PAN Identity Verification",
+  "venue": "International Journal of Drug Delivery Technology",
+  "type": "journal-article",
+  "year": "2026",
+  "publisher": "Dr. Yashwant Research Labs Pvt. Ltd.",
+  "authors": "Alagu, Karthik, Janaki",
+  "abstract": "The rapid expansion of the banking sector and the surge in loan applications have necessitated the development of intelligent, automated loan approval systems. Traditional loan evaluation methods are time-consuming, prone to human bias, and inefficient in handling large-scale data. This paper reviews machine learning-based approaches for loan approval prediction and credit risk assessment. Various supervised learning algorithms such as Logistic Regression, Decision Trees, Random Forest, Support Vector Machines, Naïve Bayes, and Neural Networks are analyzed, along with advanced ensemble and Bayesian techniques. Key challenges identified include class imbalance, overfitting, multicollinearity, lack of interpretability, and dependency on historical data. Ensemble learning and Bayesian approaches demonstrate improved predictive performance and robustness. The study highlights future research directions including deep learning integration, explainable AI, real-time adaptive systems, and enhanced feature engineering. Overall, machine learning significantly improves the accuracy, efficiency, and fairness of loan approval systems"
+ },
+ "135": {
+  "doi": "10.1109/aimlcps68702.2026.11542414",
+  "title": "Automated Identity Verification: From Aadhaar to Instant Virtual PAN Issuance",
+  "venue": "2026 1st International Conference on Artificial Intelligence &amp;amp; Machine Learning in Communication and Power Systems (AIMLCPS)",
+  "type": "proceedings-article",
+  "year": "2026",
+  "publisher": "IEEE",
+  "authors": "Khan, Panda, Prasad, Padhy",
+  "abstract": ""
+ },
+ "137": {
+  "doi": "10.1109/icscds65426.2025.11167138",
+  "title": "Automatic Aadhaar Card and Smart Card Verification using Image Processing Techniques",
+  "venue": "2025 3rd International Conference on Sustainable Computing and Data Communication Systems (ICSCDS)",
+  "type": "proceedings-article",
+  "year": "2025",
+  "publisher": "IEEE",
+  "authors": "A, T, K, M",
+  "abstract": ""
+ },
+ "236": {
+  "doi": "10.1007/978-3-032-17840-4_17",
+  "title": "Decentralized Pan Card Forgery and Tampering Detection Using FLWR, CNN, OCR and Grad-CAM",
+  "venue": "Communications in Computer and Information Science Artificial Intelligence Based Smart and Secured Applications",
+  "type": "book-chapter",
+  "year": "2026",
+  "publisher": "Springer Nature Switzerland",
+  "authors": "Hamza, Kavitha, Patil",
+  "abstract": ""
+ },
+ "293": {
+  "doi": "10.1109/icici62254.2024.00059",
+  "title": "PAN Card Tampering Detection using Machine Learning Techniques",
+  "venue": "2024 Second International Conference on Inventive Computing and Informatics (ICICI)",
+  "type": "proceedings-article",
+  "year": "2024",
+  "publisher": "IEEE",
+  "authors": "Lalsudhesh, Keerthana, Radha, Swathika",
+  "abstract": ""
+ },
+ "353": {
+  "doi": "10.1201/9781003593034-62",
+  "title": "Pan card tempering detection: A combined OCR and CNN methodology",
+  "venue": "Recent Trends in Intelligent Computing and Communication",
+  "type": "book-chapter",
+  "year": "2025",
+  "publisher": "CRC Press",
+  "authors": "Arora, Ishwar, Verma",
+  "abstract": ""
+ },
+ "354": {
+  "doi": "10.23919/indiacom66777.2025.11115397",
+  "title": "A Deep Learning Ensemble with OCR Tools for PAN Card Recognition System",
+  "venue": "2025 12th International Conference on Computing for Sustainable Global Development (INDIACom)",
+  "type": "proceedings-article",
+  "year": "2025",
+  "publisher": "IEEE",
+  "authors": "Devi, Gokula, Gladence",
+  "abstract": ""
+ },
+ "545": {
+  "doi": "10.1007/978-3-031-65552-4_9",
+  "title": "Verification of Peruvian Identity Document Fraud Through OCR, Hash Algorithm, and Simulated Blockchain Database",
+  "venue": "Information Systems Engineering and Management Knowledge Management and Artificial Intelligence for Growth",
+  "type": "book-chapter",
+  "year": "2024",
+  "publisher": "Springer Nature Switzerland",
+  "authors": "Montesinos, Cárdenas",
+  "abstract": ""
+ },
+ "553": {
+  "doi": "10.70917/ijcisim-2026-5842",
+  "title": "A Production-Scale Deterministic Document Verification Framework Integrating OCR, Rule-Based Matching, and Intelligent Field Validation",
+  "venue": "International Journal of Computer Information Systems and Industrial Management Applications",
+  "type": "journal-article",
+  "year": "2026",
+  "publisher": "Cerebration Science Publishing Co., Limited",
+  "authors": "Dolica Gopisetty, Sai Sandeep Koneti, Bhargavkumar Patel",
+  "abstract": "Optical character recognition and document-understanding models have improved extraction quality, yet enterprise workflows still fail when extracted values cannot be reliably validated, reconciled across documents, explained, or routed for review. This study proposes the Deterministic Production Verification Framework (DPVF), a post-extraction architecture combining semantic normalization, field-specific deterministic similarity, business-rule validation, cross-document consistency checks, confidence calibration, exception routing, and immutable audit traces. The executed experimental evaluation comprised 150,000 document cases grouped into 60,000 transaction bundles and compared OCR-only processing, OCR with generic fuzzy matching, OCR with machine-learning verification, and DPVF. On the held-out test partition, DPVF achieved 96.4% accuracy, precision of 0.968, recall of 0.955, and an F1-score of 0.961, with a 1.8% false-accept rate and 4.3% false-reject rate. It reduced manual review from 42.6% to 11.8%, a 72.3% relative decrease, while enabling 88.2% straight-through processing and 99.6% complete versioned audit traces. The largest ablation loss was 3.8 percentage points when verification was restricted to exact/edit-distance matching. DPVF remained accurate under severe corruption (91.9%), although XFUND was the hardest document stratum (94.8%). These findings establish experimental, not live-production, performance and support prospective validation in governed enterprise settings."
+ },
+ "408": {
+  "doi": "10.1109/icdca69396.2026.11620092",
+  "title": "A Multi-Modal Approach to Automated Financial Document Forgery Detection Using CNN and Semantic Validation",
+  "venue": "2026 International Conference on Data Science for Cyber-Physical Systems Resilience using Advanced Applications (ICDCA)",
+  "type": "proceedings-article",
+  "year": "2026",
+  "publisher": "IEEE",
+  "authors": "Gowtham, T, Priya, Samraj",
+  "abstract": ""
+ },
+ "369": {
+  "doi": "10.1109/iccitx70146.2026.11679909",
+  "title": "Identity Document Forgery Detection Using a Multi-Stage Learning Strategy",
+  "venue": "2026 3rd International Conference on Connected Innovation and Technology (ICCITX)",
+  "type": "proceedings-article",
+  "year": "2026",
+  "publisher": "IEEE",
+  "authors": "Hamza, Rasheed",
+  "abstract": ""
+ },
+ "371": {
+  "doi": "10.1134/s1054661825700609",
+  "title": "Identity Document Forgery Detection Using Haralick Texture Features",
+  "venue": "Pattern Recognition and Image Analysis",
+  "type": "journal-article",
+  "year": "2025",
+  "publisher": "Pleiades Publishing Ltd",
+  "authors": "Savakar, Hiremath, Ghuli",
+  "abstract": ""
+ },
+ "373": {
+  "doi": "10.1109/etcom66606.2025.11436994",
+  "title": "Intelligent Multimodal Ai System for Identity Document Forgery Detection",
+  "venue": "2025 IEEE International Conference on Emerging Trends in Computing and Communication (ETCOM)",
+  "type": "proceedings-article",
+  "year": "2025",
+  "publisher": "IEEE",
+  "authors": "Badhusha, Kumar, Veeresh, Devadiga",
+  "abstract": ""
+ },
+ "424": {
+  "doi": "10.1117/1.jei.34.4.043018",
+  "title": "Research on identity document image tampering detection based on texture understanding and multistream networks",
+  "venue": "Journal of Electronic Imaging",
+  "type": "journal-article",
+  "year": "2025",
+  "publisher": "SPIE-Intl Soc Optical Eng",
+  "authors": "Wang, Li, Zhao",
+  "abstract": "Identity document images are widely utilized in personal identity authentication systems. However, the rapid development of image-editing tools poses significant risks to personal privacy and information security. Consequently, tampering detection in identity document images has become a crucial research focus. The current challenges in this field primarily stem from two aspects: the increasing realism of tampered content and the prevalence of secondary editing operations on manipulated images. We propose a multistream network architecture that leverages the distinctive background texture patterns of identity documents. This model enables simultaneous extraction and effective fusion of three critical feature domains: background texture characteristics, frequency-domain representations, and noise distribution. To support rigorous evaluation, we specifically develop the tampered-identity dataset containing primarily secondarily edited tampered samples. Experiments conducted on the tampered-identity dataset as well as other publicly available datasets demonstrate that the proposed method exhibits commendable detection performance, particularly in effectively identifying tampering that has been formed through secondary editing."
+ },
+ "478": {
+  "doi": "10.3390/fi18090485",
+  "title": "An Explainable AI Framework for Identity Document Authentication in AML/KYC Verification",
+  "venue": "Future Internet",
+  "type": "journal-article",
+  "year": "2026",
+  "publisher": "MDPI AG",
+  "authors": "Lim, Connie",
+  "abstract": "This study investigates the development of an AI-driven document authentication framework for Anti-Money Laundering (AML) and Know Your Customer (KYC) verification environments. Conventional manual inspection and rule-based verification techniques often fail to detect sophisticated forged identity documents containing subtle visual or semantic manipulations. To address this limitation, the proposed framework combines handcrafted forensic feature extraction, OCR-driven semantic analysis, rule-based semantic field extraction and Random Forest classification to identify inconsistencies within identity documents captured under realistic mobile imaging conditions. Experimental evaluation was conducted using selected MIDV-2020 identity document subsets consisting of Albanian identity cards, Latvian passports, and Slovakian identity cards. The proposed framework achieved a recall rate of 92.31% and an overall accuracy of 84.85% on the held-out test set, while maintaining interpretable forensic feature analysis suitable for regulated AML/KYC environments. The results demonstrate that lightweight and explainable machine learning approaches can provide effective forged-document detection without requiring computationally intensive deep learning architectures."
+ },
+ "479": {
+  "doi": "10.22214/ijraset.2025.68628",
+  "title": "YOLO and OCR-Based Automated Identity Document Verification",
+  "venue": "International Journal for Research in Applied Science and Engineering Technology",
+  "type": "journal-article",
+  "year": "2025",
+  "publisher": "International Journal for Research in Applied Science and Engineering Technology",
+  "authors": "V",
+  "abstract": "Abstract: Ensuring the authenticity of identity documents is crucial for secure digital transactions and regulatorycompliance.\nThis paperpresentsa Comprehensive AutomatedDocumentVerificationSystemthatutilizesYOLO (YouOnlyLookOnce)for\nobjectdetection andOCR(Optical Character Recognition) for dataextraction toverifyAadhaar cards,PANcards, and Voter\nIDcards. The systemautomates the verification process by detecting key document features, extractingrelevanttextualdata,\nandcross-verifyingitagainst predefined templates and databases. By integrating deep learning-based object detection with OCR,\nthe proposed solution achieves high accuracy, efficiency, and scalability, reducing reliance on manual verification and\nminimizing fraud risks. Experimental results demonstrate the system’s robustness in detecting forged or tampered documents.\nThis research contributes to improving digital security and streamlining identity verification in sectors such as banking,\ngovernment services, and online KYC processes."
+ },
+ "481": {
+  "doi": "10.1007/978-3-030-86198-8_30",
+  "title": "CheckSim: A Reference-Based Identity Document Verification by Image Similarity Measure",
+  "venue": "Lecture Notes in Computer Science Document Analysis and Recognition – ICDAR 2021 Workshops",
+  "type": "book-chapter",
+  "year": "2021",
+  "publisher": "Springer International Publishing",
+  "authors": "Ghanmi, Nabli, Awal",
+  "abstract": ""
+ },
+ "355": {
+  "doi": "10.1007/978-981-96-8987-3_4",
+  "title": "A Survey of Extracting Data from Identity Card Using Rule-Based OCR, Machine Learning OCR and Open Sources OCR Engines",
+  "venue": "Lecture Notes in Networks and Systems Proceedings of the International Conference on Computational Mathematics and Applications",
+  "type": "book-chapter",
+  "year": "2026",
+  "publisher": "Springer Nature Singapore",
+  "authors": "Pandey, Mandal",
+  "abstract": ""
+ },
+ "342": {
+  "doi": "10.1109/iceccc70334.2026.11633277",
+  "title": "KYC-Based Voter Verification System Using Facial Authentication and YOLO-Based OCR for ID Card Validation",
+  "venue": "2026 International Conference on Electronics, Computing, Communication and Control Technology (ICECCC)",
+  "type": "proceedings-article",
+  "year": "2026",
+  "publisher": "IEEE",
+  "authors": "K, Muhammed, Reshmi",
+  "abstract": ""
+ }
+}

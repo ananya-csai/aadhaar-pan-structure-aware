@@ -1,4 +1,4 @@
-# Paper source — version 11 (Sections I–VIII and Appendix A complete, IX in preparation)
+# Paper source — version 12 (all sections complete; one GPU result pending in Appendix A)
 
 ## Contents
 
@@ -19,7 +19,28 @@ inside `main.tex`, so they stay sharp and editable.
 2. Main document: `main.tex`. Compiler: **pdfLaTeX**. Compile twice.
 3. Do **not** add an `IEEEtran.cls` file; Overleaf provides the real class.
 
-## What changed from version 10
+## What changed from version 11
+
+- Section IX (Conclusion and Future Work) written.
+- Section II-E: the literature-search placeholders are replaced by a real,
+  documented search (Crossref, 28 Oct 2026, 64 queries, 573 works screened,
+  68 included). Queries, all records and every screening decision are in the
+  repository (`docs/literature_search/`).
+- Section II: five newly found works cited (Lim and Connie 2026; Kumar et al.
+  2026; three PAN tampering papers and one Aadhaar e-KYC paper, stated as only
+  partly accessible). Table I gains two rows.
+- References corrected against publisher metadata: Shaikh and Patil is in
+  IJIRT, not IJARCCE; the PAN-recognition paper's authors are Devi, Gokula and
+  Gladence (the text said "Lakshmi et al."); IDNet's current title and author
+  order; page numbers added; unverified LNCS volume removed; the Income Tax
+  reference now points to the official FAQ page (accessed 28 Oct 2026); the
+  UIDAI numbering-scheme reference gives pages 6 and 12.
+- Section VII: AUROC/PR-AUC of the fused scores; Section VIII: the closest
+  hybrid design is discussed. Abstract: "that we reviewed" qualifier, the
+  rule false-positive rate, and the C4 sentence made exact.
+- `xurl` instead of `url` so long URLs break inside the column.
+
+## What changed from version 10 (in version 11)
 
 - Section VII Results written: RQ1–RQ6 and per-check fusion / fresh
   confirmation. Tables XIV–XVIII and Fig. 11 are generated from the committed
@@ -89,7 +110,10 @@ inside `main.tex`, so they stay sharp and editable.
 
 | Where | What |
 |---|---|
-| Section II-E | search date, year range, n1, n2, count of non-peer-reviewed records |
-| Ref. [5] (`itd-pan`) | access date |
-| Ref. [3] (`uidai-scheme`) | page reference in the primary PDF |
-| Appendix A-1 (L4) | result of the Step 21 clean re-run of one tile seed |
+| Appendix A-1 (L4) | result of the Step 21 clean re-run of one tile seed (GPU, planned for January) |
+
+Recommended before submission (not marked in the PDF):
+- Open the archived UIDAI PDF (link in Ref. [3]) once and confirm pages 6 and 12.
+- With institutional access, read the seven Aadhaar/PAN papers listed in
+  `docs/literature_search/README.md` that could not be assessed, and adjust
+  Section II-B if any of them applies check-digit or cross-field rules.

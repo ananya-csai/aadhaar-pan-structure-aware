@@ -28,7 +28,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
 \usepackage[most]{tcolorbox}
-\usepackage{url}
+\usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
 \usepackage{placeins}
 
@@ -98,8 +98,8 @@ Manipal University Jaipur, Jaipur, Rajasthan, India.\\[7pt]
 
 %======================================================================
 \begin{abstract}
-Most published work on forged Aadhaar and PAN cards treats the problem
-as image classification. That framing misses a practical attack: a card
+Most published work on forged Aadhaar and PAN cards that we reviewed
+treats the problem as image classification. That framing misses a practical attack: a card
 rendered exactly like a genuine one but carrying an altered or invented
 number. Such a card leaves no pixel-level trace, yet it may still break
 rules that the document format itself defines, such as the Verhoeff
@@ -114,13 +114,14 @@ deterministic rule validator and their fusion under a protocol that was
 fixed before the test split was opened. With ground-truth text, fusion
 raises detection recall from 13.4\% (visual only) to 48.8\% at the same
 4.8\% false-positive rate. With OCR text, fused recall falls to 21.9\%,
-mainly because character misreads make PAN rule failures unreliable.
+mainly because character misreads make PAN rule failures unreliable:
+with OCR text the rules alone flag 10.9\% of genuine documents.
 Feeding each rule to the fusion as a separate input recovers about half
 of this loss (36.1\%), and a fresh, pre-registered set of 90 unseen
 identities confirms the improvement ($+12.6$ points, 95\% CI
 $[11.2, 14.1]$, no change in false positives). Fabricated identifiers
-with valid check digits are flagged by every configuration no more
-often than genuine documents, which shows directly that a passed
+with valid check digits are flagged by every configuration at about the
+rate at which it flags genuine documents, which shows directly that a passed
 checksum is not evidence of authenticity.
 \end{abstract}
 
@@ -207,7 +208,7 @@ every threshold are fixed on validation data (Section~\ref{sec:setup}).}
 Aadhaar and PAN cards are routinely requested as proof of identity and
 tax status in India, and photocopies or phone pictures of them are
 commonly accepted during customer onboarding. Forged copies are therefore an operational problem, and the
-research response so far has been almost entirely visual. Babbar et
+research response so far has been largely visual. Babbar et
 al.~\cite{babbar} describe a VGG16-based classifier~\cite{vgg} that
 screens roughly 100{,}000 Aadhaar cards a day at about 99\% precision.
 Their paper is also unusually clear about what such a model does not
@@ -245,9 +246,11 @@ knows the public algorithm can compute a valid check digit for an
 invented number.
 
 Pairing OCR with rule checks is not new in itself.
-OCR-plus-validation pipelines exist for Indian documents~\cite{raghuvanshi,panens},
-and machine-readable-zone checksums have been combined with visual
-forensics for European identity cards and passports~\cite{dai}. What is
+OCR pipelines that read or verify Indian documents
+exist~\cite{raghuvanshi,panens}, machine-readable-zone checksums have
+been combined with visual forensics for European identity cards and
+passports~\cite{dai}, and rule-based field checks have been fused with
+forensic image features for identity documents~\cite{limconnie}. What is
 missing, as far as the literature identified in
 Section~\ref{sec:search-protocol} shows, is a controlled measurement of
 how much detection such rules add \emph{on top of} a visual detector for
@@ -361,8 +364,10 @@ LBP, HOG and LPQ features, which is a biometric attack rather than a
 change to the printed data. Guilloche-pattern analysis~\cite{guilloche}
 checks a print-level security feature, and presentation-attack
 detection~\cite{pad} deals with recaptured or replayed physical
-documents, a different threat from the digital edits studied here. All
-of these methods look for evidence in the image. None of them is
+documents, a different threat from the digital edits studied here.
+Kumar et al.~\cite{flid} localise forgery to the face and text fields
+of identity cards, again from visual embeddings alone. All of these
+methods look for evidence in the image. None of them is
 designed to notice a forgery that was rendered cleanly from false data.
 
 \subsection{Field-Level and Hybrid Verification}
@@ -374,16 +379,26 @@ against stored records; their CNN is trained and evaluated on the
 general CASIA~v2.0 tampering set rather than on Aadhaar or PAN.
 Raghuvanshi et al.~\cite{raghuvanshi} pair OCR with a large language
 model to read Aadhaar, PAN and Voter ID cards and reject a document when
-field confidence falls below 80\%. Lakshmi et al.~\cite{panens} build a
+field confidence falls below 80\%. Devi et al.~\cite{panens} build a
 CNN and OCR ensemble for reading PAN fields under noise and font
 variation, and Nirkhi Singh et al.~\cite{nirkhi} look for textual and
 structural discrepancies in scanned documents in general. In these
 systems a field is accepted or rejected on extraction confidence or on
 agreement with a record; none recomputes a check digit or evaluates a
-fixed cross-field rule. The closest design outside India is that of Dai
+fixed cross-field rule. Several recent papers address PAN
+tampering or Aadhaar-based e-KYC with CNN and OCR
+components~\cite{lalsudhesh,arora,hamza,muralikrishna}; for three of
+them we could access only the title and metadata
+(Section~\ref{sec:search-protocol}), so we make no claim about the
+checks they apply. The closest designs outside India are that of Dai
 et al.~\cite{dai}, who combine OCR, machine-readable-zone checksum
 verification, copy-move detection and a morphology classifier for
-European identity cards and passports.
+European identity cards and passports, and that of Lim and
+Connie~\cite{limconnie}, who feed forensic image features and
+rule-based field checks (field presence, regular expressions and
+machine-readable-zone parsing) to one classifier on identity documents
+derived from MIDV-2020; they do not recompute check digits or separate
+OCR error from the capability of the rules.
 
 Table~\ref{tab:related} summarises the comparison. Hybrid verification
 is clearly not new. What we did not find in the reviewed literature is
@@ -412,8 +427,10 @@ TruFor~\cite{trufor}              & general images       & \cmark & \xmark & \xm
 CMID~\cite{cmid}                  & ID documents         & \cmark & \xmark & \xmark \\
 Shaikh \& Patil~\cite{shaikh}     & general              & \cmark & records & \xmark \\
 Raghuvanshi et al.~\cite{raghuvanshi} & Aadhaar, PAN, Voter ID & \xmark & confidence & \xmark \\
-Lakshmi et al.~\cite{panens}      & PAN                  & \xmark & \xmark & \xmark \\
+Devi et al.~\cite{panens}         & PAN                  & \xmark & \xmark & \xmark \\
 Dai et al.~\cite{dai}             & EU ID, passport      & \cmark & MRZ checksum & \xmark \\
+Lim \& Connie~\cite{limconnie}    & ID, passport         & \cmark & presence, regex & \xmark \\
+Kumar et al.~\cite{flid}          & ID cards             & \cmark & \xmark & \xmark \\
 \midrule
 \textbf{This work}                & \textbf{Aadhaar, PAN} & \cmark & \makecell[c]{checksum, fmt.,\\cat., cross-field} & \cmark \\
 \bottomrule
@@ -442,8 +459,9 @@ DocTamper-trained detectors return a spatial anomaly map, and
 edge-attention models highlight regions of high response. Such maps
 show where a model looked; they cannot say which document rule was
 broken, because no rule is represented in the model. The hybrid systems
-above report a checksum pass/fail or an aggregate confidence rather than
-a named failed constraint. Our explanations come from the rule that
+of Shaikh and Patil, Raghuvanshi et al.\ and Dai et al.\ report a
+record match, a checksum pass/fail or an aggregate confidence rather
+than a named failed constraint. Our explanations come from the rule that
 fired, so they are exactly as reliable as that rule and carry no model
 uncertainty; the claim is limited to the rule branch. Fusing
 heterogeneous document evidence is also established~\cite{dai}. Our
@@ -455,21 +473,34 @@ is not averaged away.
 \label{sec:search-protocol}
 
 Claims of the form ``no reviewed study does $X$'' are only as strong as
-the search behind them, so we state its scope. IEEE Xplore, the ACM
-Digital Library, Scopus, arXiv and Google Scholar were searched on
-\TODO{search date} with the product of the term groups \{\emph{Aadhaar},
-\emph{PAN card}, \emph{Indian identity document}, \emph{identity
-document}\} $\times$ \{\emph{forgery}, \emph{tampering},
-\emph{verification}, \emph{OCR}\} $\times$ \{\emph{checksum},
-\emph{structural validation}, \emph{semantic consistency}, \emph{field
-consistency}\}, restricted to \TODO{year range}. \TODO{$n_1$} records
-were screened on title and abstract and \TODO{$n_2$} were read in full.
-We included work on forgery detection or field-level verification for
-identity or official documents, and excluded presentation attacks,
-biometric-only manipulation and non-document imagery. \TODO{State how
-many retained records appeared in venues without indexed peer review.}
-Every gap claim in this paper refers to this set and not to the
-literature at large.
+the search behind them, so we state its scope. On 28 October 2026 we
+queried the Crossref metadata service, which indexes DOI-registered
+journal articles, proceedings papers, book chapters and preprints from
+IEEE, ACM, Springer, Elsevier and most other publishers, with each of
+the 64 combinations of the term groups \{\emph{Aadhaar}, \emph{PAN
+card}, \emph{Indian identity document}, \emph{identity document}\}
+$\times$ \{\emph{forgery}, \emph{tampering}, \emph{verification},
+\emph{OCR}\} $\times$ \{\emph{checksum}, \emph{structural validation},
+\emph{semantic consistency}, \emph{field consistency}\}, restricted to
+works dated 2015--2026, and kept the 40 most relevant records per
+query. The 2{,}560 records contained 573 distinct works, which we
+screened on title. We included work on forgery detection or field-level
+verification for identity or official documents, and excluded
+presentation attacks, biometric-only manipulation, non-document imagery
+and non-technical work. Sixty-eight works met the criteria: 12 on
+Aadhaar or PAN, 13 on other identity documents and 43 on other official,
+financial or legal documents; 7 of the 68 are preprints without peer
+review. Crossref rarely carries abstracts and several conference papers
+are not openly accessible, so we could assess 8 of the 68 beyond the
+title, including 5 of the 12 Aadhaar and PAN works; the other seven are
+listed in the released search record, and we make no claim about the
+checks they apply. A supplementary web search on the same date, aimed at
+preprint servers that Crossref does not index, added
+Kumar et al.~\cite{flid}. The other works cited here were identified
+earlier by the authors and belong to the reviewed set. The queries,
+every returned record and every screening decision are released with
+the code. Every gap claim in this paper refers to this set and not to
+the literature at large.
 
 %======================================================================
 \section{Problem Setting and Validation Rules}
@@ -2013,7 +2044,10 @@ to $p_v\ge0.5305$, the visual threshold $t_v$ itself, while a rule
 failure is accepted at almost any visual score ($p_v\ge0.005$). Compared with the rules alone, fusion
 adds 11.3 points of recall and costs the visual branch's 4.8\% FPR. AND
 fusion is useless here (2.1\% recall), because the branches rarely
-agree.
+agree. Threshold-free, the fused score separates forged from genuine
+images with an AUROC of 0.744 with ground-truth text and 0.714 with OCR
+text, against 0.550 for the visual score alone (PR-AUC 0.881, 0.841 and
+0.734; chance level 0.667).
 
 With OCR text, A4 at the 5\% operating point reaches 21.9\% [20.0, 24.0]
 at an FPR of 4.1\%, 8.5 points [6.3, 10.6] above the visual branch
@@ -2242,8 +2276,10 @@ depends on it.
 The systems reviewed in Section~\ref{sec:related} evaluate end-to-end
 pipelines on their own data, and, within the literature reviewed, none
 separates the detection value of rule checks from OCR error or reports
-the false-positive cost of the checks on genuine documents. Our numbers
-are therefore not directly comparable with theirs. What the results add
+the false-positive cost of the checks on genuine documents. The closest
+hybrid design~\cite{limconnie} reports pooled metrics on a 66-image
+test set, without measuring the rules' contribution on their own. Our
+numbers are therefore not directly comparable with theirs. What the results add
 is evidence on two assumptions that any pipeline adding such checks
 makes, often implicitly: that OCR-read fields can be validated as if
 they were correct, which our false-positive account contradicts for
@@ -2330,7 +2366,46 @@ size will not.
 %======================================================================
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
-\todosec{}
+
+We measured how much document-specific structural and semantic rules
+add to a visual forgery detector for Aadhaar- and PAN-format documents,
+on a synthetic benchmark with field-level ground truth and under a
+protocol fixed before the test data were seen. The answer depends on
+which text the rules read. With correct text the rules catch every
+format and cross-field inconsistency they encode, and fusion raises
+detection recall from 13.4\% to 48.8\% without a single additional
+false positive. With OCR text the rules still catch almost every such
+forgery, but they also fail on 10.9\% of genuine documents, and a fusion
+that treats ``some rule failed'' as one input keeps only a quarter of
+the gain. The loss falls on PAN, whose richer rule set is also the one
+OCR breaks most often. Giving each check its own weight recovers about
+half of the loss, a result confirmed on 90 unseen identities. Fabricated
+identifiers with valid check digits are flagged only at each system's
+false-positive rate, so a passed check must never be read as evidence of
+authenticity. The visual branch, in turn, detects most pixel edits
+only on clean captures (65.6\%) and is near chance on severe ones.
+
+These findings hold for synthetic cards, one OCR engine and the forgery
+categories we built, and they are relative rather than absolute. Within
+those limits, they suggest that rule evidence for identity documents
+should be fused one check at a time and weighted by how reliably OCR
+reads the field each check depends on.
+
+Future work follows from the limitations. First, the OCR effect should
+be measured with other engines and with field-specialised readers, and
+fusion could use OCR confidence directly, so that a rule failure on a
+poorly read field counts for less. Second, a stronger visual detector,
+evaluated on the same protocol, would show how much of the C1 gap is due
+to the baseline. Third, the rule branch can be extended within its
+ethical scope: reading the Devanagari line would bring Aadhaar C3 within
+reach, and non-individual PAN categories could be added. Fourth, mixed
+forgeries that alter both pixels and printed values would test whether
+the two branches remain complementary when an attacker combines them.
+Finally, other documents with publicly specified check digits, such as
+the machine-readable zone of travel documents, would show whether the
+OCR-driven false-positive pattern generalises beyond these two formats.
+All of this can be done with synthetic documents; none of it requires
+real identity data.
 
 
 %======================================================================
@@ -2541,27 +2616,26 @@ Networks for Large-Scale Image Recognition,'' in \emph{Proc. Int.
 Conf. Learning Representations (ICLR)}, 2015.
 
 \bibitem{uidai-scheme} Unique Identification Authority of India,
-\emph{A UID Numbering Scheme}, May 2010. Specifies a twelve-digit
-number comprising an eleven-digit body and a single Verhoeff check
-digit, i.e.\ a nominal $10^{11}$ number space. The document states no
+\emph{A UID Numbering Scheme}, 2010, pp.~6 and 12. Archived copy:
+\url{http://web.archive.org/web/20100704211109/www.uidai.gov.in/documents/A_UID_Numbering_Scheme.pdf}.
+Recommends twelve digits, an eleven-digit body plus one check digit
+(p.~6), computed with the Verhoeff scheme (p.~12). It states no
 restriction on the leading digit; the convention that issued numbers do
 not begin with 0 or 1 is widely implemented in open-source validators
 but could not be traced to an authoritative UIDAI specification.
-\TODO{Confirm the page reference against the primary PDF before
-submission.}
 
 \bibitem{verhoeff} J. Verhoeff, ``Error Detecting Decimal Codes,''
 Ph.D. dissertation, Mathematical Centre, Amsterdam, 1969, Mathematical
 Centre Tract 29.
 
-\bibitem{itd-pan} Income Tax Department, Government of India,
-``Permanent Account Number (PAN),'' Tutorial. [Online]. Available:
-\url{https://incometaxindia.gov.in/tutorials/1.permanent\%20account\%20number\%20(pan).pdf}.
-Accessed \TODO{access date}. Specifies the fourth-character
-taxpayer-category codes, the fifth-character name rule for individual
-and non-individual holders, and states that the tenth character is an
-alphabetic check digit. No public specification of the check-digit
-generating algorithm could be located.
+\bibitem{itd-pan} Income Tax Department, Government of India, ``How
+PAN is formed and how it gets its unique identity?,'' FAQs on Permanent
+Account Number. [Online]. Available:
+\url{https://www.incometaxindia.gov.in/w/how-pan-is-formed-and-how-it-gets-its-unique-identity-}
+(accessed Oct. 28, 2026). Lists the ten fourth-character status codes,
+the fifth-character name rule for individual and non-individual holders,
+and states that the tenth character is an alphabetic check digit; no
+public specification of the check-digit algorithm could be located.
 
 \bibitem{rule114} Government of India, \emph{Income Tax Rules, 1962},
 Rule 114 (as amended), Central Board of Direct Taxes -- application for
@@ -2571,17 +2645,23 @@ and allotment of the Permanent Account Number.
 S. Chaudhari, and M. Ahirrao, ``An End-to-End AI System for Automated
 Verification of Indian Identity Documents Using OCR and Large Language
 Models,'' \emph{Int. J. Advanced Research in Science, Communication
-and Technology (IJARSCT)}, 2025, doi: 10.48175/ijarsct-29919.
+and Technology (IJARSCT)}, pp. 160--169, Nov. 2025,
+doi: 10.48175/ijarsct-29919.
 
-\bibitem{panens} V. Lakshmi, P. Devi, C. Sri, R. Gokula, and
-L. Gladence, ``A Deep Learning Ensemble with OCR Tools for PAN Card
-Recognition System,'' in \emph{Proc. 2025 Int. Conf. IT in Business,
-Industry and Government (INDIACom)}, 2025,
+\bibitem{panens} V. J. L. P. Devi, C. S. R. Gokula, and L. M. Gladence,
+``A Deep Learning Ensemble with OCR Tools for PAN Card Recognition
+System,'' in \emph{Proc. 12th Int. Conf. Computing for Sustainable Global
+Development (INDIACom)}, 2025, pp. 1--6,
 doi: 10.23919/INDIACom66777.2025.11115397.
 
 \bibitem{dai} K. Dai, J. Alonso, and J. Gutiérrez-Meana, ``A Machine
 Learning Framework for Forgery Detection in Digital ID Documents,''
 \emph{J. Innovation Management}, vol. 13, no. 2, pp. XVI--XXV, 2025.
+
+\bibitem{limconnie} E. H. Y. Lim and T. Connie, ``An Explainable AI
+Framework for Identity Document Authentication in AML/KYC
+Verification,'' \emph{Future Internet}, vol. 18, no. 9, art. 485, 2026,
+doi: 10.3390/fi18090485.
 
 \bibitem{bae} Y.-Y. Bae, D.-J. Cho, and K.-H. Jung, ``Enhancing
 Document Forgery Detection with Edge-Focused Deep Learning,''
@@ -2624,22 +2704,48 @@ Detection of Guilloche Pattern,'' arXiv:2206.10989, 2022.
 ``Identity Card Presentation Attack Detection: A Systematic Review,''
 arXiv:2511.06056, 2025.
 
-\bibitem{shaikh} M. A. A. Shaikh and D. Patil, ``Image
-Forgery/Tampering Detection Using Deep Learning and Cloud,''
-\emph{Int. J. Advanced Research in Computer and Communication
-Engineering (IJARCCE)}, vol. 11, no. 6, Jun. 2022,
-doi: 10.17148/IJARCCE.2022.11644.
+\bibitem{flid} A. Kumar, R. Tapwal, C. Maple, and M. Hooper,
+``Field-Localized Forgery Detection for Digital Identity Documents,''
+arXiv:2605.09089, 2026.
+
+\bibitem{shaikh} M. Shaikh and D. Patil, ``Image Forgery/Tampering
+Detection Using Deep Learning and Cloud,'' \emph{Int. J. Innovative
+Research in Technology (IJIRT)}, vol. 9, no. 1, pp. 1484--1487,
+Jun. 2022.
 
 \bibitem{nirkhi} S. Nirkhi Singh, S. Kakde, S. Pimpalshende,
 S. Govindwar, S. Bhandari, and T. Raut, ``Document Forgery Detection
 using OCR and Deep Learning,'' \emph{Int. J. Advanced Research in
-Science, Communication and Technology (IJARSCT)}, 2025,
+Science, Communication and Technology (IJARSCT)}, pp. 42--50, Nov. 2025,
 doi: 10.48175/ijarsct-29906.
 
-\bibitem{idnet} L. Xie, Y. Wang, H. Guan, S. Nag, R. Goel, N. Swamy,
-Y. Yang, C. Xiao, J. Prisby, R. Maciejewski, and J. Zou, ``IDNet: A
-Novel Identity Document Dataset via Few-Shot and Quality-Driven
-Synthetic Data Generation,'' arXiv:2408.01690, 2024.
+\bibitem{lalsudhesh} H. A. Lalsudhesh, R. Keerthana, N. Radha, and
+R. Swathika, ``PAN Card Tampering Detection using Machine Learning
+Techniques,'' in \emph{Proc. 2nd Int. Conf. Inventive Computing and
+Informatics (ICICI)}, 2024, pp. 316--322,
+doi: 10.1109/ICICI62254.2024.00059.
+
+\bibitem{arora} G. Arora, A. K. Ishwar, and S. Verma, ``Pan card
+tempering detection: A combined OCR and CNN methodology,'' in
+\emph{Recent Trends in Intelligent Computing and Communication}. CRC
+Press, 2025, pp. 385--391, doi: 10.1201/9781003593034-62.
+
+\bibitem{hamza} M. H. Hamza, K. S. Kavitha, and S. Patil,
+``Decentralized Pan Card Forgery and Tampering Detection Using FLWR,
+CNN, OCR and Grad-CAM,'' in \emph{Artificial Intelligence Based Smart
+and Secured Applications}, Communications in Computer and Information
+Science. Springer, 2026, pp. 262--276,
+doi: 10.1007/978-3-032-17840-4\_17.
+
+\bibitem{muralikrishna} N. Murali Krishna, ``AI-Driven Multimodal Fraud
+Detection Framework for UID Aadhaar e-KYC Using Biometric and Document
+Verification,'' \emph{Communications on Applied Nonlinear Analysis},
+vol. 33, no. 1s, pp. 299--308, 2026, doi: 10.52783/cana.v33.6859.
+
+\bibitem{idnet} H. Guan, Y. Wang, L. Xie, S. Nag, R. Goel,
+N. E. N. Swamy, Y. Yang, C. Xiao, J. Prisby, R. Maciejewski, and
+J. Zou, ``IDNet: A Novel Dataset for Identity Document Analysis and
+Fraud Detection,'' arXiv:2408.01690, 2024.
 
 \bibitem{sidtd} C. Boned, M. Talarmain, N. Ghanmi, G. Chiron,
 S. Biswas, A. M. Awal, and O. Ramos Terrades, ``Synthetic dataset of
@@ -2657,8 +2763,8 @@ arXiv:2501.09239, 2025.
 \bibitem{augraphy} A. Groleau, K. W. Chee, S. Larson, S. Maini, and
 J. Boarman, ``Augraphy: A Data Augmentation Library for Document
 Images,'' in \emph{Proc. Int. Conf. Document Analysis and Recognition
-(ICDAR)}, Lecture Notes in Computer Science, vol. 14191, Springer,
-2023, pp. 384--401.
+(ICDAR 2023)}, Lecture Notes in Computer Science. Springer,
+2023, pp. 384--401, doi: 10.1007/978-3-031-41682-8\_24.
 
 \bibitem{wilson} E. B. Wilson, ``Probable Inference, the Law of
 Succession, and Statistical Inference,'' \emph{J. American Statistical
