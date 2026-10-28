@@ -1,0 +1,434 @@
+{
+ "0": {
+  "doi": "10.1145/3651671.3651691",
+  "title": [
+   "Forgery Detection in Aadhaar-based KYC using Deep Learning"
+  ],
+  "container": [
+   "Proceedings of the 2024 16th International Conference on Machine Learning and Computing"
+  ],
+  "au": [
+   [
+    "Damini",
+    "Babbar"
+   ],
+   [
+    "Aditya",
+    "Jain"
+   ],
+   [
+    "Ankit",
+    "Sharma"
+   ],
+   [
+    "Dipyaman",
+    "Banerjee"
+   ]
+  ],
+  "page": "244-250",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2024,
+    2,
+    2
+   ]
+  ],
+  "type": "proceedings-article",
+  "publisher": "ACM",
+  "event": "ICMLC 2024: 2024 16th International Conference on Machine Learning and Computing",
+  "abstract": false
+ },
+ "130": {
+  "doi": "10.1109/access.2025.3563786",
+  "title": [
+   "NetraAadhaar: A Deep Learning-Driven Aadhaar Verification Platform for the Aid of Visually Impaired"
+  ],
+  "container": [
+   "IEEE Access"
+  ],
+  "au": [
+   [
+    "Aditya",
+    "Patil"
+   ],
+   [
+    "Tauseef",
+    "Khan"
+   ],
+   [
+    "Ayatullah Faruk",
+    "Mollah"
+   ]
+  ],
+  "page": "74229-74251",
+  "vol": "13",
+  "issue": null,
+  "year": [
+   [
+    2025
+   ]
+  ],
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "abstract": false
+ },
+ "131": {
+  "doi": "10.52783/cana.v33.6859",
+  "title": [
+   "AI-Driven Multimodal Fraud Detection Framework for UID Aadhaar e-KYC Using Biometric and Document Verification"
+  ],
+  "container": [
+   "Communications on Applied Nonlinear Analysis"
+  ],
+  "au": [
+   [
+    "",
+    "N. Murali Krishna"
+   ]
+  ],
+  "page": "299-308",
+  "vol": "33",
+  "issue": "1s",
+  "year": [
+   [
+    2026,
+    4,
+    20
+   ]
+  ],
+  "type": "journal-article",
+  "publisher": "Science Research Society",
+  "event": null,
+  "abstract": true
+ },
+ "137": {
+  "doi": "10.1109/icscds65426.2025.11167138",
+  "title": [
+   "Automatic Aadhaar Card and Smart Card Verification using Image Processing Techniques"
+  ],
+  "container": [
+   "2025 3rd International Conference on Sustainable Computing and Data Communication Systems (ICSCDS)"
+  ],
+  "au": [
+   [
+    "Joseph Selva Kumar",
+    "A"
+   ],
+   [
+    "Sowmiya",
+    "T"
+   ],
+   [
+    "Swetha",
+    "K"
+   ],
+   [
+    "Tamilarasi",
+    "M"
+   ],
+   [
+    "Sridharshini",
+    "S"
+   ],
+   [
+    "Sasikala",
+    "P"
+   ]
+  ],
+  "page": "786-792",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2025,
+    8,
+    6
+   ]
+  ],
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "event": "2025 3rd International Conference on Sustainable Computing and Data Communication Systems (ICSCDS)",
+  "abstract": false
+ },
+ "236": {
+  "doi": "10.1007/978-3-032-17840-4_17",
+  "title": [
+   "Decentralized Pan Card Forgery and Tampering Detection Using FLWR, CNN, OCR and Grad-CAM"
+  ],
+  "container": [
+   "Communications in Computer and Information Science",
+   "Artificial Intelligence Based Smart and Secured Applications"
+  ],
+  "au": [
+   [
+    "Mohammed Hanan",
+    "Hamza"
+   ],
+   [
+    "K. S.",
+    "Kavitha"
+   ],
+   [
+    "Soumya",
+    "Patil"
+   ]
+  ],
+  "page": "262-276",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2026
+   ]
+  ],
+  "type": "book-chapter",
+  "publisher": "Springer Nature Switzerland",
+  "event": null,
+  "abstract": false
+ },
+ "293": {
+  "doi": "10.1109/icici62254.2024.00059",
+  "title": [
+   "PAN Card Tampering Detection using Machine Learning Techniques"
+  ],
+  "container": [
+   "2024 Second International Conference on Inventive Computing and Informatics (ICICI)"
+  ],
+  "au": [
+   [
+    "H Abdurrahman",
+    "Lalsudhesh"
+   ],
+   [
+    "R",
+    "Keerthana"
+   ],
+   [
+    "N.",
+    "Radha"
+   ],
+   [
+    "R.",
+    "Swathika"
+   ]
+  ],
+  "page": "316-322",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2024,
+    6,
+    11
+   ]
+  ],
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "event": "2024 Second International Conference on Inventive Computing and Informatics (ICICI)",
+  "abstract": false
+ },
+ "294": {
+  "doi": "10.59256/ijsreat.20240402017",
+  "title": [
+   "Technological Advancements in Pan Card Security: A Robust Tampering Detection Framework"
+  ],
+  "container": [
+   "International Journal Of Scientific Research In Engineering &amp; Technology"
+  ],
+  "au": [
+   [
+    "",
+    "Department of Computer Application, University of Engineering and Management, Kolkata, West Bengal, India."
+   ],
+   [
+    "Pratik",
+    "Mukherjee"
+   ],
+   [
+    "Papia",
+    "Bhowmik"
+   ],
+   [
+    "Subhojit",
+    "Samanta"
+   ],
+   [
+    "Gokul",
+    "Sarkar"
+   ],
+   [
+    "Aparajita",
+    "Mukherjee"
+   ],
+   [
+    "Kaustuv",
+    "Bhattacharjee"
+   ],
+   [
+    "Anirban",
+    "Das"
+   ]
+  ],
+  "page": "114-115",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2024,
+    4,
+    11
+   ]
+  ],
+  "type": "journal-article",
+  "publisher": "Fifth Dimension Research Publications",
+  "event": null,
+  "abstract": true
+ },
+ "320": {
+  "doi": "10.1109/icdsaai65575.2025.11011855",
+  "title": [
+   "Enhancing PAN Card Security with OCR Based Information Extraction and Face Recognition for Reliable Identity Verification"
+  ],
+  "container": [
+   "2025 International Conference on Data Science, Agents &amp;amp; Artificial Intelligence (ICDSAAI)"
+  ],
+  "au": [
+   [
+    "D N",
+    "Harshavardhan Reddy Malapati"
+   ],
+   [
+    "Sai",
+    "Sravanth Reddy Panyam"
+   ],
+   [
+    "Sudha",
+    "Dandapani"
+   ]
+  ],
+  "page": "1-6",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2025,
+    3,
+    28
+   ]
+  ],
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "event": "2025 International Conference on Data Science, Agents &amp; Artificial Intelligence (ICDSAAI)",
+  "abstract": false
+ },
+ "353": {
+  "doi": "10.1201/9781003593034-62",
+  "title": [
+   "Pan card tempering detection: A combined OCR and CNN methodology"
+  ],
+  "container": [
+   "Recent Trends in Intelligent Computing and Communication"
+  ],
+  "au": [
+   [
+    "Gautam",
+    "Arora"
+   ],
+   [
+    "Aditya K.",
+    "Ishwar"
+   ],
+   [
+    "Sunny",
+    "Verma"
+   ]
+  ],
+  "page": "385-391",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2025,
+    8,
+    29
+   ]
+  ],
+  "type": "book-chapter",
+  "publisher": "CRC Press",
+  "event": null,
+  "abstract": false
+ },
+ "478": {
+  "doi": "10.3390/fi18090485",
+  "title": [
+   "An Explainable AI Framework for Identity Document Authentication in AML/KYC Verification"
+  ],
+  "container": [
+   "Future Internet"
+  ],
+  "au": [
+   [
+    "Eldeena Huey Yinn",
+    "Lim"
+   ],
+   [
+    "Tee",
+    "Connie"
+   ]
+  ],
+  "page": "485",
+  "vol": "18",
+  "issue": "9",
+  "year": [
+   [
+    2026,
+    9,
+    16
+   ]
+  ],
+  "type": "journal-article",
+  "publisher": "MDPI AG",
+  "event": null,
+  "abstract": true
+ },
+ "354": {
+  "doi": "10.23919/indiacom66777.2025.11115397",
+  "title": [
+   "A Deep Learning Ensemble with OCR Tools for PAN Card Recognition System"
+  ],
+  "container": [
+   "2025 12th International Conference on Computing for Sustainable Global Development (INDIACom)"
+  ],
+  "au": [
+   [
+    "Vadiyala Jhansi Lakshmi Pravallika",
+    "Devi"
+   ],
+   [
+    "Chinthalapudi Sri Rama",
+    "Gokula"
+   ],
+   [
+    "L. Mary",
+    "Gladence"
+   ]
+  ],
+  "page": "1-6",
+  "vol": null,
+  "issue": null,
+  "year": [
+   [
+    2025,
+    4,
+    2
+   ]
+  ],
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "event": "2025 12th International Conference on Computing for Sustainable Global Development (INDIACom)",
+  "abstract": false
+ }
+}
