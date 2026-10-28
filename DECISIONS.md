@@ -366,3 +366,26 @@ If a check fails, the set is not used, and the failure is reported.
 - **E9/E12:** flagged and mechanism-aware rates with person-clustered CIs and over-attribution counts, GT and OCR (descriptive). These replace the Wilson intervals of `mechanism_aware_recall.md`, which assume independent images.
 
 **Gate G3** is passed when the test run of this script completes with its row-count and consistency checks, and its outputs are committed.
+
+## 23. Step 21 — clean-environment re-run of one tile seed (recorded 29 Oct 2026, before the run)
+
+**Purpose.** Measure how closely the visual branch reproduces when training is repeated from scratch in a new environment (Appendix A, level L4). Nothing in the paper's results depends on this run: no model, threshold, fusion weight or reported number changes, whatever the outcome.
+
+**What is run.** `tiles`, seed 0 (the selection run of Section 15), with `python experiments/e2_visual/train_tiles.py --seed 0 --run-name native_tiles_rerun`. The new `--run-name` option only changes the output folder (`runs/native_tiles_rerun/seed0/`) and skips scoring the test split; the training code path is unchanged (`git diff` against `41c6235` shows only the option and the output branch).
+
+**Clean environment.**
+- A fresh `git clone` into a new folder at the commit that adds this section; no file from the old working copy except the two inputs below.
+- A new virtual environment created from `experiments/requirements-vision.txt` (`pip install -r ... --extra-index-url https://download.pytorch.org/whl/cu130`).
+- Inputs copied from the old working copy, each verified before training:
+  - the corpus images, verified with `python dataset/scripts/corpus_checksum.py data/v1 --verify` (frozen digest `7253245a…`);
+  - `experiments/cache/768x512/cache_manifest.csv` (metadata only; SHA-256 `3cb83dce0d72447dce000b065938fd064881f72f899423331b9759398b5679a0`).
+- Same GPU (the RTX 4060 laptop); driver and OS as they are on the day, recorded in `config.json`.
+
+**Pass rule (from roadmap Step 21, unchanged).**
+1. Same training configuration (every `config.json` key except commit and environment).
+2. Same edit-region file and verified corpus.
+3. Best validation AUROC and PR-AUC inside the range of the five original seeds (0.685–0.773 and 0.611–0.684).
+
+Bit-identical scores are not expected (fp16, non-deterministic kernels) and are not part of the rule. `experiments/e2_visual/compare_rerun.py --seed 0` applies the rule and writes `comparison.md`.
+
+**Reporting.** The result is reported in Appendix A whether it passes or fails. A failure is investigated and reported, not replaced by a second attempt.
