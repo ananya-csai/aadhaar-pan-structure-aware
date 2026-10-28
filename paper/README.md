@@ -1,4 +1,4 @@
-# Paper source — version 12 (all sections complete; one GPU result pending in Appendix A)
+# Paper source — version 13 (all sections complete; no red TODO left)
 
 ## Contents
 
@@ -19,7 +19,20 @@ inside `main.tex`, so they stay sharp and editable.
 2. Main document: `main.tex`. Compiler: **pdfLaTeX**. Compile twice.
 3. Do **not** add an `IEEEtran.cls` file; Overleaf provides the real class.
 
-## What changed from version 11
+## What changed from version 12 (in version 13)
+
+- Appendix A, L4: the Step 21 clean re-run of tile seed 0 is reported (red
+  TODO removed). Under the pre-registered rule it formally failed: Git for
+  Windows converted the line endings of `c1_regions.csv`, so its recorded
+  digest changed (content identical). The metric check passed, and the re-run
+  is bit-identical to the original (every epoch, all scores, the checkpoint).
+  The sentence "a second run ... is expected to differ slightly" is replaced by
+  what was observed; other hardware was not tested, so the five seeds remain
+  the unit of variation.
+- Table XX (levels): L4 row updated. Table XXI (runs): re-run row added.
+  Table XIX (protocol record): "Re-run, 29 Oct" row added.
+
+## What changed from version 11 (in version 12)
 
 - Section IX (Conclusion and Future Work) written.
 - Section II-E: the literature-search placeholders are replaced by a real,
@@ -110,7 +123,7 @@ inside `main.tex`, so they stay sharp and editable.
 
 | Where | What |
 |---|---|
-| Appendix A-1 (L4) | result of the Step 21 clean re-run of one tile seed (GPU, planned for January) |
+| — | none left in version 13 |
 
 Recommended before submission (not marked in the PDF):
 - Open the archived UIDAI PDF (link in Ref. [3]) once and confirm pages 6 and 12.

@@ -1,0 +1,4 @@
+# Check every file out byte for byte as stored, on every platform (no line-ending
+# conversion), so file hashes recorded in run configs and docs match on Windows
+# and Linux. See DECISIONS.md Section 23, run record.
+* -text

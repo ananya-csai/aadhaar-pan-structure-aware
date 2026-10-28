@@ -2463,6 +2463,9 @@ Generator fix & 24 Oct & scored
 Analysis plan & 28 Oct & scored
   & Families, paired bootstrap and Holm correction for Section~\ref{sec:results} recorded; the comparisons come from lists written before the test run, the grouping was recorded after the aggregate test reports existed.
   & Defines Table~\ref{tab:tests}; no prediction or parameter changed. \\
+Re-run & 29 Oct & scored
+  & Clean re-run of tile seed 0 under a pass rule recorded before the run (L4, Appendix~\ref{app:levels}). Formal fail: the digest of the edit-region file changed because line endings were converted on checkout; its content is identical. Metric check passed; run bit-identical to the original.
+  & None. Git now set to convert no file on checkout. \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -2498,7 +2501,7 @@ L2 Model inference & released checkpoints and corpus
 L3 Corpus & generator, configuration and seed
   & 10,791 of 10,800 images byte-identical on another OS; 9 differ in ${\le}37$ pixels by ${\le}3$ levels \\
 L4 Training & training script, corpus, seed
-  & not bit-exact (see text); variation is reported across five seeds \\
+  & bit-identical on the same GPU and library versions (one seed re-run); other hardware not tested \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2533,11 +2536,28 @@ without complex-script shaping; no Devanagari field is validated.
 \emph{L4.} The seed fixes the weight initialisation of the new head,
 the data order and the negative tiles drawn each epoch, and cuDNN
 auto-tuning is off. Deterministic GPU kernels were not enforced, and
-training uses half precision, so a second run of the same seed is
-expected to differ slightly. We therefore treat the five seeds, not a
-single run, as the unit of variation (Table~\ref{tab:runs}).
-\TODO{Step 21: report the clean-environment re-run of one tile seed
-(validation AUROC and PR-AUC against the original run).}
+training uses half precision, so before checking we expected a second
+run of the same seed to differ slightly. To check, tile seed~0 was
+trained again from a fresh copy of the repository, in a new Python
+environment, on the same GPU with the same Python, PyTorch and CUDA
+versions (the OS build had changed from 26200 to 26300). The pass rule
+was recorded before the run: identical training configuration,
+identical input files, and best validation AUROC and PR-AUC inside the
+range of the five original seeds (.685--.773 and .611--.684). Under
+this rule the run formally \emph{failed}. The recorded digest of the
+edit-region file differed because Git for Windows had converted the
+file's line endings on checkout; with the conversion undone the file is
+identical to the original, and the repository is now set so that Git
+converts no file. The metric check passed. The re-run also matched the
+original more closely than the rule required: the loss and validation
+metrics of every epoch, the per-image training and validation scores,
+and the selected checkpoint are bit-identical to the original run
+(validation AUROC .699, PR-AUC .627, best epoch 12 of 17 in both). On
+the same hardware and library versions, training is therefore exactly
+repeatable. Other GPUs, drivers or library versions were not tested,
+and half-precision kernels can differ between them, so we still treat
+the five seeds, not a single run, as the unit of variation
+(Table~\ref{tab:runs}).
 
 \subsection{Training Runs and Environment}
 
@@ -2547,8 +2567,9 @@ RTX 4060 Laptop GPU (8\,GB), Python 3.12.7, PyTorch 2.14.1,
 torchvision 0.29.1, CUDA 13.0 and cuDNN 9.24 (driver 616.92, read
 after the runs), under Windows~11 (build
 26200; whole-card seeds 3--4 and the fresh-set scoring ran on build
-26300 after an automatic update). Training took 7.3 GPU-hours in total
-(3.7 for the tile model). Each run records the code commit it ran from
+26300 after an automatic update, as did the re-run below). Training
+took 7.3 GPU-hours in total (3.7 for the tile model), not counting the
+re-run. Each run records the code commit it ran from
 and refuses to start if tracked files are modified. The runs span six
 commits; we checked that the tile training script is identical across
 its runs, and that the whole-card script changed only by adding the
@@ -2556,7 +2577,9 @@ variant switch used for the regularised pilot.
 
 \begin{table}[!t]
 \caption{All visual training runs (validation, C0 vs.\ C1). Ep.: best
-epoch / epochs run; $T$: fitted temperature; ECE after scaling.}
+epoch / epochs run; $T$: fitted temperature; ECE after scaling.
+Re-run: clean re-run of seed~0 (L4, Appendix~\ref{app:levels}); used in no
+result and not calibrated.}
 \label{tab:runs}
 \centering
 \scriptsize
@@ -2572,6 +2595,7 @@ Tiles & 0 & 12/17 & 42.6 & .699 & .627 & 4.40 & .109 \\
       & 3 & 15/20 & 49.3 & .717 & .661 & 4.16 & .089 \\
       & 4 & 13/18 & 45.0 & .773 & .684 & 3.42 & .058 \\
       & ens. & -- & -- & \textbf{.780} & \textbf{.702} & -- & .073 \\
+      & 0, re-run & 12/17 & 42.3 & .699 & .627 & -- & -- \\
 \midrule
 Whole card & 0 & 18/23 & 38.6 & .578 & .448 & 6.48 & .098 \\
            & 1 & 20/25 & 41.6 & .613 & .500 & 5.40 & .082 \\

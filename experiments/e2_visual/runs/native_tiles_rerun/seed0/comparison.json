@@ -1,0 +1,141 @@
+{
+  "seed": 0,
+  "passed": false,
+  "checks": {
+    "config identical (except commit/env)": false,
+    "edit regions identical": false,
+    "val AUROC in [0.685, 0.773]": true,
+    "val PR-AUC in [0.611, 0.684]": true,
+    "summary metrics recomputed from scores": true
+  },
+  "config_differences": {
+    "c1_regions_sha256": [
+      "b0138b52d37f7312b2b77e6f0735e5a429d62427c11f4175f0cfe60173597c91",
+      "c5417e9fcc6576c17dddf062d19040382b2aba3b773f8c4c09970f4c7e2e9618"
+    ]
+  },
+  "environment_differences": {
+    "platform": [
+      "Windows-11-10.0.26200-SP0",
+      "Windows-11-10.0.26300-SP0"
+    ]
+  },
+  "original": {
+    "best_epoch": 12,
+    "epochs_run": 17,
+    "minutes": 42.6,
+    "best_val_auroc": 0.69856,
+    "best_val_pr_auc": 0.62714
+  },
+  "rerun": {
+    "best_epoch": 12,
+    "epochs_run": 17,
+    "minutes": 42.3,
+    "best_val_auroc": 0.69856,
+    "best_val_pr_auc": 0.62714
+  },
+  "five_seed_range": {
+    "auroc": [
+      0.68488,
+      0.77282
+    ],
+    "pr_auc": [
+      0.61067,
+      0.68435
+    ]
+  },
+  "agreement_val_all_categories": {
+    "n": 1620,
+    "pearson": 0.9999999999999998,
+    "spearman": 0.9999999999999999,
+    "max_abs_logit_diff": 0.0,
+    "bit_identical_scores": true
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "orig_val_pr_auc": 0.35578,
+      "rerun_val_pr_auc": 0.35578
+    },
+    {
+      "epoch": 2,
+      "orig_val_pr_auc": 0.44288,
+      "rerun_val_pr_auc": 0.44288
+    },
+    {
+      "epoch": 3,
+      "orig_val_pr_auc": 0.48553,
+      "rerun_val_pr_auc": 0.48553
+    },
+    {
+      "epoch": 4,
+      "orig_val_pr_auc": 0.56423,
+      "rerun_val_pr_auc": 0.56423
+    },
+    {
+      "epoch": 5,
+      "orig_val_pr_auc": 0.58711,
+      "rerun_val_pr_auc": 0.58711
+    },
+    {
+      "epoch": 6,
+      "orig_val_pr_auc": 0.60325,
+      "rerun_val_pr_auc": 0.60325
+    },
+    {
+      "epoch": 7,
+      "orig_val_pr_auc": 0.58058,
+      "rerun_val_pr_auc": 0.58058
+    },
+    {
+      "epoch": 8,
+      "orig_val_pr_auc": 0.59338,
+      "rerun_val_pr_auc": 0.59338
+    },
+    {
+      "epoch": 9,
+      "orig_val_pr_auc": 0.59297,
+      "rerun_val_pr_auc": 0.59297
+    },
+    {
+      "epoch": 10,
+      "orig_val_pr_auc": 0.61746,
+      "rerun_val_pr_auc": 0.61746
+    },
+    {
+      "epoch": 11,
+      "orig_val_pr_auc": 0.59873,
+      "rerun_val_pr_auc": 0.59873
+    },
+    {
+      "epoch": 12,
+      "orig_val_pr_auc": 0.62714,
+      "rerun_val_pr_auc": 0.62714
+    },
+    {
+      "epoch": 13,
+      "orig_val_pr_auc": 0.61513,
+      "rerun_val_pr_auc": 0.61513
+    },
+    {
+      "epoch": 14,
+      "orig_val_pr_auc": 0.61641,
+      "rerun_val_pr_auc": 0.61641
+    },
+    {
+      "epoch": 15,
+      "orig_val_pr_auc": 0.59167,
+      "rerun_val_pr_auc": 0.59167
+    },
+    {
+      "epoch": 16,
+      "orig_val_pr_auc": 0.61888,
+      "rerun_val_pr_auc": 0.61888
+    },
+    {
+      "epoch": 17,
+      "orig_val_pr_auc": 0.60807,
+      "rerun_val_pr_auc": 0.60807
+    }
+  ]
+}

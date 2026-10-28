@@ -13,7 +13,7 @@ Recorded 24 Oct 2026. Everything below comes from committed files (run configs, 
 | **L1 Scoring** | committed per-image scores + frozen calibration and fusion files | `python experiments/score_frozen.py --split val` | exact (rounded summary, byte for byte) | CI job "Evaluation harness" on every commit |
 | **L2 Inference** | released checkpoints + corpus | `python experiments/fresh/score_fresh_visual.py --corpus …` (its self-check) | logits equal to 6 decimals (max diff 5e-7) | `experiments/fresh/visual/summary.json`, `experiments/logs/fresh_visual_2026-10-21.txt` |
 | **L3 Corpus** | generator + `configs/dataset_v1.yaml` | `python -m idforge.build --config configs/dataset_v1.yaml --out data/v1` | 10,791 / 10,800 images byte-identical (Linux rebuild); 9 differ in ≤ 37 pixels by ≤ 3 grey levels; labels, splits and GT verdicts identical | `experiments/logs/corpus_rebuild_linux_2026-10-24.txt`; check any rebuild with `dataset/scripts/compare_to_frozen.py` |
-| **L4 Training** | corpus + training script + seed | `python experiments/e2_visual/train_tiles.py --seed k` | **not bit-exact** (Section 4) | Step 21 re-run (pending) |
+| **L4 Training** | corpus + training script + seed | `python experiments/e2_visual/train_tiles.py --seed k` | bit-identical on the same GPU and software (tiles seed 0, Step 21); other hardware not tested (Section 4) | `experiments/e2_visual/runs/native_tiles_rerun/seed0/comparison.md`, DECISIONS §23 |
 
 ---
 
@@ -77,7 +77,7 @@ Per-image score files: each run's `summary.json` records the SHA-256 of its `sco
 
 ## 4. Known sources of non-reproducibility
 
-1. **Training is not bit-exact (L4).** Seeds fix head initialisation, data order and the negative tiles drawn each epoch; `cudnn.benchmark` is off. Deterministic kernels (`torch.use_deterministic_algorithms`) were not enforced, and training uses fp16 autocast. A second run of the same seed will differ slightly. The paper therefore treats the five seeds as the unit of variation. Acceptance rule for the Step 21 re-run: same config, same input hashes, and validation AUROC / PR-AUC inside the five-seed range (0.685–0.773 / 0.611–0.684). Matching score-file hashes is **not** expected and is not the test.
+1. **Training (L4): bit-identical on the same machine; not tested elsewhere.** Seeds fix head initialisation, data order and the negative tiles drawn each epoch; `cudnn.benchmark` is off. Deterministic kernels (`torch.use_deterministic_algorithms`) were not enforced, and training uses fp16 autocast, so a re-run was expected to differ slightly. The Step 21 re-run (29 Oct 2026; fresh clone, new environment, same RTX 4060, Python 3.12.7, torch 2.14.1+cu130, Windows build 26300 instead of 26200) was instead **bit-identical** to the original tiles seed 0: same epochs and metrics, same `scores_trainval.csv` (`0aa26c36…`) and `best.pt` (`45af4819…`). Under the pre-registered rule the run is formally a **FAIL** on checks 1–2: Git for Windows checked `c1_regions.csv` out with CRLF, so its recorded hash differed (`c5417e9f…`); with CR removed it equals `b0138b52…`. `.gitattributes` (`* -text`) now prevents this. Other GPUs, drivers or library versions may still give different numbers; the paper keeps the five seeds as the unit of variation.
 2. **Text layout differs by platform (L3).** Pillow applies complex-script layout (libraqm) only when FriBiDi is installed: usually on Linux, usually not on Windows. The frozen corpus was built on Windows, so with Pillow's BASIC layout. A Linux rebuild before the fix differed in almost every image (text shifted by a few pixels). Since 24 Oct the generator forces BASIC layout everywhere (`dataset/src/idforge/templates.py`); the v1 and fresh images do not change, because they were already built that way. After the fix a full Linux rebuild (Python 3.13.16, pinned requirements, `--skip-ocr`) gave 10,791 byte-identical images; the other 9 differ in at most 37 pixels by at most 3 grey levels, all at the right image border (consistent with floating-point differences in the perspective warp). Labels, identifiers, splits, records and ground-truth rule verdicts are identical. Consequence of BASIC layout: Devanagari is drawn without complex-script shaping. No Devanagari field is validated, but it is a fidelity limitation of the synthetic cards.
 3. **OCR depends on the engine version.** Every OCR verdict in the manifest came from Tesseract 5.5.3. Another version will change some OCR readings and therefore the OCR-condition results; ground-truth-condition results do not depend on OCR.
 4. **Code commits differ across runs.** Runs span commits `8392d83`, `744fabd`, `678ab45`, `41c6235`, `bb931f2`, `e421e5c`. Checked with `git diff`: `train_tiles.py` and `tiles.py` are identical for all tile runs; `train.py` changed only by adding the `--variant` switch (A2), and the `base` path is unchanged.
@@ -89,6 +89,7 @@ Per-image score files: each run's `summary.json` records the SHA-256 of its `sco
 | Model | Seed | Commit | Best / run epochs | Minutes | Val AUROC | Val PR-AUC | Temperature | ECE before → after |
 |---|---|---|---|---|---|---|---|---|
 | tiles | 0 | 678ab45 | 12 / 17 | 42.6 | 0.699 | 0.627 | 4.40 | 0.223 → 0.109 |
+| tiles re-run (Step 21) | 0 | c46286a | 12 / 17 | 42.3 | 0.699 | 0.627 | — | — |
 | tiles | 1 | 41c6235 | 6 / 11 | 30.9 | 0.685 | 0.611 | 1.52 | 0.077 → 0.055 |
 | tiles | 2 | 41c6235 | 17 / 22 | 53.9 | 0.735 | 0.661 | 4.54 | 0.207 → 0.052 |
 | tiles | 3 | 41c6235 | 15 / 20 | 49.3 | 0.717 | 0.661 | 4.16 | 0.193 → 0.089 |
@@ -126,6 +127,7 @@ In order. Full text in `DECISIONS.md`.
 | A6 | §20 | 21 Oct | scored | fresh set pre-registered, then built; first build crashed on cp1252, re-run with UTF-8 | confirmatory A5 vs A4 |
 | OCR record | §7, §20 | 21 Oct | scored | Tesseract 5.5.3, not 5.3.4 | none; one engine throughout |
 | Generator fix | §21 | 24 Oct | scored | text layout forced to BASIC on all platforms (the engine that built v1); found by a Linux rebuild | none for v1/fresh; rebuilds elsewhere now match |
+| Step 21 | §23 | 29 Oct | scored | protocol for one clean re-run recorded before the run; run: formal FAIL (CRLF checkout), training bit-identical; `.gitattributes` added | none |
 
 ---
 
@@ -133,4 +135,4 @@ In order. Full text in `DECISIONS.md`.
 
 - ✅ [GPU] Five tile checkpoints uploaded to a Zenodo draft (Section 2). ⬜ Publish the record at acceptance / camera-ready; for double-blind submission, give reviewers an anonymous copy if they need the files.
 - ✅ [GPU] NVIDIA driver version recorded (616.92, 24 Oct; Section 3).
-- [GPU] Step 21: one clean-environment re-run of a tile seed; acceptance rule in Section 4, item 1.
+- ✅ [GPU] Step 21: clean-environment re-run of tiles seed 0, 29 Oct (Section 4, item 1). Formal FAIL (line endings); training bit-identical.
