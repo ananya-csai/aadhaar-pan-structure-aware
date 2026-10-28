@@ -1,0 +1,31 @@
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth, height=4.4cm,
+  ybar, bar width=7pt, ymin=-8, ymax=55,
+  ylabel={$\Delta$ (recall points over visual)}, ylabel style={font=\scriptsize},
+  symbolic x coords={Aadhaar, PAN, Both},
+  xtick=data, xticklabel style={font=\scriptsize},
+  yticklabel style={font=\scriptsize}, ytick={0,10,20,30,40,50},
+  ymajorgrids, grid style={cgrey!20},
+  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south,
+                legend columns=3, draw=none, column sep=4pt},
+  enlarge x limits=0.25, axis lines*=left, extra y ticks={0},
+  extra y tick style={grid style={black!60}},
+  every axis plot/.append style={draw=none},
+  error bars/y dir=both, error bars/y explicit,
+  error bars/error bar style={black!70, line width=0.5pt},
+]
+\addplot[fill=cfuse!80] coordinates {(Aadhaar,23.3) += (0,1.0) -= (0,1.1) (PAN,47.4) += (0,1.3) -= (0,1.5) (Both,35.4) += (0,0.9) -= (0,1.0)};
+\addplot[fill=cbad!70]  coordinates {(Aadhaar,18.9) += (0,3.3) -= (0,3.5) (PAN,-1.9) += (0,2.8) -= (0,2.5) (Both,8.5) += (0,2.1) -= (0,2.2)};
+\addplot[fill=crule!80] coordinates {(Aadhaar,20.0) += (0,3.1) -= (0,3.3) (PAN,25.4) += (0,4.4) -= (0,4.3) (Both,22.7) += (0,2.8) -= (0,3.1)};
+\legend{{A4, GT text},{A4, OCR text},{A5, OCR text (post-hoc)}}
+\end{axis}
+\end{tikzpicture}
+\caption{Incremental value $\Delta$ of rule evidence over the visual branch at the 5\% operating
+point, by document type (test split, 95\% intervals). With ground-truth text PAN gains twice as much
+as Aadhaar; with OCR text and a single rule input (A4) the PAN gain vanishes, and per-check fusion
+(A5) restores most of it.}
+\label{fig:delta}
+\end{figure}
