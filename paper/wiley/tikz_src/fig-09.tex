@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.75\textwidth, height=4.6cm,
+  ybar, bar width=4.2pt, ymin=0, ymax=1.08,
+  ylabel={median edit retention}, ylabel style={font=\scriptsize},
+  symbolic x coords={displace, font, recompress, splice, resample},
+  xtick=data, xticklabel style={font=\scriptsize},
+  yticklabel style={font=\scriptsize},
+  ytick={0,0.25,0.5,0.75,1},
+  ymajorgrids, grid style={cgrey!20},
+  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south,
+                legend columns=4, draw=none, column sep=3pt},
+  enlarge x limits=0.13, axis lines*=left,
+  every axis plot/.append style={draw=none},
+]
+\addplot[fill=cvis!85]  coordinates {(displace,0.97) (font,0.98) (recompress,0.89) (splice,0.98) (resample,0.87)};
+\addplot[fill=cvis!45]  coordinates {(displace,0.97) (font,0.96) (recompress,0.83) (splice,0.97) (resample,0.86)};
+\addplot[fill=crule!80] coordinates {(displace,0.89) (font,0.90) (recompress,0.32) (splice,0.91) (resample,0.26)};
+\addplot[fill=cbad!75]  coordinates {(displace,0.69) (font,0.76) (recompress,0.16) (splice,0.83) (resample,0.11)};
+\legend{$1024{\times}640$, $768{\times}512$, $384{\times}256$, $224{\times}160$}
+\end{axis}
+\end{tikzpicture}

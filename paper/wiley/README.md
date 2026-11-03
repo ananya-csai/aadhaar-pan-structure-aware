@@ -10,6 +10,15 @@ New Journal Design v5 template.
    The template does not work with TeX Live 2023 or with pdfLaTeX.
 3. Main document: `main.tex`. Click **Recompile**.
 
+## Compile time (Overleaf free plan)
+
+Overleaf's free plan stops any compile that takes longer than 10 seconds.
+The 12 TikZ/pgfplots figures are therefore included as ready-made PDFs from
+`tikzfig/`; a full clean build takes about 5 seconds (about 15 before).
+Their TikZ source is in `tikz_src/` (in the Overleaf zip: `figures/tikz_src/`).
+`externalize.py` regenerates the PDFs and the image-based `main.tex` from the
+TikZ version produced by `to_wiley.py`.
+
 ## Files
 
 ```

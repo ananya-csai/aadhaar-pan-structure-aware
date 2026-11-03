@@ -1,0 +1,24 @@
+\begin{tikzpicture}[x=0.0069cm, y=-0.0069cm, font=\scriptsize]
+  % canvas and card
+  \fill[white] (0,0) rectangle (1024,640);
+  \fill[cgrey!12] (0,0) rectangle (1012,638);
+  \fill[cvis!35] (0,0) rectangle (1012,70);
+  \fill[cgrey!35] (60,150) rectangle (230,380);
+  \foreach \yy in {170,215,260,305} \draw[cgrey!60, line width=1.2pt] (280,\yy) -- (760,\yy);
+  \draw[cink!80, line width=3pt] (120,540) -- (720,540);
+  % tiles
+  \foreach \x in {0,192,384,576,768}
+    \foreach \y in {0,192,384}
+      \draw[cvis!55, line width=0.35pt] (\x,\y) rectangle ++(256,256);
+  % ignored and positive tile
+  \fill[pattern=north east lines, pattern color=cgrey!80] (192,384) rectangle ++(256,256);
+  \draw[cgrey, line width=0.9pt] (192,384) rectangle ++(256,256);
+  \fill[cfuse!22, opacity=0.8] (384,384) rectangle ++(256,256);
+  \draw[cfuse!90!black, line width=1.1pt] (384,384) rectangle ++(256,256);
+  % edit region
+  \draw[cbad, line width=1.2pt, fill=cbad!25] (430,505) rectangle (540,565);
+  \draw[cink, line width=0.6pt] (0,0) rectangle (1024,640);
+  % dimension labels
+  \draw[|<->|, cgrey] (0,-38) -- node[above]{1024 px} (1024,-38);
+  \draw[|<->|, cgrey] (-40,0) -- node[left, align=center]{640\\px} (-40,640);
+\end{tikzpicture}

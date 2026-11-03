@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.75\textwidth, height=4.3cm,
+  ybar, bar width=4.6pt, ymin=0, ymax=31,
+  ylabel={genuine cards flagged (\%)}, ylabel style={font=\scriptsize},
+  symbolic x coords={A-format, A-checksum, P-format, P-category, P-cross-field},
+  xtick=data, xticklabel style={font=\scriptsize},
+  yticklabel style={font=\scriptsize}, ytick={0,10,20,30},
+  ymajorgrids, grid style={cgrey!20},
+  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south,
+                legend columns=3, draw=none, column sep=4pt},
+  enlarge x limits=0.13, axis lines*=left,
+  every axis plot/.append style={draw=none},
+  nodes near coords, nodes near coords style={font=\tiny, rotate=90, anchor=west},
+  point meta=explicit symbolic,
+]
+\addplot[fill=cfuse!70] coordinates {(A-format,0)[] (A-checksum,0)[] (P-format,13.7)[13.7] (P-category,0)[] (P-cross-field,0)[]};
+\addplot[fill=crule!75] coordinates {(A-format,0)[] (A-checksum,0)[] (P-format,12.0)[12.0] (P-category,0)[] (P-cross-field,0)[]};
+\addplot[fill=cbad!75]  coordinates {(A-format,3.2)[3.2] (A-checksum,8.3)[8.3] (P-format,27.5)[27.5] (P-category,0)[] (P-cross-field,5.8)[5.8]};
+\legend{clean, mild, severe}
+\end{axis}
+\end{tikzpicture}

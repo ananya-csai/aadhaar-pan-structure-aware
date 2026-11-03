@@ -16,12 +16,9 @@
 \usepackage{array}
 \usepackage{makecell}
 \usepackage{pifont}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit,
-                backgrounds, decorations.pathreplacing, patterns}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.17}
-\usepackage[most]{tcolorbox}
+% Figures are pre-rendered PDFs in tikzfig/ (sources in figures/tikz_src/),
+% which keeps the compile within Overleaf's free-plan time limit.
+\usepackage{tcolorbox}
 \usepackage{xurl}
 \usepackage{placeins}
 
@@ -48,7 +45,7 @@
 
 
 % --- shaded box for the research questions ----------------------------
-\newtcolorbox{rqbox}[1]{enhanced, colback=cvis!5, colframe=cvis!60,
+\newtcolorbox{rqbox}[1]{colback=cvis!5, colframe=cvis!60,
   boxrule=0.5pt, arc=1.5pt, left=4pt, right=4pt, top=3pt, bottom=3pt,
   fonttitle=\bfseries\small, coltitle=cink, colbacktitle=cvis!14,
   title=#1, fontupper=\small}
@@ -139,63 +136,7 @@ benchmark}
 \begin{figure*}[!t]
 \centering
 \resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-  font=\footnotesize, >={Latex[length=1.8mm]},
-  blk/.style={draw=#1!70, fill=#1!8, rounded corners=2pt, align=center,
-              minimum height=10mm, inner xsep=3pt, text width=24mm},
-  lane/.style={draw=#1!45, fill=#1!3, rounded corners=4pt, dashed},
-  lbl/.style={font=\scriptsize\bfseries, text=#1!85!black, anchor=north west},
-  ar/.style={->, thick, draw=cink!80},
-]
-% ---- input card icon
-\begin{scope}[shift={(-0.2,0)}]
-  \draw[rounded corners=2pt, fill=white, draw=cink!70, thick] (0,-0.75) rectangle (2.1,0.75);
-  \fill[cvis!55] (0.02,0.52) rectangle (2.08,0.73);
-  \fill[cgrey!35] (0.15,-0.45) rectangle (0.62,0.30);
-  \foreach \y in {0.30,0.14,-0.02} \draw[cgrey!70, line width=1.1pt] (0.75,\y) -- (1.9,\y);
-  \draw[cink, line width=2.2pt] (0.2,-0.6) -- (1.55,-0.6);
-  \node[font=\scriptsize, align=center, text width=24mm, anchor=north] at (1.05,-0.88)
-       {Document image\\(Aadhaar or PAN format)};
-\end{scope}
-\coordinate (in) at (2.05,0);
-
-% ---- visual lane
-\node[blk=cvis] (v1) at (4.55, 1.55) {Place on $1024{\times}640$ canvas\\{\scriptsize no resizing}};
-\node[blk=cvis] (v2) at (7.45, 1.55) {15 overlapping\\$256{\times}256$ tiles};
-\node[blk=cvis] (v3) at (10.6,1.55) {ResNet-50, 5 seeds\\{\scriptsize document logit = max tile}};
-\node[blk=cvis] (v4) at (13.8,1.55) {Temperature scaling,\\seed average $\Rightarrow p_v$};
-% ---- rule lane
-\node[blk=crule] (r1) at (4.55,-1.55) {Per-field OCR\\{\scriptsize Tesseract, mapped boxes}};
-\node[blk=crule] (r2) at (7.45,-1.55) {Minimal parsing\\{\scriptsize whitespace only}};
-\node[blk=crule, text width=31mm, minimum height=13mm] (r3) at (10.6,-1.55)
-     {Validators (Sec.~\ref{sec:framework})\\[1pt]{\scriptsize Aadhaar: format, Verhoeff\\PAN: format, category,\\$p_5$ vs.\ name}};
-\node[blk=crule] (r4) at (13.8,-1.55) {Per-check flags $f_k$,\\any-fail flag $r$};
-\node[draw=crule!70, dashed, rounded corners=2pt, fill=white, font=\scriptsize,
-      align=center, text width=24mm] (gt) at (7.45,-3.05)
-     {Ground-truth text\\(oracle condition, RQ4)};
-% ---- fusion
-\node[blk=cfuse, text width=34mm, minimum height=29mm] (f) at (17.55,0)
-     {\textbf{Evidence fusion}\\[2pt]{\scriptsize OR / AND of $p_v{\ge}t_v$ and $r$\\[2pt]A4: logistic on $z_v$, $r$, $r{\cdot}\mathbf{1}_{\mathrm{PAN}}$\\[2pt]A5: logistic on $z_v$ and every $f_k$\\[2pt]thresholds fixed on validation}};
-\node[draw=cink!60, fill=white, rounded corners=2pt, align=center, text width=21mm,
-      minimum height=12mm] (out) at (21.0,0)
-     {\textbf{Decision}\\{\scriptsize + rule-level\\explanation}};
-% ---- lanes (drawn behind)
-\begin{scope}[on background layer]
-  \node[lane=cvis, fit=(v1)(v4), inner sep=5pt, inner ysep=9pt, yshift=3pt] (L1) {};
-  \node[lane=crule, fit=(r1)(r4)(gt), inner sep=5pt, inner ysep=9pt, yshift=3pt] (L2) {};
-\end{scope}
-\node[lbl=cvis] at (L1.north west) {Visual branch (pixels only)};
-\node[lbl=crule] at (L2.north west) {Structural / semantic branch (field values only)};
-% ---- arrows
-\draw[ar] (in) -- ++(0.35,0) |- (v1.west);
-\draw[ar] (in) -- ++(0.35,0) |- (r1.west);
-\draw[ar] (v1) -- (v2); \draw[ar] (v2) -- (v3); \draw[ar] (v3) -- (v4);
-\draw[ar] (r1) -- (r2); \draw[ar] (r2) -- (r3); \draw[ar] (r3) -- (r4);
-\draw[ar, dashed, draw=crule!80] (gt.east) -| ([xshift=-4mm]r3.south);
-\draw[ar] (v4.east) -- ++(0.45,0) |- ([yshift=6mm]f.west);
-\draw[ar] (r4.east) -- ++(0.45,0) |- ([yshift=-6mm]f.west);
-\draw[ar] (f) -- (out);
-\end{tikzpicture}}
+\includegraphics{tikzfig/fig-00.pdf}}
 \caption{Overview of the evaluated system. The visual branch reads only
 pixels and returns a calibrated probability $p_v$; the
 structural/semantic branch reads only field values, from OCR or, in the
@@ -687,63 +628,7 @@ shows both decision flows.
 \begin{figure*}[!t]
 \centering
 \resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-  font=\footnotesize, >={Latex[length=1.7mm]},
-  io/.style={draw=cink!60, fill=cgrey!8, rounded corners=2pt, align=center,
-             minimum height=9mm, text width=23mm},
-  dec/.style={draw=crule!80, fill=crule!8, diamond, aspect=2.3, align=center,
-              inner sep=0.5pt, text width=19mm},
-  fail/.style={draw=cbad!70, fill=cbad!7, rounded corners=2pt, align=center,
-               minimum height=7mm, text width=21mm},
-  skip/.style={draw=cgrey!70, fill=cgrey!10, rounded corners=2pt, align=center,
-               minimum height=7mm, text width=21mm},
-  ok/.style={draw=cfuse!80, fill=cfuse!9, rounded corners=2pt, align=center,
-             minimum height=9mm, text width=24mm},
-  ar/.style={->, thick, draw=cink!80},
-  yl/.style={font=\scriptsize, above},
-  nl/.style={font=\scriptsize, right},
-]
-% ---------------- (a) Aadhaar
-\node[font=\small\bfseries, anchor=west] at (-1.4,1.35) {(a) Aadhaar};
-\node[io]   (ai)  at (0,0)    {OCR or ground-truth\\Aadhaar string};
-\node[dec]  (ad1) at (3.55,0) {exactly 12\\digits?};
-\node[dec]  (ad2) at (7.25,0) {Verhoeff\\$c_{12}=0$?};
-\node[ok]   (aok) at (11.0,0) {\textsc{consistent}};
-\node[fail] (af1) at (3.55,-1.55) {\textsc{format fail}};
-\node[fail] (af2) at (7.25,-1.55) {\textsc{checksum fail}};
-\draw[ar] (ai) -- (ad1);
-\draw[ar] (ad1) -- node[yl]{yes} (ad2);
-\draw[ar] (ad2) -- node[yl]{yes} (aok);
-\draw[ar] (ad1) -- node[nl]{no} (af1);
-\draw[ar] (ad2) -- node[nl]{no} (af2);
-\node[font=\scriptsize\itshape, align=left, text width=48mm, anchor=west] at (13.0,-0.35)
-  {Passing establishes internal consistency only. The algorithm is
-   public, so an invented 11-digit body can be given a valid check
-   digit (category C4).};
-% ---------------- (b) PAN
-\begin{scope}[yshift=-3.6cm]
-\node[font=\small\bfseries, anchor=west] at (-1.4,1.35) {(b) PAN};
-\node[io]   (pi)  at (0,0)     {OCR or ground-truth\\PAN $+$ name line};
-\node[dec]  (pd1) at (3.55,0)  {matches\\\texttt{AAAAA9999A}?};
-\node[dec]  (pd2) at (7.25,0)  {$p_4$ a valid\\category code?};
-\node[dec]  (pd3) at (10.95,0) {name tokens\\$T\neq\emptyset$?};
-\node[dec]  (pd4) at (14.65,0) {$p_5$ matches\\name (\ref{eq:sem})?};
-\node[ok]   (pok) at (18.4,0)  {\textsc{consistent}\\{\scriptsize $p_{10}$: not applicable}};
-\node[fail] (pf1) at (3.55,-1.55)  {\textsc{format fail}};
-\node[fail] (pf2) at (7.25,-1.55)  {\textsc{category fail}};
-\node[skip] (ps)  at (10.95,-1.55) {\textsc{skipped}\\{\scriptsize no usable name}};
-\node[fail] (pf3) at (14.65,-1.55) {\textsc{cross-field fail}};
-\draw[ar] (pi) -- (pd1);
-\draw[ar] (pd1) -- node[yl]{yes} (pd2);
-\draw[ar] (pd2) -- node[yl]{yes} (pd3);
-\draw[ar] (pd3) -- node[yl]{yes} (pd4);
-\draw[ar] (pd4) -- node[yl]{yes} (pok);
-\draw[ar] (pd1) -- node[nl]{no} (pf1);
-\draw[ar] (pd2) -- node[nl]{no} (pf2);
-\draw[ar] (pd3) -- node[nl]{no} (ps);
-\draw[ar] (pd4) -- node[nl]{no} (pf3);
-\end{scope}
-\end{tikzpicture}}
+\includegraphics{tikzfig/fig-01.pdf}}
 \caption{Decision flows of the two validators. Orange diamonds are the
 individual checks whose outcomes are passed to fusion; red boxes are
 failures, each tied to a named rule. For PAN, the cross-field check
@@ -858,32 +743,7 @@ generation pipeline.
 \begin{figure*}[!t]
 \centering
 \resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-  font=\footnotesize, >={Latex[length=1.7mm]},
-  box/.style={draw=#1!70, fill=#1!8, rounded corners=2pt, align=center,
-              minimum height=10mm, inner xsep=2pt, text width=22mm},
-  ar/.style={->, thick, draw=cink!80},
-]
-\node[box=cvis]  (rec) at (0,0)     {Identity records\\{\scriptsize names, IDs, strata}};
-\node[box=cvis]  (spl) at (2.75,0)  {Grouped split\\{\scriptsize by person}};
-\node[box=cvis]  (ren) at (5.5,0)   {Base render\\{\scriptsize seed $b$, field boxes}};
-\node[box=cbad]  (frg) at (8.25,0)  {Forgery injection\\{\scriptsize C0--C4}};
-\node[box=cgrey] (deg) at (11.0,0)  {Capture simulation\\{\scriptsize 3 quality tiers}};
-\node[box=cgrey] (ocr) at (13.75,0) {Per-field OCR\\{\scriptsize mapped boxes}};
-\node[box=crule] (val) at (16.5,0)  {Validators\\{\scriptsize GT and OCR text}};
-\node[box=cfuse] (pre) at (8.25,1.6)  {Pre-flight gate\\{\scriptsize expected rule outcome}};
-\node[box=cfuse] (prb) at (5.5,-1.6)  {Difference audit\\{\scriptsize render leakage}};
-\node[box=cfuse] (lk)  at (11.0,-1.6) {Leakage audits\\{\scriptsize Table~\ref{tab:leakage}}};
-\node[box=cgrey] (man) at (16.5,-1.6) {Manifest, statistics,\\figures};
-\draw[ar] (rec)--(spl); \draw[ar] (spl)--(ren); \draw[ar] (ren)--(frg);
-\draw[ar] (frg)--(deg); \draw[ar] (deg)--(ocr); \draw[ar] (ocr)--(val);
-\draw[ar] (frg)--(pre); \draw[ar] (ren)--(prb); \draw[ar] (deg)--(lk);
-\draw[ar] (val)--(man);
-\node[font=\scriptsize\itshape, align=left, text width=50mm, anchor=north west]
-  at (-1.15,-1.0) {One global seed fixes every stage. C0$_0$ and C1--C4 share
-  render seed $b$, so before degradation they differ only inside the
-  corrupted field; C0$_1$ uses an independent seed.};
-\end{tikzpicture}}
+\includegraphics{tikzfig/fig-02.pdf}}
 \caption{Benchmark generation pipeline. Blue: generation; red: the only
 stage that introduces a forgery; grey: capture and extraction; green:
 checks that gate the build. A failed gate aborts the build, and gates
@@ -1160,28 +1020,7 @@ this difference.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-  width=0.75\textwidth, height=4.3cm,
-  ybar, bar width=4.6pt, ymin=0, ymax=31,
-  ylabel={genuine cards flagged (\%)}, ylabel style={font=\scriptsize},
-  symbolic x coords={A-format, A-checksum, P-format, P-category, P-cross-field},
-  xtick=data, xticklabel style={font=\scriptsize},
-  yticklabel style={font=\scriptsize}, ytick={0,10,20,30},
-  ymajorgrids, grid style={cgrey!20},
-  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south,
-                legend columns=3, draw=none, column sep=4pt},
-  enlarge x limits=0.13, axis lines*=left,
-  every axis plot/.append style={draw=none},
-  nodes near coords, nodes near coords style={font=\tiny, rotate=90, anchor=west},
-  point meta=explicit symbolic,
-]
-\addplot[fill=cfuse!70] coordinates {(A-format,0)[] (A-checksum,0)[] (P-format,13.7)[13.7] (P-category,0)[] (P-cross-field,0)[]};
-\addplot[fill=crule!75] coordinates {(A-format,0)[] (A-checksum,0)[] (P-format,12.0)[12.0] (P-category,0)[] (P-cross-field,0)[]};
-\addplot[fill=cbad!75]  coordinates {(A-format,3.2)[3.2] (A-checksum,8.3)[8.3] (P-format,27.5)[27.5] (P-category,0)[] (P-cross-field,5.8)[5.8]};
-\legend{clean, mild, severe}
-\end{axis}
-\end{tikzpicture}
+\includegraphics{tikzfig/fig-03.pdf}
 \caption{Which check fires on \emph{genuine} cards under OCR text, by
 capture tier (all \dsGenuine{} C0 images). With ground-truth text every
 bar is zero.}
@@ -1399,34 +1238,11 @@ intact.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}[x=0.0069cm, y=-0.0069cm, font=\scriptsize]
-  % canvas and card
-  \fill[white] (0,0) rectangle (1024,640);
-  \fill[cgrey!12] (0,0) rectangle (1012,638);
-  \fill[cvis!35] (0,0) rectangle (1012,70);
-  \fill[cgrey!35] (60,150) rectangle (230,380);
-  \foreach \yy in {170,215,260,305} \draw[cgrey!60, line width=1.2pt] (280,\yy) -- (760,\yy);
-  \draw[cink!80, line width=3pt] (120,540) -- (720,540);
-  % tiles
-  \foreach \x in {0,192,384,576,768}
-    \foreach \y in {0,192,384}
-      \draw[cvis!55, line width=0.35pt] (\x,\y) rectangle ++(256,256);
-  % ignored and positive tile
-  \fill[pattern=north east lines, pattern color=cgrey!80] (192,384) rectangle ++(256,256);
-  \draw[cgrey, line width=0.9pt] (192,384) rectangle ++(256,256);
-  \fill[cfuse!22, opacity=0.8] (384,384) rectangle ++(256,256);
-  \draw[cfuse!90!black, line width=1.1pt] (384,384) rectangle ++(256,256);
-  % edit region
-  \draw[cbad, line width=1.2pt, fill=cbad!25] (430,505) rectangle (540,565);
-  \draw[cink, line width=0.6pt] (0,0) rectangle (1024,640);
-  % dimension labels
-  \draw[|<->|, cgrey] (0,-38) -- node[above]{1024 px} (1024,-38);
-  \draw[|<->|, cgrey] (-40,0) -- node[left, align=center]{640\\px} (-40,640);
-\end{tikzpicture}\\[3pt]
+\includegraphics{tikzfig/fig-04.pdf}\\[3pt]
 {\scriptsize
-\tikz\draw[cbad, fill=cbad!25] (0,0) rectangle (0.3,0.18); edited region\quad
-\tikz\draw[cfuse!90!black, fill=cfuse!22] (0,0) rectangle (0.3,0.18); positive tile ($\ge25\%$)\quad
-\tikz\draw[cgrey, pattern=north east lines, pattern color=cgrey!80] (0,0) rectangle (0.3,0.18); ignored ($<25\%$)}
+\includegraphics{tikzfig/fig-05.pdf} edited region\quad
+\includegraphics{tikzfig/fig-06.pdf} positive tile ($\ge25\%$)\quad
+\includegraphics{tikzfig/fig-07.pdf} ignored ($<25\%$)}
 \caption{Tile grid of the visual branch: 15 overlapping $256{\times}256$
 tiles (stride 192) over a $1024{\times}640$ canvas, with the card pasted
 at native resolution. Tile labels are used only during training; at test
@@ -1685,18 +1501,7 @@ evaluated once by a script that refuses a second run.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}[font=\scriptsize, >={Latex[length=1.5mm]},
-  dot/.style={circle, draw=#1!90!black, fill=#1!25, minimum size=3.2mm, inner sep=0},
-  txt/.style={anchor=west, align=left, text width=66mm}]
-\def\dy{-0.93}
-\draw[cgrey!60, line width=1.2pt] (0,0) -- (0,5.5*\dy);
-\node[dot=cvis]  (a) at (0,0)      {}; \node[txt] at (0.3,0)      {\textbf{Protocol fixed} (input, splits, operating point, seeds); approved and tagged.};
-\node[dot=cvis]  (b) at (0,1*\dy)  {}; \node[txt] at (0.3,1*\dy)  {\textbf{Development on train/validation}: whole-card, regularised and tile models; tile model selected; 5 seeds.};
-\node[dot=cfuse] (c) at (0,2*\dy)  {}; \node[txt] at (0.3,2*\dy)  {\textbf{Calibration and A4 fusion} fitted on validation; parameters committed; signed by all authors.};
-\node[dot=cbad]  (d) at (0,3*\dy)  {}; \node[txt] at (0.3,3*\dy)  {\textbf{Test split scored once} after a freeze tag; sealed scores hash-checked.};
-\node[dot=crule] (e) at (0,4*\dy)  {}; \node[txt] at (0.3,4*\dy)  {\textbf{A5 designed} from test findings; design recorded before fitting; reported as post-hoc.};
-\node[dot=cbad]  (f) at (0,5*\dy)  {}; \node[txt] at (0.3,5*\dy)  {\textbf{Fresh set pre-registered}, generated, leakage-checked and evaluated once (confirmatory test of A5).};
-\end{tikzpicture}
+\includegraphics{tikzfig/fig-08.pdf}
 \caption{Order of decisions. Nothing above a red marker could be
 changed after it; the main test split and the fresh set were each
 evaluated exactly once.}
@@ -1787,28 +1592,7 @@ $768{\times}512$.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-  width=0.75\textwidth, height=4.6cm,
-  ybar, bar width=4.2pt, ymin=0, ymax=1.08,
-  ylabel={median edit retention}, ylabel style={font=\scriptsize},
-  symbolic x coords={displace, font, recompress, splice, resample},
-  xtick=data, xticklabel style={font=\scriptsize},
-  yticklabel style={font=\scriptsize},
-  ytick={0,0.25,0.5,0.75,1},
-  ymajorgrids, grid style={cgrey!20},
-  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south,
-                legend columns=4, draw=none, column sep=3pt},
-  enlarge x limits=0.13, axis lines*=left,
-  every axis plot/.append style={draw=none},
-]
-\addplot[fill=cvis!85]  coordinates {(displace,0.97) (font,0.98) (recompress,0.89) (splice,0.98) (resample,0.87)};
-\addplot[fill=cvis!45]  coordinates {(displace,0.97) (font,0.96) (recompress,0.83) (splice,0.97) (resample,0.86)};
-\addplot[fill=crule!80] coordinates {(displace,0.89) (font,0.90) (recompress,0.32) (splice,0.91) (resample,0.26)};
-\addplot[fill=cbad!75]  coordinates {(displace,0.69) (font,0.76) (recompress,0.16) (splice,0.83) (resample,0.11)};
-\legend{$1024{\times}640$, $768{\times}512$, $384{\times}256$, $224{\times}160$}
-\end{axis}
-\end{tikzpicture}
+\includegraphics{tikzfig/fig-09.pdf}
 \caption{Share of the C1 edit signal that survives resizing, measured
 on 360 matched training pairs (median, relative to native size). The
 two fine-trace edits, recompression and resampling, are largely
@@ -2053,7 +1837,17 @@ visual one over the whole plotted range; with OCR text the gain builds
 up in steps between about 1\% and 15\% FPR, because genuine documents
 now fail rules as well.
 
-\input{generated/res_roc_fig}
+\begin{figure}[!t]
+\centering
+\includegraphics{tikzfig/fig-10.pdf}
+\caption{ROC curves of the continuous scores on the v1 test split, restricted to FPR ${\le}30\%$
+(forged vs.\ genuine; AUROC over the full range in the legend). Markers: the frozen operating points
+of Table~\ref{tab:main}; dashed line: the 5\% budget. With ground-truth text the fused curve starts
+high, because rule failures place many forged images above every genuine score. With OCR text genuine
+documents fail rules too, so the fused curves climb in steps and meet OR fusion near its operating
+point.}
+\label{fig:roc}
+\end{figure}
 
 With OCR text, A4 at the 5\% operating point reaches 21.9\% [20.0, 24.0]
 at an FPR of 4.1\%, 8.5 points [6.3, 10.6] above the visual branch
@@ -2120,7 +1914,15 @@ documents, which force the fusion to discount every rule failure.
 \subsection{RQ5: Aadhaar Versus PAN}
 \label{subsec:res-rq5}
 
-\input{generated/res_delta_fig}
+\begin{figure}[!t]
+\centering
+\includegraphics{tikzfig/fig-11.pdf}
+\caption{Incremental value $\Delta$ of rule evidence over the visual branch at the 5\% operating
+point, by document type (test split, 95\% intervals). With ground-truth text PAN gains twice as much
+as Aadhaar; with OCR text and a single rule input (A4) the PAN gain vanishes, and per-check fusion
+(A5) restores about half of it.}
+\label{fig:delta}
+\end{figure}
 
 The incremental value differs between the two document types, and the
 difference reverses under OCR (Fig.~\ref{fig:delta};

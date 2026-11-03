@@ -1,0 +1,57 @@
+\begin{tikzpicture}[
+  font=\footnotesize, >={Latex[length=1.7mm]},
+  io/.style={draw=cink!60, fill=cgrey!8, rounded corners=2pt, align=center,
+             minimum height=9mm, text width=23mm},
+  dec/.style={draw=crule!80, fill=crule!8, diamond, aspect=2.3, align=center,
+              inner sep=0.5pt, text width=19mm},
+  fail/.style={draw=cbad!70, fill=cbad!7, rounded corners=2pt, align=center,
+               minimum height=7mm, text width=21mm},
+  skip/.style={draw=cgrey!70, fill=cgrey!10, rounded corners=2pt, align=center,
+               minimum height=7mm, text width=21mm},
+  ok/.style={draw=cfuse!80, fill=cfuse!9, rounded corners=2pt, align=center,
+             minimum height=9mm, text width=24mm},
+  ar/.style={->, thick, draw=cink!80},
+  yl/.style={font=\scriptsize, above},
+  nl/.style={font=\scriptsize, right},
+]
+% ---------------- (a) Aadhaar
+\node[font=\small\bfseries, anchor=west] at (-1.4,1.35) {(a) Aadhaar};
+\node[io]   (ai)  at (0,0)    {OCR or ground-truth\\Aadhaar string};
+\node[dec]  (ad1) at (3.55,0) {exactly 12\\digits?};
+\node[dec]  (ad2) at (7.25,0) {Verhoeff\\$c_{12}=0$?};
+\node[ok]   (aok) at (11.0,0) {\textsc{consistent}};
+\node[fail] (af1) at (3.55,-1.55) {\textsc{format fail}};
+\node[fail] (af2) at (7.25,-1.55) {\textsc{checksum fail}};
+\draw[ar] (ai) -- (ad1);
+\draw[ar] (ad1) -- node[yl]{yes} (ad2);
+\draw[ar] (ad2) -- node[yl]{yes} (aok);
+\draw[ar] (ad1) -- node[nl]{no} (af1);
+\draw[ar] (ad2) -- node[nl]{no} (af2);
+\node[font=\scriptsize\itshape, align=left, text width=48mm, anchor=west] at (13.0,-0.35)
+  {Passing establishes internal consistency only. The algorithm is
+   public, so an invented 11-digit body can be given a valid check
+   digit (category C4).};
+% ---------------- (b) PAN
+\begin{scope}[yshift=-3.6cm]
+\node[font=\small\bfseries, anchor=west] at (-1.4,1.35) {(b) PAN};
+\node[io]   (pi)  at (0,0)     {OCR or ground-truth\\PAN $+$ name line};
+\node[dec]  (pd1) at (3.55,0)  {matches\\\texttt{AAAAA9999A}?};
+\node[dec]  (pd2) at (7.25,0)  {$p_4$ a valid\\category code?};
+\node[dec]  (pd3) at (10.95,0) {name tokens\\$T\neq\emptyset$?};
+\node[dec]  (pd4) at (14.65,0) {$p_5$ matches\\name (\ref{eq:sem})?};
+\node[ok]   (pok) at (18.4,0)  {\textsc{consistent}\\{\scriptsize $p_{10}$: not applicable}};
+\node[fail] (pf1) at (3.55,-1.55)  {\textsc{format fail}};
+\node[fail] (pf2) at (7.25,-1.55)  {\textsc{category fail}};
+\node[skip] (ps)  at (10.95,-1.55) {\textsc{skipped}\\{\scriptsize no usable name}};
+\node[fail] (pf3) at (14.65,-1.55) {\textsc{cross-field fail}};
+\draw[ar] (pi) -- (pd1);
+\draw[ar] (pd1) -- node[yl]{yes} (pd2);
+\draw[ar] (pd2) -- node[yl]{yes} (pd3);
+\draw[ar] (pd3) -- node[yl]{yes} (pd4);
+\draw[ar] (pd4) -- node[yl]{yes} (pok);
+\draw[ar] (pd1) -- node[nl]{no} (pf1);
+\draw[ar] (pd2) -- node[nl]{no} (pf2);
+\draw[ar] (pd3) -- node[nl]{no} (ps);
+\draw[ar] (pd4) -- node[nl]{no} (pf3);
+\end{scope}
+\end{tikzpicture}
