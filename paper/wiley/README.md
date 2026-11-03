@@ -3,6 +3,22 @@
 Same content as paper v15 (IEEE version), moved into Wiley's general
 New Journal Design v5 template.
 
+## Target journal: IET Image Processing
+
+The current `main.tex` is prepared for IET Image Processing (Wiley / IET):
+
+- title without abbreviations ("Permanent Account Number Cards");
+- running title under 40 characters; seven keywords;
+- corresponding author: Dinesh Saini;
+- back matter with every statement the journal asks for (acknowledgments,
+  funding, conflict of interest, data availability, ethics, patient consent,
+  permission to reproduce material, clinical trial registration).
+
+IET Image Processing applies its own reference style at production, so the
+`VANCOUVER` option is kept for review. `graphical_abstract.tex` builds the figure
+for the graphical table-of-contents entry (pdflatex; output
+`graphical_abstract.png`, 600 dpi, within the 50 x 60 mm limit).
+
 ## Open in Overleaf
 
 1. Overleaf home → **New Project → Upload Project** → choose this zip.
