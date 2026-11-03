@@ -44,7 +44,11 @@ The first line of `main.tex` is
 - The "Data and code availability" paragraph of Section 6 moved to the Data
   availability statement; the Zenodo DOI now reads "will be made publicly
   available ... upon publication" (the record is still a draft).
-- Bibliography converted from a hand-written list to `references.bib`; DOIs kept.
+- Bibliography converted from a hand-written list to `references.bib`.
+- Links in the reference list: 31 of 38 references have a clickable
+  `https://doi.org/` link, each checked against Crossref or DataCite (title match);
+  4 have a web link (UIDAI, Income Tax FAQ, PMLR, JSTOR); 3 have no DOI or
+  stable link (Verhoeff 1969 thesis, Income Tax Rules 1962, the IJIRT article).
 - Appendix moved after the references, as the template requires.
 - Figures drawn for one IEEE column scaled to 72–75% of the text width.
 - No result, number, table, equation or citation changed.
