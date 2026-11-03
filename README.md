@@ -6,6 +6,8 @@ Code, dataset generator and paper source for
 > of Visual, Structural, and Semantic Evidence Fusion**
 > Ananya Shukla, Soham Phulwaria, Dinesh Saini — Manipal University Jaipur
 
+**Status:** paper source final (v15, `paper/main.tex`); experiments complete.
+
 The study measures how much a deterministic, document-specific consistency
 check adds to a visual forgery detector for two Indian identity-document
 formats — and what that addition costs in false positives on genuine
