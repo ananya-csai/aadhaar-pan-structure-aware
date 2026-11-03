@@ -1,4 +1,4 @@
-# Paper source — version 14 (final pre-submission draft; length to be set for the venue)
+# Paper source — version 15 (final pre-submission draft; length to be set for the venue)
 
 ## Contents
 
@@ -18,6 +18,14 @@ inside `main.tex`, so they stay sharp and editable.
 1. New Project → Upload Project → choose this zip.
 2. Main document: `main.tex`. Compiler: **pdfLaTeX**. Compile twice.
 3. Do **not** add an `IEEEtran.cls` file; Overleaf provides the real class.
+
+## What changed from version 14 (in version 15)
+
+- Table XVII (paired comparisons) was 2 pt too wide under the official
+  IEEEtran class; column spacing reduced. No content change.
+- The preview PDF is now compiled with the official IEEEtran.cls (v1.8b,
+  from CTAN), so it matches what Overleaf produces: 23 pages, no errors,
+  no overfull boxes.
 
 ## What changed from version 13 (in version 14)
 

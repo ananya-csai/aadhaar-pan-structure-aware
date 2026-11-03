@@ -136,7 +136,7 @@ L = [r"\begin{table}[!t]",
      r"bootstrap intervals ($B=10{,}000$); $p$ Holm-adjusted within each family. "
      r"Recall unless stated. $p<10^{-4}$: no replicate crossed zero. Post-hoc rows are not corrected "
      r"and not confirmatory.}",
-     r"\label{tab:tests}", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{2.8pt}",
+     r"\label{tab:tests}", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{2.4pt}",
      r"\renewcommand{\arraystretch}{1.06}",
      r"\begin{tabular}{@{}l l r c r@{}}", r"\toprule",
      r"Fam. & Comparison & Diff. & 95\% CI & $p_{\mathrm{Holm}}$ \\", r"\midrule"]
