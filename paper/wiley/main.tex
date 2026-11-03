@@ -71,7 +71,7 @@
 \received{Date Month Year}
 \revised{Date Month Year}
 \accepted{Date Month Year}
-\journal{Journal}
+\journal{IET Image Processing}
 \volume{00}
 \copyyear{2026}
 \startpage{1}
@@ -80,14 +80,14 @@
 
 \begin{document}
 
-\title{Structure-Aware Forgery Detection for Aadhaar and PAN: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion}
+\title{Structure-Aware Forgery Detection for Aadhaar and Permanent Account Number Cards: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion}
 
 \author[1]{Ananya Shukla}
 \author[2]{Soham Phulwaria}
 \author[3]{Dinesh Saini}
 
 \authormark{SHUKLA \textsc{et al.}}
-\titlemark{STRUCTURE-AWARE FORGERY DETECTION FOR AADHAAR AND PAN}
+\titlemark{FORGERY DETECTION FOR AADHAAR AND PAN}
 
 \address[1]{\orgdiv{Department of Computer Science and Engineering}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
 
@@ -95,25 +95,23 @@
 
 \address[3]{\orgdiv{Department of IoT and Intelligent Systems}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
 
-\corres{Ananya Shukla, Soham Phulwaria and Dinesh Saini, Manipal University Jaipur, Jaipur, Rajasthan, India.
-\email{ananya.2427030029@muj.manipal.edu};
-\email{soham.2427010107@muj.manipal.edu};
+\corres{Dinesh Saini, Department of IoT and Intelligent Systems, Manipal University Jaipur, Jaipur, Rajasthan, India.
 \email{dineshkumar.saini@jaipur.manipal.edu}}
 
 \jnlcitation{\cname{%
 \author{Shukla A},
 \author{Phulwaria S}, and
 \author{Saini D}}.
-\ctitle{Structure-aware forgery detection for Aadhaar and PAN: a controlled study of visual, structural, and semantic evidence fusion.} \cjournal{\it Journal.} \cvol{2026;00(00):1--00}.}
+\ctitle{Structure-aware forgery detection for Aadhaar and Permanent Account Number cards: a controlled study of visual, structural, and semantic evidence fusion.} \cjournal{\it IET Image Processing.} \cvol{2026;00(00):1--00}.}
 
-\abstract[Abstract]{Most published work on forged Aadhaar and PAN cards that we reviewed
+\abstract[Abstract]{Most published work on forged Aadhaar and Permanent Account Number (PAN) cards that we reviewed
 treats the problem as image classification. That framing misses a practical attack: a card
 rendered exactly like a genuine one but carrying an altered or invented
 number. Such a card leaves no pixel-level trace, yet it may still break
 rules that the document format itself defines, such as the Verhoeff
 check digit of an Aadhaar number or the taxpayer-category and
 name-initial positions of a PAN. We measure how much these format rules
-add to a visual detector, and how much of that gain survives real OCR.
+add to a visual detector, and how much of that gain survives real optical character recognition (OCR).
 To do so under control, we build a synthetic benchmark of \dsImages{}
 images (\dsPersons{} identities, two document formats, five forgery
 categories, three capture-quality tiers) in which every image carries
@@ -129,9 +127,9 @@ of this loss (36.1\%), and a fresh, pre-registered set of 90 unseen
 identities confirms the improvement ($+12.6$ points, 95\% CI
 $[11.2, 14.1]$, with no measurable increase in false positives). When a fabricated number keeps a correct check digit, no configuration catches it noticeably more often than it wrongly flags a genuine card, which suggests that a passed checksum tells us little about whether the card is authentic. }
 
-\keywords{Identity document forgery, Aadhaar, PAN, document image forensics, OCR,
-checksum validation, cross-field consistency, evidence fusion, synthetic
-benchmark}
+\keywords{identity document forgery, Aadhaar, Permanent Account Number,
+document image forensics, optical character recognition, checksum validation,
+evidence fusion}
 
 \maketitle
 
@@ -160,7 +158,7 @@ every threshold are fixed on validation data (Section~\ref{sec:setup}).}
 \section{Introduction}
 \label{sec:intro}
 
-In India, Aadhaar and PAN cards are commonly asked for as proof of identity and tax status, and during customer onboarding a photocopy or a phone picture of the card is often enough. This makes forged copies a practical problem, and most research on it so far has looked at the card as an image. Babbar et al.\cite{babbar} use a classifier based on VGG16\cite{vgg} that checks around 100,000 Aadhaar cards a day with close to 99\% precision. Their paper is also open about what the model is not meant to catch. It separates \emph{template forgery}, where the layout, borders
+In India, Aadhaar and Permanent Account Number (PAN) cards are commonly asked for as proof of identity and tax status, and during customer onboarding a photocopy or a phone picture of the card is often enough. This makes forged copies a practical problem, and most research on it so far has looked at the card as an image. Babbar et al.\cite{babbar} use a classifier based on VGG16\cite{vgg} that checks around 100,000 Aadhaar cards a day with close to 99\% precision. Their paper is also open about what the model is not meant to catch. It separates \emph{template forgery}, where the layout, borders
 or text placement are visibly wrong, from \emph{lookalike forgery},
 where the genuine template is reproduced exactly and only the personal
 details are changed, and it states that the model's scope is
@@ -2023,9 +2021,14 @@ experiments, and reviewed, revised and verified all text, code and
 results. The authors take full responsibility for the content of the
 published article.
 
-\bmsection*{Financial disclosure}
+\bmsection*{Acknowledgments}
 
-None reported.
+The authors have no acknowledgments to declare.
+
+\bmsection*{Funding statement}
+
+This research received no specific grant from any funding agency in the
+public, commercial or not-for-profit sectors.
 
 \bmsection*{Conflict of interest}
 
@@ -2048,7 +2051,21 @@ checkpoints will be made publicly available at
 The study uses synthetic documents and invented identifiers only. No
 real Aadhaar or PAN card, image or number was collected, processed or
 submitted to any verification service, and no human participants were
-involved.
+involved; ethics approval was therefore not required.
+
+\bmsection*{Patient consent statement}
+
+Not applicable.
+
+\bmsection*{Permission to reproduce material from other sources}
+
+Not applicable. All figures, tables and document images were produced
+by the authors; the document specimens are synthetic and use a
+placeholder emblem and a fictitious authority.
+
+\bmsection*{Clinical trial registration}
+
+Not applicable.
 
 \bibliography{references}
 
