@@ -1,52 +1,33 @@
 %======================================================================
-%  Structure-Aware Forgery Detection for Aadhaar and PAN
-%  Wiley New Journal Design v5 (NJD-v5) version of paper v15.
+%  Structure-Aware Forgery Detection for Aadhaar and Permanent Account
+%  Number Cards -- manuscript for IET Image Processing (Wiley).
 %
+%  Template: Wiley New Journal Design v5 (WileyNJDv5.cls), free format.
 %  Overleaf: Menu -> Compiler: XeLaTeX, TeX Live version: 2022.
-%  References: references.bib with Wiley's numbered Vancouver style
-%  (option VANCOUVER below). When the journal is chosen, change the option
-%  to the style it requires (e.g. AMA, APA, HARVARD).
+%  References: references.bib (BibTeX); the journal applies its own
+%  reference style at production.
+%  Figures: every figure is a separate PDF file (figures/, tikzfig/);
+%  none is drawn in LaTeX code. The TikZ sources of the drawn figures
+%  are kept in figures/tikz_src/ for reference only.
 %======================================================================
 \PassOptionsToPackage{table}{xcolor}
 \documentclass[VANCOUVER,Times1COL]{WileyNJDv5}
 
-% amsmath, amssymb, booktabs, algorithm and algpseudocode are loaded by the class.
-\algtext*{EndFor}% omit "end for" / "end if" lines, as in the original layout
-\algtext*{EndIf}
+% ---------------------------------------------------------------------
+% Standard packages (amsmath, amssymb, booktabs, algorithm and
+% algpseudocode are loaded by the class)
+% ---------------------------------------------------------------------
 \usepackage{array}
 \usepackage{makecell}
 \usepackage{pifont}
-% Figures are pre-rendered PDFs in tikzfig/ (sources in figures/tikz_src/),
-% which keeps the compile within Overleaf's free-plan time limit.
 \usepackage{tcolorbox}
 \usepackage{xurl}
 \usepackage{placeins}
-
-% --- float placement --------------------------------------------------
-\setcounter{topnumber}{3}
-\setcounter{bottomnumber}{2}
-\setcounter{totalnumber}{4}
-\renewcommand{\topfraction}{0.92}
-\renewcommand{\bottomfraction}{0.70}
-\renewcommand{\textfraction}{0.06}
-\renewcommand{\floatpagefraction}{0.70}
-\AtBeginDocument{\hypersetup{hidelinks}}
-% WileyNJDv5 redefines the small sizes unusually (\small 5 pt, \footnotesize
-% 7 pt, \scriptsize 9 pt) and never uses them itself. Restore the standard
-% 10-pt sizes, which the tables and figures of this paper were designed for.
-\makeatletter
-\renewcommand\small{\@setfontsize\small{9}{11}}
-\renewcommand\footnotesize{\@setfontsize\footnotesize{8}{9.5}}
-\renewcommand\scriptsize{\@setfontsize\scriptsize{7}{8}}
-\renewcommand\tiny{\@setfontsize\tiny{5}{6}}
-\makeatother
-% Single-column page: set column-width tables one step larger than in the
-% two-column original, and keep interval sub-text readable.
 \usepackage{etoolbox}
-\AtBeginEnvironment{table}{\let\scriptsize\footnotesize\let\tiny\scriptsize}
-\AtBeginEnvironment{table*}{\let\tiny\scriptsize}
 
-% --- colour palette used by every figure ------------------------------
+\algtext*{EndFor}% omit "end for" / "end if" lines in the algorithms
+\algtext*{EndIf}
+
 \definecolor{cvis}{HTML}{2F6DB5}    % visual branch
 \definecolor{crule}{HTML}{D27A1E}   % structural / semantic branch
 \definecolor{cfuse}{HTML}{2E8B57}   % fusion
@@ -57,12 +38,39 @@
 \newcommand{\cmark}{\textcolor{cfuse}{\ding{51}}}
 \newcommand{\xmark}{\textcolor{cbad}{\ding{55}}}
 
-
-% --- shaded box for the research questions ----------------------------
+% Research-question box (Section 1)
 \newtcolorbox{rqbox}[1]{colback=cvis!5, colframe=cvis!60,
   boxrule=0.6pt, arc=1.5pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
   fonttitle=\bfseries\normalsize, coltitle=cink, colbacktitle=cvis!14,
   title=#1, fontupper=\normalsize}
+
+% ---------------------------------------------------------------------
+% Layout adjustments for the review copy only. They change nothing in
+% the content and can be deleted as one block at production.
+% ---------------------------------------------------------------------
+% (a) WileyNJDv5 sets \small to 5 pt, \footnotesize to 7 pt and
+%     \scriptsize to 9 pt; restore the standard 10-pt sizes used by the
+%     tables of this paper.
+\makeatletter
+\renewcommand\small{\@setfontsize\small{9}{11}}
+\renewcommand\footnotesize{\@setfontsize\footnotesize{8}{9.5}}
+\renewcommand\scriptsize{\@setfontsize\scriptsize{7}{8}}
+\renewcommand\tiny{\@setfontsize\tiny{5}{6}}
+\makeatother
+% (b) single-column page: set tables one size step larger
+\AtBeginEnvironment{table}{\let\scriptsize\footnotesize\let\tiny\scriptsize}
+\AtBeginEnvironment{table*}{\let\tiny\scriptsize}
+% (c) float placement, so that figures and tables stay near their text
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.70}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.70}
+% (d) links without coloured boxes
+\AtBeginDocument{\hypersetup{hidelinks}}
+% ---------------------------------------------------------------------
 
 \input{generated/numbers}
 
