@@ -1,0 +1,12 @@
+\begin{tikzpicture}[font=\scriptsize, >={Latex[length=1.5mm]},
+  dot/.style={circle, draw=#1!90!black, fill=#1!25, minimum size=3.2mm, inner sep=0},
+  txt/.style={anchor=west, align=left, text width=66mm}]
+\def\dy{-0.93}
+\draw[cgrey!60, line width=1.2pt] (0,0) -- (0,5.5*\dy);
+\node[dot=cvis]  (a) at (0,0)      {}; \node[txt] at (0.3,0)      {\textbf{Protocol fixed} (input, splits, operating point, seeds); approved and tagged.};
+\node[dot=cvis]  (b) at (0,1*\dy)  {}; \node[txt] at (0.3,1*\dy)  {\textbf{Development on train/validation}: whole-card, regularised and tile models; tile model selected; 5 seeds.};
+\node[dot=cfuse] (c) at (0,2*\dy)  {}; \node[txt] at (0.3,2*\dy)  {\textbf{Calibration and A4 fusion} fitted on validation; parameters committed; signed by all authors.};
+\node[dot=cbad]  (d) at (0,3*\dy)  {}; \node[txt] at (0.3,3*\dy)  {\textbf{Test split scored once} after a freeze tag; sealed scores hash-checked.};
+\node[dot=crule] (e) at (0,4*\dy)  {}; \node[txt] at (0.3,4*\dy)  {\textbf{A5 designed} from test findings; design recorded before fitting; reported as post-hoc.};
+\node[dot=cbad]  (f) at (0,5*\dy)  {}; \node[txt] at (0.3,5*\dy)  {\textbf{Fresh set pre-registered}, generated, leakage-checked and evaluated once (confirmatory test of A5).};
+\end{tikzpicture}

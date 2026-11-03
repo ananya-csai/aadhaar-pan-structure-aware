@@ -1,0 +1,26 @@
+\begin{tikzpicture}[
+  font=\footnotesize, >={Latex[length=1.7mm]},
+  box/.style={draw=#1!70, fill=#1!8, rounded corners=2pt, align=center,
+              minimum height=10mm, inner xsep=2pt, text width=22mm},
+  ar/.style={->, thick, draw=cink!80},
+]
+\node[box=cvis]  (rec) at (0,0)     {Identity records\\{\scriptsize names, IDs, strata}};
+\node[box=cvis]  (spl) at (2.75,0)  {Grouped split\\{\scriptsize by person}};
+\node[box=cvis]  (ren) at (5.5,0)   {Base render\\{\scriptsize seed $b$, field boxes}};
+\node[box=cbad]  (frg) at (8.25,0)  {Forgery injection\\{\scriptsize C0--C4}};
+\node[box=cgrey] (deg) at (11.0,0)  {Capture simulation\\{\scriptsize 3 quality tiers}};
+\node[box=cgrey] (ocr) at (13.75,0) {Per-field OCR\\{\scriptsize mapped boxes}};
+\node[box=crule] (val) at (16.5,0)  {Validators\\{\scriptsize GT and OCR text}};
+\node[box=cfuse] (pre) at (8.25,1.6)  {Pre-flight gate\\{\scriptsize expected rule outcome}};
+\node[box=cfuse] (prb) at (5.5,-1.6)  {Difference audit\\{\scriptsize render leakage}};
+\node[box=cfuse] (lk)  at (11.0,-1.6) {Leakage audits\\{\scriptsize Table~\ref{tab:leakage}}};
+\node[box=cgrey] (man) at (16.5,-1.6) {Manifest, statistics,\\figures};
+\draw[ar] (rec)--(spl); \draw[ar] (spl)--(ren); \draw[ar] (ren)--(frg);
+\draw[ar] (frg)--(deg); \draw[ar] (deg)--(ocr); \draw[ar] (ocr)--(val);
+\draw[ar] (frg)--(pre); \draw[ar] (ren)--(prb); \draw[ar] (deg)--(lk);
+\draw[ar] (val)--(man);
+\node[font=\scriptsize\itshape, align=left, text width=50mm, anchor=north west]
+  at (-1.15,-1.0) {One global seed fixes every stage. C0$_0$ and C1--C4 share
+  render seed $b$, so before degradation they differ only inside the
+  corrupted field; C0$_1$ uses an independent seed.};
+\end{tikzpicture}

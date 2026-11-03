@@ -1,0 +1,57 @@
+\begin{tikzpicture}[
+  font=\footnotesize, >={Latex[length=1.8mm]},
+  blk/.style={draw=#1!70, fill=#1!8, rounded corners=2pt, align=center,
+              minimum height=10mm, inner xsep=3pt, text width=24mm},
+  lane/.style={draw=#1!45, fill=#1!3, rounded corners=4pt, dashed},
+  lbl/.style={font=\scriptsize\bfseries, text=#1!85!black, anchor=north west},
+  ar/.style={->, thick, draw=cink!80},
+]
+% ---- input card icon
+\begin{scope}[shift={(-0.2,0)}]
+  \draw[rounded corners=2pt, fill=white, draw=cink!70, thick] (0,-0.75) rectangle (2.1,0.75);
+  \fill[cvis!55] (0.02,0.52) rectangle (2.08,0.73);
+  \fill[cgrey!35] (0.15,-0.45) rectangle (0.62,0.30);
+  \foreach \y in {0.30,0.14,-0.02} \draw[cgrey!70, line width=1.1pt] (0.75,\y) -- (1.9,\y);
+  \draw[cink, line width=2.2pt] (0.2,-0.6) -- (1.55,-0.6);
+  \node[font=\scriptsize, align=center, text width=24mm, anchor=north] at (1.05,-0.88)
+       {Document image\\(Aadhaar or PAN format)};
+\end{scope}
+\coordinate (in) at (2.05,0);
+
+% ---- visual lane
+\node[blk=cvis] (v1) at (4.55, 1.55) {Place on $1024{\times}640$ canvas\\{\scriptsize no resizing}};
+\node[blk=cvis] (v2) at (7.45, 1.55) {15 overlapping\\$256{\times}256$ tiles};
+\node[blk=cvis] (v3) at (10.6,1.55) {ResNet-50, 5 seeds\\{\scriptsize document logit = max tile}};
+\node[blk=cvis] (v4) at (13.8,1.55) {Temperature scaling,\\seed average $\Rightarrow p_v$};
+% ---- rule lane
+\node[blk=crule] (r1) at (4.55,-1.55) {Per-field OCR\\{\scriptsize Tesseract, mapped boxes}};
+\node[blk=crule] (r2) at (7.45,-1.55) {Minimal parsing\\{\scriptsize whitespace only}};
+\node[blk=crule, text width=31mm, minimum height=13mm] (r3) at (10.6,-1.55)
+     {Validators (Sec.~\ref{sec:framework})\\[1pt]{\scriptsize Aadhaar: format, Verhoeff\\PAN: format, category,\\$p_5$ vs.\ name}};
+\node[blk=crule] (r4) at (13.8,-1.55) {Per-check flags $f_k$,\\any-fail flag $r$};
+\node[draw=crule!70, dashed, rounded corners=2pt, fill=white, font=\scriptsize,
+      align=center, text width=24mm] (gt) at (7.45,-3.05)
+     {Ground-truth text\\(oracle condition, RQ4)};
+% ---- fusion
+\node[blk=cfuse, text width=34mm, minimum height=29mm] (f) at (17.55,0)
+     {\textbf{Evidence fusion}\\[2pt]{\scriptsize OR / AND of $p_v{\ge}t_v$ and $r$\\[2pt]A4: logistic on $z_v$, $r$, $r{\cdot}\mathbf{1}_{\mathrm{PAN}}$\\[2pt]A5: logistic on $z_v$ and every $f_k$\\[2pt]thresholds fixed on validation}};
+\node[draw=cink!60, fill=white, rounded corners=2pt, align=center, text width=21mm,
+      minimum height=12mm] (out) at (21.0,0)
+     {\textbf{Decision}\\{\scriptsize + rule-level\\explanation}};
+% ---- lanes (drawn behind)
+\begin{scope}[on background layer]
+  \node[lane=cvis, fit=(v1)(v4), inner sep=5pt, inner ysep=9pt, yshift=3pt] (L1) {};
+  \node[lane=crule, fit=(r1)(r4)(gt), inner sep=5pt, inner ysep=9pt, yshift=3pt] (L2) {};
+\end{scope}
+\node[lbl=cvis] at (L1.north west) {Visual branch (pixels only)};
+\node[lbl=crule] at (L2.north west) {Structural / semantic branch (field values only)};
+% ---- arrows
+\draw[ar] (in) -- ++(0.35,0) |- (v1.west);
+\draw[ar] (in) -- ++(0.35,0) |- (r1.west);
+\draw[ar] (v1) -- (v2); \draw[ar] (v2) -- (v3); \draw[ar] (v3) -- (v4);
+\draw[ar] (r1) -- (r2); \draw[ar] (r2) -- (r3); \draw[ar] (r3) -- (r4);
+\draw[ar, dashed, draw=crule!80] (gt.east) -| ([xshift=-4mm]r3.south);
+\draw[ar] (v4.east) -- ++(0.45,0) |- ([yshift=6mm]f.west);
+\draw[ar] (r4.east) -- ++(0.45,0) |- ([yshift=-6mm]f.west);
+\draw[ar] (f) -- (out);
+\end{tikzpicture}
