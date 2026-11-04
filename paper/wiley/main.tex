@@ -72,6 +72,8 @@
 \AtBeginDocument{\hypersetup{hidelinks}}
 % ---------------------------------------------------------------------
 
+% co-first-author mark; \protected so that the class can store author names
+\protected\def\cofirst{\textsuperscript{\textdagger}}
 \input{generated/numbers}
 
 \articletype{Research Article}
@@ -90,29 +92,29 @@
 
 \title{Structure-Aware Forgery Detection for Aadhaar and Permanent Account Number Cards: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion}
 
-\author[1]{Ananya Shukla}
-\author[2]{Soham Phulwaria}
-\author[3]{Dinesh Saini}
+\author[1]{Ananya Shukla\cofirst}
+\author[2]{Soham Phulwaria\cofirst}
+\author[3]{Dinesh Kumar Saini}
 
 \authormark{SHUKLA \textsc{et al.}}
 \titlemark{FORGERY DETECTION FOR AADHAAR AND PAN}
 
 \address[1]{\orgdiv{Department of Computer Science and Engineering}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
 
-\address[2]{\orgdiv{Department of Computer Science (AI and ML)}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
+\address[2]{\orgdiv{Department of Computer Science and Engineering (AI and ML)}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
 
-\address[3]{\orgdiv{Department of IoT and Intelligent Systems}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
+\address[3]{\orgdiv{Department of Computer \& Communication Engineering}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
 
-\corres{Dinesh Saini, Department of IoT and Intelligent Systems, Manipal University Jaipur, Jaipur, Rajasthan, India.
+\corres{Dinesh Kumar Saini, Department of Computer \& Communication Engineering, Manipal University Jaipur, Jaipur, Rajasthan, India.
 \email{dineshkumar.saini@jaipur.manipal.edu}}
 
 \jnlcitation{\cname{%
 \author{Shukla A},
 \author{Phulwaria S}, and
-\author{Saini D}}.
+\author{Saini DK}}.
 \ctitle{Structure-aware forgery detection for Aadhaar and Permanent Account Number cards: a controlled study of visual, structural, and semantic evidence fusion.} \cjournal{\it IET Image Processing.} \cvol{2026;00(00):1--00}.}
 
-\abstract[Abstract]{Most published work on forged Aadhaar and Permanent Account Number (PAN) cards that we reviewed
+\abstract[Abstract]{Most published work on forged Aadhaar (India's 12-digit resident identity number) and Permanent Account Number (PAN) cards that we reviewed
 treats the problem as image classification. That framing misses a practical attack: a card
 rendered exactly like a genuine one but carrying an altered or invented
 number. Such a card leaves no pixel-level trace, yet it may still break
@@ -142,7 +144,7 @@ evidence fusion}
 \maketitle
 
 \renewcommand\thefootnote{}
-\footnotetext{\textbf{Author note:} All three authors contributed equally to this work and share first authorship.}
+\footnotetext{$^{\dagger}$Ananya Shukla and Soham Phulwaria contributed equally to this work and share first authorship.}
 
 \renewcommand\thefootnote{\fnsymbol{footnote}}
 \setcounter{footnote}{1}
@@ -278,14 +280,14 @@ methodological and empirical: a measurement of what such
 evidence is worth for these two document formats, and where it fails.
 
 The rest of the paper is organised as follows. Section~\ref{sec:related}
-reviews related work. Section~\ref{sec:framework} specifies the
+reviews related work and the literature search protocol. Section~\ref{sec:framework} specifies the
 validation rules, Section~\ref{sec:dataset} the benchmark,
 Section~\ref{sec:method} the detection pipeline and
 Section~\ref{sec:setup} the experimental protocol. Results, discussion
 and conclusions follow in Sections~\ref{sec:results}--\ref{sec:conclusion}.
 
 %======================================================================
-\section{Related Work}
+\section{Search Protocol}
 \label{sec:related}
 
 The word \emph{structural} is used in two senses in this literature.
@@ -1931,37 +1933,6 @@ they were correct, which our false-positive account contradicts for
 PAN, and that a passed check supports authenticity, which C4
 contradicts for any public check digit.
 
-\subsection{Limitations}
-\label{subsec:limitations}
-
-\begin{itemize}
-\item \emph{Synthetic data.} All documents are synthetic and the
-templates are deliberately not faithful to the issued designs. Absolute
-recall and FPR values do not transfer to real cards, and the
-complementarity of the branches partly follows from how C1--C4 were
-built. The study supports relative conclusions under controlled
-conditions.
-\item \emph{Genuine controls are synthetic.} C0 images are synthetic
-renders, not genuine documents, so the FPR on C0 measures OCR and rule
-behaviour on synthetic renders, not on real printing and wear.
-\item \emph{One OCR engine.} All OCR results come from Tesseract 5.5.3
-with the English model. A stronger or field-specialised reader would
-probably lower the FPR and raise $\rho$; the size of the OCR effect is specific
-to this engine.
-\item \emph{Sample size.} The test split has 45 people and per-operation
-or per-stratum cells have 36--96 images, so effects of a few points in
-those cells cannot be resolved. The fresh set (90 people) addresses
-this only for the pre-registered comparisons.
-\item \emph{Same generator for the fresh set.} The fresh set uses new
-identities but the same generator, templates and capture model. It
-confirms generalisation to unseen people, not to unseen document
-designs or capture conditions.
-\item \emph{Scope of the rules.} The corpus contains only individual PANs ($p_4=\texttt{P}$), so the entity part of the cross-field rule is checked with unit tests but not evaluated on the data. The tenth character of a PAN is not verified, and no Aadhaar rule reads the Devanagari line, so the rule branch cannot detect Aadhaar C3. The Devanagari text on the cards is also rendered without proper joining of letters and vowel signs (Appendix~\ref{app:repro}).
-\item \emph{Visual branch.} The tile model is trained using the known locations of the edits to label its training tiles, which real-world data often does not provide. Its performance is modest, and we tried only one backbone (ResNet-50); Section~\ref{subsec:interpretation} explains which conclusions depend on it.
-\item \emph{Reuse of the validation split.} Early stopping, model selection, temperature scaling, the visual threshold and the fusion weights were all set using the same 45-person validation split. As a result, the visual scores on that split are somewhat too optimistic (AUROC 0.780 against 0.720 on test), which may lead the fusion to trust the visual input more than it should. The test and fresh-set results are still unbiased estimates for the systems that were fixed before testing, but the fitted weights may not be the best possible.
-\item \emph{Post-hoc elements.} A5 was designed after the test split had been scored, so only the fresh-set result (H1) counts as confirming it. In addition, the grouping of comparisons into families was written down after the test reports had been produced, although the comparisons themselves were listed in advance.
-\end{itemize}
-
 \subsection{Threats to Validity}
 \label{sec:discussion-threats}
 
@@ -1985,6 +1956,31 @@ design and say nothing about other populations.
 the OCR effect, false failures on genuine documents that grow with
 degradation and field complexity, is what we expect to generalise; its
 size will not.
+
+\subsection{Limitations}
+\label{subsec:limitations}
+
+The results should be read with a few limitations in mind. All documents
+in the benchmark, the genuine controls included, are synthetic, and the
+templates were deliberately made different from the issued designs, so
+the absolute recall and false-positive values do not carry over to real
+cards; only the relative comparisons are supported. The OCR results
+come from a single engine (Tesseract 5.5.3 with the English model), and
+the size of the OCR effect is therefore specific to it; a stronger or
+field-specific reader would probably cause fewer false failures. The
+test split covers only 45 people, which is too few to resolve
+differences of a few points in the smaller per-operation and per-stratum
+cells, and the fresh set of 90 people, built with the same generator,
+shows generalisation to new people but not to new document designs or
+capture conditions. The rule branch is limited to individual PANs, does
+not verify the tenth PAN character and does not read the Devanagari
+line, so Aadhaar C3 is outside its reach. The visual branch was tried
+with only one backbone (ResNet-50) and was trained with edit locations
+that real data often lack. Finally, all tuning was done on the same
+validation split, which makes the visual scores on that split somewhat
+optimistic, and the per-check fusion (A5) was designed after the test
+split had been scored, so only its fresh-set result counts as
+confirmation.
 
 %======================================================================
 \section{Conclusion and Future Work}
@@ -2013,9 +2009,9 @@ Future work follows from these limitations. First, the OCR effect should be test
 %======================================================================
 \bmsection*{Author contributions}
 
-All three authors contributed equally to this work and share first
-authorship. A.S. and S.P. designed the study, developed the software,
-carried out the experiments and analysed the results. D.S. supervised
+Shukla A. and Phulwaria S. contributed equally to this work and share
+first authorship. Shukla A. and Phulwaria S. designed the study, developed the software,
+carried out the experiments and analysed the results. Saini D.K. supervised
 the project. All authors wrote and revised the manuscript and approved
 the final version.
 
@@ -2023,10 +2019,10 @@ the final version.
 
 During the preparation of this work, the authors used Claude
 (Anthropic) to assist with drafting and language editing of the
-manuscript and with code development and analysis scripting. The
+manuscript and analysis scripting. The
 authors designed the study, made all methodological decisions, ran the
 experiments, and reviewed, revised and verified all text, code and
-results. The authors take full responsibility for the content of the
+results themselves. The authors take full responsibility for the content of this
 published article.
 
 \bmsection*{Acknowledgments}
