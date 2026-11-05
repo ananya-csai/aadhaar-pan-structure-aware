@@ -8,11 +8,11 @@
 - abstract (250-word limit): 'as a separate input' -> 'separately'
 - abstract (250-word limit): dropped 'fresh,'
 - abstract (250-word limit): ', with no' -> '; no'
-- abstract (250-word limit): dropped 'that we reviewed' (the scope is stated in Section 1.1.5)
 - abstract (250-word limit): dropped 'still'
 - abstract (250-word limit): dropped the PAN example (PAN rules are described in the text)
 - abstract (250-word limit): dropped 'format' (repeated)
-- abstract (250-word limit): 'which suggests that' -> 'so'
+- abstract (250-word limit): 'which suggests that a passed checksum tells us little about whether the card is authentic' -> 'so a passed checksum says little about authenticity'
+- abstract (250-word limit): dropped 'itself'
 - moved 19 tables after the references and 12 figures to separate files (legends at the end)
 - headings: Search Protocol is now subsection 1.1 of the Introduction; Problem Setting, Benchmark Construction, Methodology (renamed Detection Methods) and Experimental Setup are subsections of a new MATERIALS AND METHODS section; 'Conclusion and Future Work' -> 'Conclusions'
 - roadmap paragraph updated to the new section structure

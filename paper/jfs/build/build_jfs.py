@@ -81,12 +81,14 @@ ABS = [
     ("and a fresh, pre-registered set of 90 unseen", "and a pre-registered set of 90 unseen", "dropped 'fresh,'"),
     ("$[11.2, 14.1]$, with no measurable increase in false positives)", "$[11.2, 14.1]$; no measurable increase in false positives)",
      "', with no' -> '; no'"),
-    (" that we reviewed\ntreats", "\ntreats", "dropped 'that we reviewed' (the scope is stated in Section 1.1.5)"),
     ("yet it may still break\nrules", "yet it may break\nrules", "dropped 'still'"),
     ("such as the Verhoeff\ncheck digit of an Aadhaar number or the taxpayer-category and\nname-initial positions of a PAN.",
      "such as the Verhoeff\ncheck digit of an Aadhaar number.", "dropped the PAN example (PAN rules are described in the text)"),
     ("We measure how much these format rules\nadd", "We measure how much these rules\nadd", "dropped 'format' (repeated)"),
-    ("genuine card, which suggests that a passed checksum", "genuine card, so a passed checksum", "'which suggests that' -> 'so'"),
+    ("genuine card, which suggests that a passed checksum tells us little about whether the card is authentic.",
+     "genuine card, so a passed checksum says little about authenticity.",
+     "'which suggests that a passed checksum tells us little about whether the card is authentic' -> 'so a passed checksum says little about authenticity'"),
+    ("rules that the document format itself defines", "rules that the document format defines", "dropped 'itself'"),
 ]
 for old, new_, why in ABS:
     abstract = one(abstract, old, new_, "abstract (250-word limit): " + why)

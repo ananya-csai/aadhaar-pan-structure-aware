@@ -100,11 +100,11 @@ Original Paper
 \clearpage
 % ---------------------------------------------------------------- page 2: abstract and keywords
 \noindent\textbf{Abstract}\par
-\noindent Most published work on forged Aadhaar (India's 12-digit resident identity number) and Permanent Account Number (PAN) cards
+\noindent Most published work on forged Aadhaar (India's 12-digit resident identity number) and Permanent Account Number (PAN) cards that we reviewed
 treats the problem as image classification. That framing misses a practical attack: a card
 rendered exactly like a genuine one but carrying an altered or invented
 number. Such a card leaves no pixel-level trace, yet it may break
-rules that the document format itself defines, such as the Verhoeff
+rules that the document format defines, such as the Verhoeff
 check digit of an Aadhaar number. We measure how much these rules
 add to a visual detector, and how much of that gain survives real optical character recognition (OCR).
 We build a synthetic benchmark of \dsImages{}
@@ -119,7 +119,7 @@ mainly because misreads make the rules alone flag 10.9\% of genuine documents.
 Feeding each rule to the fusion separately recovers about half
 of this loss (36.1\%), and a pre-registered set of 90 unseen
 identities confirms the improvement ($+12.6$ points, 95\% CI
-$[11.2, 14.1]$; no measurable increase in false positives). When a fabricated number keeps a correct check digit, no configuration catches it noticeably more often than it wrongly flags a genuine card, so a passed checksum tells us little about whether the card is authentic.
+$[11.2, 14.1]$; no measurable increase in false positives). When a fabricated number keeps a correct check digit, no configuration catches it noticeably more often than it wrongly flags a genuine card, so a passed checksum says little about authenticity.
 
 \bigskip
 \noindent\textbf{KEYWORDS}\par

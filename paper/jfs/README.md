@@ -32,7 +32,7 @@ in this public repository.
   / text / references / tables / figure legends (last pages).
 - **Headings:** INTRODUCTION, MATERIALS AND METHODS, RESULTS, DISCUSSION,
   CONCLUSIONS (bold capitals); subheadings in italics; sub-subheadings plain.
-- **Abstract:** 248 words (limit 250), unstructured. **Keywords:** eight,
+- **Abstract:** 245 words (limit 250), unstructured. **Keywords:** eight,
   including the forensic specialty and both spelled-out terms and
   abbreviations. **Highlights:** five sentences, each under 100 characters.
 - **References:** Vancouver/NLM style, numbered in order of first citation,
