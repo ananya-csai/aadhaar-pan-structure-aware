@@ -1,0 +1,84 @@
+% ---------------------------------------------------------------- packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}                 % Times text and maths
+\usepackage[scaled=0.92]{helvet}      % Helvetica (line numbers)
+\usepackage{courier}                  % Courier (file names)
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{booktabs,array,makecell}
+\usepackage{adjustbox}
+\usepackage{pifont}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tcolorbox}
+\usepackage{float}
+\usepackage{etoolbox}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage[numbers,square,sort&compress]{natbib}
+\usepackage{lineno}
+\usepackage{xurl}
+\urlstyle{same}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Structure-aware forgery detection for Aadhaar and Permanent Account Number cards},
+  pdfauthor={}, pdfsubject={}, pdfkeywords={}, pdfcreator={}}
+
+% ---------------------------------------------------------------- JFS layout
+% Double spacing throughout, including abstract, highlights, references
+% and table and figure legends (JFS Information for Authors, June 2025).
+\doublespacing
+\setlength{\parindent}{1.5em}
+\pagestyle{plain}
+
+% Headings: all caps and bold; subheadings upper/lower case, italic, not
+% bold; sub-subheadings upper/lower case, plain text.
+\setcounter{secnumdepth}{3}
+\titleformat{\section}{\normalfont\bfseries}{\thesection}{0.6em}{\MakeUppercase}
+\titleformat{\subsection}{\normalfont\itshape}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalfont}{\thesubsubsection}{0.6em}{}
+\titleformat{\paragraph}[runin]{\normalfont\itshape}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.9\baselineskip}{0.3\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{0.7\baselineskip}{0.2\baselineskip}
+\titlespacing*{\paragraph}{0pt}{0.4\baselineskip}{0.5em}
+
+% Legends: "TABLE 1 Legend text." and "FIGURE 1 Legend text."
+\captionsetup{font=doublespacing, labelfont=bf, labelsep=space,
+  justification=justified, singlelinecheck=false, skip=6pt}
+\captionsetup[table]{name=TABLE, position=top}
+\captionsetup[figure]{name=FIGURE}
+
+% Tables: single-spaced body, 10 pt; each tabular is shrunk only if it is
+% wider than the text (adjustbox, max width).
+\AtBeginEnvironment{table}{\let\scriptsize\footnotesize\let\tiny\scriptsize}
+
+% References: bold "References" heading, numbered "1.", "2.", ...
+\renewcommand{\bibsection}{\par\bigskip\noindent\textbf{References}\par}
+\renewcommand{\bibnumfmt}[1]{#1.}
+\setlength{\bibsep}{0pt}
+
+% ---------------------------------------------------------------- paper macros
+\algtext*{EndFor}% omit "end for" / "end if" lines in the algorithms
+\algtext*{EndIf}
+
+\definecolor{cvis}{HTML}{2F6DB5}    % visual branch
+\definecolor{crule}{HTML}{D27A1E}   % structural / semantic branch
+\definecolor{cfuse}{HTML}{2E8B57}   % fusion
+\definecolor{cbad}{HTML}{C0392B}    % failure / forgery
+\definecolor{cink}{HTML}{2B2B2B}
+\definecolor{cgrey}{HTML}{6B7280}
+
+\newcommand{\cmark}{\textcolor{cfuse}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{cbad}{\ding{55}}}
+
+% Research-question box (Section 1)
+\newtcolorbox{rqbox}[1]{colback=white, colframe=black!60,
+  boxrule=0.5pt, arc=0pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries\normalsize, coltitle=black, colbacktitle=black!8,
+  title=#1, fontupper=\normalsize}
+
+\input{generated/numbers}

@@ -43,3 +43,14 @@ dataset/data/sample/
 
 # E2 checkpoints (~95 MB each); configs, logs and scores ARE tracked.
 experiments/e2_visual/runs/**/*.pt
+
+# LaTeX build products in the paper sub-folders
+paper/**/*.aux
+paper/**/*.log
+paper/**/*.out
+paper/**/*.toc
+paper/jfs/*.pdf
+paper/jfs/figure_files/
+# JFS title page and cover letter: contact details, kept out of the public repo
+paper/jfs/build/titlepage.tex
+paper/jfs/build/cover_letter.tex

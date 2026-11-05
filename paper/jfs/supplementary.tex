@@ -1,0 +1,321 @@
+% Journal of Forensic Sciences -- Supplemental Information (upload as a
+% separate file, designated "Supplemental Information"). Anonymised.
+% Overleaf: set this file as the main document to compile it.
+\documentclass[12pt]{article}
+% ---------------------------------------------------------------- packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}                 % Times text and maths
+\usepackage[scaled=0.92]{helvet}      % Helvetica (line numbers)
+\usepackage{courier}                  % Courier (file names)
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{booktabs,array,makecell}
+\usepackage{adjustbox}
+\usepackage{pifont}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tcolorbox}
+\usepackage{float}
+\usepackage{etoolbox}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage[numbers,square,sort&compress]{natbib}
+\usepackage{lineno}
+\usepackage{xurl}
+\urlstyle{same}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Structure-aware forgery detection for Aadhaar and Permanent Account Number cards},
+  pdfauthor={}, pdfsubject={}, pdfkeywords={}, pdfcreator={}}
+
+% ---------------------------------------------------------------- JFS layout
+% Double spacing throughout, including abstract, highlights, references
+% and table and figure legends (JFS Information for Authors, June 2025).
+\doublespacing
+\setlength{\parindent}{1.5em}
+\pagestyle{plain}
+
+% Headings: all caps and bold; subheadings upper/lower case, italic, not
+% bold; sub-subheadings upper/lower case, plain text.
+\setcounter{secnumdepth}{3}
+\titleformat{\section}{\normalfont\bfseries}{\thesection}{0.6em}{\MakeUppercase}
+\titleformat{\subsection}{\normalfont\itshape}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalfont}{\thesubsubsection}{0.6em}{}
+\titleformat{\paragraph}[runin]{\normalfont\itshape}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.9\baselineskip}{0.3\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{0.7\baselineskip}{0.2\baselineskip}
+\titlespacing*{\paragraph}{0pt}{0.4\baselineskip}{0.5em}
+
+% Legends: "TABLE 1 Legend text." and "FIGURE 1 Legend text."
+\captionsetup{font=doublespacing, labelfont=bf, labelsep=space,
+  justification=justified, singlelinecheck=false, skip=6pt}
+\captionsetup[table]{name=TABLE, position=top}
+\captionsetup[figure]{name=FIGURE}
+
+% Tables: single-spaced body, 10 pt; each tabular is shrunk only if it is
+% wider than the text (adjustbox, max width).
+\AtBeginEnvironment{table}{\let\scriptsize\footnotesize\let\tiny\scriptsize}
+
+% References: bold "References" heading, numbered "1.", "2.", ...
+\renewcommand{\bibsection}{\par\bigskip\noindent\textbf{References}\par}
+\renewcommand{\bibnumfmt}[1]{#1.}
+\setlength{\bibsep}{0pt}
+
+% ---------------------------------------------------------------- paper macros
+\algtext*{EndFor}% omit "end for" / "end if" lines in the algorithms
+\algtext*{EndIf}
+
+\definecolor{cvis}{HTML}{2F6DB5}    % visual branch
+\definecolor{crule}{HTML}{D27A1E}   % structural / semantic branch
+\definecolor{cfuse}{HTML}{2E8B57}   % fusion
+\definecolor{cbad}{HTML}{C0392B}    % failure / forgery
+\definecolor{cink}{HTML}{2B2B2B}
+\definecolor{cgrey}{HTML}{6B7280}
+
+\newcommand{\cmark}{\textcolor{cfuse}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{cbad}{\ding{55}}}
+
+% Research-question box (Section 1)
+\newtcolorbox{rqbox}[1]{colback=white, colframe=black!60,
+  boxrule=0.5pt, arc=0pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries\normalsize, coltitle=black, colbacktitle=black!8,
+  title=#1, fontupper=\normalsize}
+
+\input{generated/numbers}
+
+\renewcommand{\thetable}{S\arabic{table}}
+\onehalfspacing
+\begin{document}
+\begin{center}
+{\large\bfseries Supplemental Information\par}
+\medskip
+Structure-Aware Forgery Detection for Aadhaar and Permanent Account Number Cards: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion
+\end{center}
+\bigskip
+\section*{Appendix S1. Reproducibility Record}
+
+
+
+This appendix states what a reader needs to repeat each stage of the
+study, how exactly each stage can be repeated, and every change made to
+the protocol after it was approved. The repository file
+\texttt{docs/REPRODUCIBILITY.md} gives the commands and the SHA-256
+digest of every frozen file.
+
+\subsection*{Levels of Reproduction}
+
+
+Table~\ref{tab:repro-levels} separates four levels, because they do not
+reproduce equally well.
+
+\begin{table}[H]
+\caption{What can be repeated, and how exactly.}
+\label{tab:repro-levels}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}p{0.26\columnwidth} p{0.31\columnwidth} p{0.35\columnwidth}@{}}
+\toprule
+Level & Starting point & Agreement observed \\
+\midrule
+L1 Scoring & released per-image scores, frozen calibration and fusion files
+  & exact; checked on validation by CI at every commit \\
+L2 Model inference & released checkpoints and corpus
+  & logits equal to the 6-decimal precision of the score files
+    (max.\ difference $5{\times}10^{-7}$, 40 images per seed) \\
+L3 Corpus & generator, configuration and seed
+  & 10,791 of 10,800 images byte-identical on another OS; 9 differ in ${\le}37$ pixels by ${\le}3$ levels \\
+L4 Training & training script, corpus, seed
+  & bit-identical on the same GPU and library versions (one seed re-run); other hardware not tested \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\emph{L1.} Every number in Section~3 of the main text is computed by
+committed scripts from per-image prediction files, and its tables are
+generated from their output. A continuous-integration job
+re-applies the frozen calibration and fusion files to the validation
+split and fails if the rounded summary changes by one character. The
+test and fresh-set summaries are produced by the same code.
+
+\emph{L2.} Before the fresh set was scored, each of the five tile
+checkpoints re-scored 40 v1 test images and matched its stored logits
+to the stored precision. Inference is therefore deterministic for
+practical purposes on the same hardware.
+
+\emph{L3.} The corpus was built under Windows. We rebuilt all 10,800
+images under Linux with the same pinned library versions. The first
+attempt differed in almost every image: the imaging library applies
+complex-script text layout only when an optional library is installed,
+which is usually the case on Linux and not on Windows, so text landed a
+few pixels apart. With the generator now fixed to the plain layout
+engine on every platform, 10,791 images are byte-identical. The other
+nine differ in at most 37 pixels, by at most 3 of 255 grey levels, all
+at the right image border, which is consistent with a floating-point
+difference in the perspective warp. Labels, identifiers, splits and
+ground-truth rule verdicts are identical. Per-image digests are
+released so that any rebuild can be checked image by image. One
+consequence of the plain layout engine is that Devanagari text is drawn
+without complex-script shaping; no Devanagari field is validated.
+
+\emph{L4.} The seed fixes the weight initialisation of the new head,
+the data order and the negative tiles drawn each epoch, and cuDNN
+auto-tuning is off. Deterministic GPU kernels were not enforced, and
+training uses half precision, so before checking we expected a second
+run of the same seed to differ slightly. To check, tile seed~0 was
+trained again from a fresh copy of the repository, in a new Python
+environment, on the same GPU with the same Python, PyTorch and CUDA
+versions (the OS build had changed from 26200 to 26300). The pass rule
+was recorded before the run: identical training configuration,
+identical input files, and best validation AUROC and PR-AUC inside the
+range of the five original seeds (.685--.773 and .611--.684). Under
+this rule the run formally \emph{failed}. The recorded digest of the
+edit-region file differed because Git for Windows had converted the
+file's line endings on checkout; with the conversion undone the file is
+identical to the original, and the repository is now set so that Git
+converts no file. The metric check passed. The re-run also matched the
+original more closely than the rule required: the loss and validation
+metrics of every epoch, the per-image training and validation scores,
+and the selected checkpoint are bit-identical to the original run
+(validation AUROC .699, PR-AUC .627, best epoch 12 of 17 in both). On
+the same hardware and library versions, training is therefore exactly
+repeatable. Other GPUs, drivers or library versions were not tested,
+and half-precision kernels can differ between them, so we still treat
+the five seeds, not a single run, as the unit of variation
+(Table~\ref{tab:runs}).
+
+\subsection*{Training Runs and Environment}
+
+Table~\ref{tab:runs} lists every visual model trained, including the
+two variants that were not selected. All runs used one NVIDIA GeForce
+RTX 4060 Laptop GPU (8\,GB), Python 3.12.7, PyTorch 2.14.1,
+torchvision 0.29.1, CUDA 13.0 and cuDNN 9.24 (driver 616.92, read
+after the runs), under Windows~11 (build
+26200; whole-card seeds 3--4 and the fresh-set scoring ran on build
+26300 after an automatic update, as did the re-run below). Training
+took 7.3 GPU-hours in total (3.7 for the tile model), not counting the
+re-run. Each run records the code commit it ran from
+and refuses to start if tracked files are modified. The runs span six
+commits; we checked that the tile training script is identical across
+its runs, and that the whole-card script changed only by adding the
+variant switch used for the regularised pilot.
+
+\begin{table}[H]
+\caption{All visual training runs (validation, C0 vs.\ C1). Ep.: best
+epoch / epochs run; $T$: fitted temperature; ECE after scaling.
+Re-run: clean re-run of seed~0 (L4, Appendix~S1); used in no
+result and not calibrated.}
+\label{tab:runs}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}l c c r c c c c@{}}
+\toprule
+Model & Seed & Ep. & Min & AUROC & PR-AUC & $T$ & ECE \\
+\midrule
+Tiles & 0 & 12/17 & 42.6 & .699 & .627 & 4.40 & .109 \\
+      & 1 & \hphantom{0}6/11 & 30.9 & .685 & .611 & 1.52 & .055 \\
+      & 2 & 17/22 & 53.9 & .735 & .661 & 4.54 & .052 \\
+      & 3 & 15/20 & 49.3 & .717 & .661 & 4.16 & .089 \\
+      & 4 & 13/18 & 45.0 & .773 & .684 & 3.42 & .058 \\
+      & ens. & -- & -- & \textbf{.780} & \textbf{.702} & -- & .073 \\
+      & 0, re-run & 12/17 & 42.3 & .699 & .627 & -- & -- \\
+\addlinespace[4pt]
+Whole card & 0 & 18/23 & 38.6 & .578 & .448 & 6.48 & .098 \\
+           & 1 & 20/25 & 41.6 & .613 & .500 & 5.40 & .082 \\
+           & 2 & 19/24 & 39.9 & .629 & .501 & 4.94 & .052 \\
+           & 3 & 18/23 & 39.9 & .622 & .507 & 5.17 & .078 \\
+           & 4 & 18/23 & 37.9 & .611 & .518 & 5.90 & .112 \\
+           & ens. & -- & -- & .638 & .531 & -- & .082 \\
+\addlinespace[4pt]
+Regularised & 0 & \hphantom{0}5/10 & 18.5 & .564 & .435 & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\subsection*{Protocol Record}
+
+Table~\ref{tab:protocol} lists, in order, every change to the approved
+protocol and every irregular event during the runs. Each entry is dated
+in the protocol file; entries made after the test split was scored are
+marked as such. Two points need to be stated explicitly. First, the
+training script wrote the test-split score files when each model
+finished and recorded their digests; the files were not read before the
+freeze, and the scoring script refuses to run unless the freeze tag
+exists, the frozen files equal their tagged versions and every score
+file matches its recorded digest. This shows that the files were not changed, not
+that they were never opened; the latter rests on the authors' record.
+Second, per-check fusion (A5) was designed after the test split had
+been scored, so on that split it is a post-hoc result. Only its
+confirmation on the fresh set, which was generated after A5 was fixed,
+is confirmatory.
+
+\begin{table}[H]
+\caption{Protocol record: amendments, corrections and run events, in
+order. ``Test'' gives the state of the test split when the entry was
+made.}
+\label{tab:protocol}
+\centering
+\fontsize{8.5}{10}\selectfont
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}l l l p{0.40\textwidth} p{0.27\textwidth}@{}}
+\toprule
+Entry & Date & Test & Change and reason & Effect on reported results \\
+\midrule
+A1 & before training & sealed
+  & Whole-card input raised from $384{\times}256$ to $768{\times}512$; fine-trace and coarse C1 edits reported separately. Reason: edit-survival measurement on training pairs (Fig.~10 in the main text).
+  & Defines the comparison model; no score existed. \\
+Batch rule & 17 Oct & sealed
+  & Batch chosen so that peak reserved memory stays within 92\% of physical VRAM, not merely ``no out-of-memory error'': the Windows driver silently spilled into system RAM.
+  & Whole-card batch 16 with 2-step accumulation (effective 32). \\
+A2 & 18 Oct & sealed
+  & Whole-card model memorised its training set (val.\ AUROC .578). Validation-only development allowed; a regularised variant and a tile model specified, each with its selection rule, before being run.
+  & All candidates reported (Table~\ref{tab:runs}). \\
+A3 & 18 Oct & sealed
+  & Tile model selected (val.\ PR-AUC .627 against a pre-set bar of .478). Planned $384{\times}256$ training arm dropped; resolution analysis replaced by the tiles vs.\ whole-card comparison.
+  & Tile model is the visual branch everywhere. \\
+Run event & 19 Oct & sealed
+  & Windows update stopped whole-card seed 3 in its first epoch; re-run from scratch. OS build changed to 26300 for whole-card seeds 3--4.
+  & None expected; libraries and code unchanged. \\
+A4 & 19--20 Oct & sealed
+  & Fusion rule, features and thresholds fixed on validation; approved by all authors; freeze tag created (commit identifier withheld for double-blind review).
+  & Primary pre-registered fusion. \\
+Correction & 20 Oct & sealed
+  & Recorded corpus digest belonged to a pre-freeze build of 29 Aug; replaced by the digest of the frozen images after a file-by-file check.
+  & None; no image, label or score changed. \\
+Test scored & 21 Oct & scored once & All frozen systems scored on the test split. & -- \\
+A5 & 21 Oct & \textbf{scored}
+  & Per-check fusion designed after inspecting test results; design recorded before fitting. Agreed by one author on 21 Oct and confirmed by the other authors on 23 Oct.
+  & Reported as post-hoc on the test split. \\
+A6 & 21 Oct & scored
+  & Fresh 90-person test set pre-registered with hypothesis and analysis, then generated. First build stopped on a text-encoding error (Windows code page) and was re-run with UTF-8; nothing had been scored.
+  & Confirmatory test of A5 against A4. \\
+OCR record & 21 Oct & scored
+  & Protocol listed Tesseract 5.3.4; the engine that read v1 and the fresh set was 5.5.3 (Leptonica 1.87.0), installed before v1 was built.
+  & None; one engine produced all OCR text. Record corrected. \\
+Generator fix & 24 Oct & scored
+  & Text layout fixed to the plain engine on all platforms, the engine that produced the frozen images (Windows); found by an independent Linux rebuild.
+  & None; v1 and fresh images unchanged. Rebuilds elsewhere now match (L3). \\
+Analysis plan & 28 Oct & scored
+  & Families, paired bootstrap and Holm correction for Section~3 of the main text recorded; the comparisons come from lists written before the test run, the grouping was recorded after the aggregate test reports existed.
+  & Defines Table~15 of the main text; no prediction or parameter changed. \\
+Re-run & 29 Oct & scored
+  & Clean re-run of tile seed 0 under a pass rule recorded before the run (L4, Appendix~S1). Formal fail: the digest of the edit-region file changed because line endings were converted on checkout; its content is identical. Metric check passed; run bit-identical to the original.
+  & None. Git now set to convert no file on checkout. \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+\end{document}
