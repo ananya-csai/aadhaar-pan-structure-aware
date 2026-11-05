@@ -1,4 +1,7 @@
-# Paper in the Wiley NJD-v5 template
+# Paper in the Wiley NJD-v5 template (master text)
+
+This folder holds the master text of the paper. The Journal of Forensic Sciences
+version in `../jfs/` is generated from it by `../jfs/build/make_jfs.sh`.
 
 Same content as paper v15 (IEEE version), moved into Wiley's general
 New Journal Design v5 template.
@@ -9,7 +12,7 @@ The current `main.tex` is prepared for IET Image Processing (Wiley / IET):
 
 - title without abbreviations ("Permanent Account Number Cards");
 - running title under 40 characters; seven keywords;
-- corresponding author: Dinesh Saini;
+- corresponding author: Dinesh Kumar Saini;
 - back matter with every statement the journal asks for (acknowledgments,
   funding, conflict of interest, data availability, ethics, patient consent,
   permission to reproduce material, clinical trial registration).

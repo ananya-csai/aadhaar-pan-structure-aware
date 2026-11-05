@@ -67,7 +67,7 @@ This is the single plan for finishing the paper. Follow the steps in order. A ta
 
 ### Step 3. Reconcile the dataset report and paper numbers [CPU] — ✅
 - ✅ Section IV regenerated from the frozen statistics (PR #1): Aadhaar OCR FPR 3.8%, PAN 19.7%, 5,848 distinct 64-bit hashes; 64-bit hash audit only.
-- ✅ Open items in `docs/CORRECTIONS_NEEDED.md` applied.
+- ✅ Open items in `docs/archive/CORRECTIONS_NEEDED.md` applied.
 
 ---
 

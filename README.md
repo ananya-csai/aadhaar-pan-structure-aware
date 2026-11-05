@@ -1,16 +1,24 @@
 # Structure-Aware Forgery Detection for Aadhaar and PAN
 
-Code, dataset generator and paper source for
+Code, dataset generator, experiment records and paper source for
 
-> **Structure-Aware Forgery Detection for Aadhaar and PAN: A Controlled Study
-> of Visual, Structural, and Semantic Evidence Fusion**
-> Ananya Shukla, Soham Phulwaria, Dinesh Saini — Manipal University Jaipur
+> **Structure-Aware Forgery Detection for Aadhaar and Permanent Account Number
+> Cards: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion**
+>
+> Ananya Shukla<sup>†</sup> ([ORCID](https://orcid.org/0009-0004-9412-5580)),
+> Soham Phulwaria<sup>†</sup> ([ORCID](https://orcid.org/0009-0001-8071-1480)),
+> Dinesh Kumar Saini ([ORCID](https://orcid.org/0000-0002-5140-1731))
+> — Manipal University Jaipur, India
+>
+> <sup>†</sup> Equal contribution; shared first authorship.
 
-**Status:** paper source final (v15, `paper/main.tex`); experiments complete.
+**Status:** experiments complete; manuscript prepared for journal submission
+([`paper/`](paper/)).
 
-The study measures how much a deterministic, document-specific consistency
-check adds to a visual forgery detector for two Indian identity-document
-formats — and what that addition costs in false positives on genuine
+The study measures how much deterministic, document-specific consistency
+checks (the Verhoeff check digit of an Aadhaar number; the format, category
+and name-initial rules of a PAN) add to a visual forgery detector, how much of
+that gain survives real OCR, and what it costs in false positives on genuine
 documents.
 
 ---
@@ -40,6 +48,33 @@ coincidence between generated and issued identifiers, is in
 
 ---
 
+## Main results
+
+Test split scored once, under a protocol frozen on validation data
+([`DECISIONS.md`](DECISIONS.md)); 5% false-positive budget.
+
+| | Recall (all forged) | FPR (genuine) |
+|---|---|---|
+| Visual branch alone (tile ResNet-50) | 13.4% | 4.8% |
+| Visual + rules, ground-truth text (A4) | 48.8% | 4.8% |
+| Visual + rules, OCR text (A4) | 21.9% | 4.1% |
+| Visual + rules, OCR text, one weight per check (A5, post-hoc) | 36.1% | 5.0% |
+
+* With OCR text the rules alone flag 10.9% of genuine documents. Most of
+  these are PAN format failures caused by character misreads (41 of the 270
+  genuine PANs in the test split).
+* A5 was designed after the test run, so it was confirmed on a fresh,
+  pre-registered set of 90 unseen people: +12.6 points of recall over A4
+  (95% CI [11.2, 14.1]), with no measurable increase in false positives
+  ([`experiments/fresh/`](experiments/fresh/)).
+* Fabricated identifiers that pass every rule (C4) are flagged only at about
+  each system's false-positive rate: a passed checksum is not evidence of
+  authenticity.
+
+Full tables: [`experiments/results/`](experiments/results/).
+
+---
+
 ## Look at the dataset without running anything
 
 **→ [`docs/SAMPLES.md`](docs/SAMPLES.md)** — a rendered gallery of the corpus:
@@ -52,10 +87,6 @@ The complete index of all 10,800 images is committed as
 characterisation report is
 [`dataset/data/v1/stats/REPORT.md`](dataset/data/v1/stats/REPORT.md).
 
----
-
-## What is in the corpus
-
 | | |
 |---|---|
 | synthetic identity records | 300 |
@@ -63,77 +94,60 @@ characterisation report is
 | images | 10,800 (each document at 3 capture-quality tiers) |
 | genuine (C0) / forged (C1–C4) | 3,600 / 7,200 |
 | split, by person | 210/45/45 persons — 7,560/1,620/1,620 images |
-| on disk when built | 0.874 GiB |
-| build time | ~17 min on two cores |
+| fresh confirmation set | 90 further persons, 3,240 images (seed 20261021) |
 
 **Forgery categories.** C0 unmodified control · C1 post-render pixel edit that
 leaves every printed value valid · C2 structurally invalid identifier · C3
 semantically inconsistent field pair · C4 fabricated identifier that satisfies
 every rule. C2, C3 and C4 are produced by **re-rendering from a modified
 record**, never by editing a rendered image, so the only evidence
-distinguishing them from a genuine document is the content of the fields. That
-construction is verified exactly, not assumed: before degradation a forged
-document differs from its control in **0 pixels** outside the corrupted field,
-across 320 comparisons.
-
----
-
-## Two results the corpus already establishes
-
-Neither requires a trained detector. Both are in
-[`dataset/data/v1/stats/REPORT.md`](dataset/data/v1/stats/REPORT.md).
-
-**1. Structural validation carries a real false-positive cost on genuine
-documents, from OCR error alone.** On ground-truth text the rate is zero by
-construction, so every one of these is an extraction failure:
-
-| | clean | mild | severe | all |
-|---|---|---|---|---|
-| Aadhaar | 0.3% | 0.3% | 11.7% | **4.1%** |
-| PAN | 12.7% | 12.2% | 31.8% | **18.9%** |
-
-**2. The document type with *more* validation rules is the one that fails more
-often on genuine documents.** PAN supports format, category and cross-field
-checks where Aadhaar supports only format and checksum — but a PAN mixes
-letters and digits, so it is recovered exactly on only
-85.2% of clean captures against
-99.8% for an Aadhaar
-number, dominated by `0`/`O` and `I`/`1` confusions. More rules on a
-harder-to-extract field means more ways to reject a genuine document.
+distinguishing them from a genuine document is the content of the fields.
+Before degradation a forged document differs from its control in **0 pixels**
+outside the corrupted field, across 320 comparisons.
 
 ---
 
 ## Repository layout
 
 ```
-dataset/      the corpus generator — this is the finished part
-  src/idforge/    Verhoeff, validators, templates, forgery, degradation, OCR,
-                  splits, leakage audits, statistics, figures
-  tests/          34 validator cases + generator invariants + seed stability
-  data/v1/        manifest, splits, statistics and figures (images excluded)
-docs/         SAMPLES.md, DATASHEET.md, DECISIONS.md, GITHUB_GUIDE.md
-paper/        LaTeX source, auto-generated tables, figures
-models/       Section V: visual branch and fusion            (not started)
-experiments/  Sections VI–VII: run configs and result tables (not started)
-analysis/     notebooks and statistical tests                (not started)
+dataset/        corpus generator (idforge): Verhoeff, validators, templates,
+                forgery injection, capture simulation, OCR, grouped splits,
+                leakage audits; tests; manifests and statistics (no images)
+experiments/    every experiment in the paper: visual branch (e2_visual),
+                rule branch (e3_rule_branch, rules), fusion, fresh set,
+                analyses, frozen parameters, results and run logs
+paper/          paper source: jfs/ (current journal version), wiley/ (master
+                text), IEEE version, generated tables, figures
+docs/           DATASHEET, SAMPLES, REPRODUCIBILITY, dataset DECISIONS,
+                ROADMAP, literature-search record; archive/ holds old notes
+DECISIONS.md    the experiment protocol and every amendment to it (frozen)
+CITATION.cff    how to cite the code, data and paper
 ```
 
-## Reproducing the corpus
+`experiments/README.md` maps each folder to the section of the paper it
+supports.
 
-```bash
-cd dataset
-pip install -r requirements.txt
-make test                    # ~1 min, no images produced — run this first
-bash scripts/build_all.sh    # ~25 min: corpus, audits, figures, LaTeX tables
-```
+## Reproducing
 
-You also need **Tesseract 5.x** on the PATH (`tesseract --version`). Fonts are
-committed, so nothing else is required. Full step-by-step instructions,
-including Windows, are in [`dataset/README.md`](dataset/README.md).
+* **Corpus:**
 
-The build is deterministic: same config and same seed reproduce the corpus
-bit-for-bit, on any platform, with any number of worker processes. That is
-tested rather than asserted — see `tests/test_generators.py`.
+  ```bash
+  cd dataset
+  pip install -r requirements.txt
+  make test                    # ~1 min, no images produced — run this first
+  bash scripts/build_all.sh    # ~25 min: corpus, audits, figures, LaTeX tables
+  ```
+
+  You also need **Tesseract 5.x** on the PATH (`tesseract --version`). Fonts
+  are committed. Full instructions, including Windows, are in
+  [`dataset/README.md`](dataset/README.md).
+* **Experiments and every number in the paper:**
+  [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) gives the commands, the
+  four levels of reproduction (scoring, inference, corpus, training) and the
+  SHA-256 digest of every frozen file. CI re-scores the validation split with
+  the frozen parameters on every push and checks that the paper tables
+  regenerate exactly.
+* **Paper:** see [`paper/README.md`](paper/README.md).
 
 ## Citing
 
@@ -147,4 +161,3 @@ binary that determines every OCR number reported.
 Code: MIT ([`LICENSE`](LICENSE)). Bundled fonts keep their own licences
 (`dataset/assets/fonts/LICENSES.md`). Generated images and manifests: CC BY
 4.0, subject to the use restrictions in [`docs/DATASHEET.md`](docs/DATASHEET.md).
-

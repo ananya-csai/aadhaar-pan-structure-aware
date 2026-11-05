@@ -6,30 +6,38 @@ authors:
   - family-names: Shukla
     given-names: Ananya
     affiliation: Manipal University Jaipur
+    orcid: "https://orcid.org/0009-0004-9412-5580"
   - family-names: Phulwaria
     given-names: Soham
     affiliation: Manipal University Jaipur
+    orcid: "https://orcid.org/0009-0001-8071-1480"
   - family-names: Saini
-    given-names: Dinesh
+    given-names: Dinesh Kumar
     affiliation: Manipal University Jaipur
+    orcid: "https://orcid.org/0000-0002-5140-1731"
+repository-code: "https://github.com/ananya-csai/aadhaar-pan-structure-aware"
 license: MIT
 version: "1.0"
 date-released: "2026-08-28"
 keywords:
   - identity document forgery
+  - questioned documents
   - synthetic dataset
   - Aadhaar
-  - PAN
+  - Permanent Account Number
   - structural validation
   - OCR
 preferred-citation:
   type: article
-  title: "Structure-Aware Forgery Detection for Aadhaar and PAN: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion"
+  title: "Structure-Aware Forgery Detection for Aadhaar and Permanent Account Number Cards: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion"
   authors:
     - family-names: Shukla
       given-names: Ananya
+      orcid: "https://orcid.org/0009-0004-9412-5580"
     - family-names: Phulwaria
       given-names: Soham
+      orcid: "https://orcid.org/0009-0001-8071-1480"
     - family-names: Saini
-      given-names: Dinesh
+      given-names: Dinesh Kumar
+      orcid: "https://orcid.org/0000-0002-5140-1731"
   year: 2026

@@ -1,0 +1,12 @@
+Figure1	fig:overview
+Figure2	fig:specimens
+Figure3	fig:flows
+Figure4	fig:pipeline
+Figure5	fig:c1ops
+Figure6	fig:qualitytiers, fig:ocr
+Figure7	fig:perchk
+Figure8	fig:tiles
+Figure9	fig:protocol
+Figure10	fig:survival
+Figure11	fig:roc
+Figure12	fig:delta
