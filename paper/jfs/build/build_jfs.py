@@ -113,8 +113,7 @@ log.append(f"moved {sum(k=='table' for k,_,_ in floats)} tables after the refere
 parts = re.split(r"(?=\\section\{)", body)
 head = parts[0]
 out = [head]
-demote = {"Search Protocol": "Search Protocol",
-          "Problem Setting and Validation Rules": "Problem Setting and Validation Rules",
+demote = {"Problem Setting and Validation Rules": "Problem Setting and Validation Rules",
           "Benchmark Construction": "Benchmark Construction",
           "Methodology": "Detection Methods",
           "Experimental Setup": "Experimental Setup"}
@@ -129,7 +128,7 @@ for p in parts[1:]:
         p = p.replace("\\section{Conclusion and Future Work}", "\\section{Conclusions}", 1)
     out.append(p)
 body = "".join(out)
-log.append("headings: Search Protocol is now subsection 1.1 of the Introduction; Problem Setting, "
+log.append("headings: Search Protocol stays a main section (2), so the Introduction does not review literature (JFS rule); Problem Setting, "
            "Benchmark Construction, Methodology (renamed Detection Methods) and Experimental Setup "
            "are subsections of a new MATERIALS AND METHODS section; 'Conclusion and Future Work' -> 'Conclusions'")
 
@@ -178,6 +177,18 @@ different forgery types, so neither can replace the other.
 
 \subsection{Relation to Prior Work}""",
            "NEW PARAGRAPH: implications for forensic document examination (Discussion 4.1)")
+
+body = one(body, r"""\item \textbf{Measured findings.} The two evidence sources are largely
+complementary: with ground-truth text, fusion raises recall
+from 13.4\% to 48.8\% at an unchanged 4.8\% false-positive rate. OCR
+error removes about three quarters of that gain, and the loss falls mainly on
+PAN, whose rules are both richer and harder to read than Aadhaar's.
+Treating each rule as a separate fusion input recovers about half of
+the loss, a result we confirm prospectively on fresh data.
+""", "", "Introduction: removed the 'Measured findings' bullet (JFS: the Introduction must not include data or conclusions of the study)")
+body = one(body, "NVIDIA GeForce RTX 4060 Laptop GPU\n(8\\,GB)",
+           "NVIDIA GeForce RTX 4060 Laptop GPU\n(8\\,GB; NVIDIA Corporation, Santa Clara, CA, USA)",
+           "Methods: manufacturer name and location of the GPU (JFS rule for equipment)")
 
 # methods: generative-AI disclosure (JFS/Wiley: Methods or Acknowledgments)
 body = one(body, "%" + "=" * 70 + "\n\\section{Results}",
@@ -289,18 +300,18 @@ for n, i in enumerate(figures, 1):
 
 # ------------------------------------------------------------------ highlights and keywords
 highlights = [
-    "A valid Aadhaar check digit is not evidence that an identity card is genuine.",
-    "Format and cross-field rules expose forged cards that leave no pixel-level trace.",
-    "On genuine cards, every rule failure came from an OCR misread, not from a forger.",
-    "Weighting each rule check separately recovers about half of the loss caused by OCR.",
-    "A synthetic benchmark lets forgery detection be tested without real identity data.",
+    "A valid check digit should not be reported as evidence that an identity card is genuine.",
+    "Field-consistency rules can expose forged ID cards that leave no pixel-level trace.",
+    "OCR misreads must be ruled out before a failed rule is used as forensic evidence.",
+    "Error rates at a fixed false-positive budget make ID-checking tools comparable.",
+    "Synthetic benchmarks allow ID forgery testing without any real personal data.",
 ]
 for h in highlights:
     assert len(h) <= 100, (len(h), h)
 keywords = ("questioned documents, identity document forgery, Aadhaar, "
             "Permanent Account Number (PAN), document image forensics, "
             "optical character recognition (OCR), checksum validation, evidence fusion")
-log.append("NEW: 5 highlights (each <= 100 characters)")
+log.append("NEW: 5 highlights (each <= 100 characters), written as forensic-science implications, not a summary of results")
 log.append(f"keywords: added 'questioned documents' (forensic specialty) and the abbreviations PAN, OCR; was: {' '.join(kw_old.split())}")
 
 # ------------------------------------------------------------------ manuscript

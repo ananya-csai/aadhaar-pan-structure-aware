@@ -14,7 +14,7 @@
 - abstract (250-word limit): 'which suggests that a passed checksum tells us little about whether the card is authentic' -> 'so a passed checksum says little about authenticity'
 - abstract (250-word limit): dropped 'itself'
 - moved 19 tables after the references and 12 figures to separate files (legends at the end)
-- headings: Search Protocol is now subsection 1.1 of the Introduction; Problem Setting, Benchmark Construction, Methodology (renamed Detection Methods) and Experimental Setup are subsections of a new MATERIALS AND METHODS section; 'Conclusion and Future Work' -> 'Conclusions'
+- headings: Search Protocol stays a main section (2), so the Introduction does not review literature (JFS rule); Problem Setting, Benchmark Construction, Methodology (renamed Detection Methods) and Experimental Setup are subsections of a new MATERIALS AND METHODS section; 'Conclusion and Future Work' -> 'Conclusions'
 - roadmap paragraph updated to the new section structure
 - NEW SENTENCE: stated hypothesis after the research questions (JFS review criterion)
 - anonymity: 'all three authors' -> 'all authors'
@@ -22,11 +22,13 @@
 - appendix moved to the Supplemental Information (Appendix S1)
 - ethics sentence from the former Ethics statement added to Section 2.2.8
 - NEW PARAGRAPH: implications for forensic document examination (Discussion 4.1)
+- Introduction: removed the 'Measured findings' bullet (JFS: the Introduction must not include data or conclusions of the study)
+- Methods: manufacturer name and location of the GPU (JFS rule for equipment)
 - generative-AI declaration moved unchanged into Methods (Section 2.5), as the JFS AI statement asks
 - data availability statement anonymised (repository and Zenodo links moved to the title page)
 - 54 citations now print as [n] after a non-breaking space
 - tables restyled for JFS: internal rules removed, footnote symbols *, dagger; numbered in order of first citation
-- NEW: 5 highlights (each <= 100 characters)
+- NEW: 5 highlights (each <= 100 characters), written as forensic-science implications, not a summary of results
 - keywords: added 'questioned documents' (forensic specialty) and the abbreviations PAN, OCR; was: identity document forgery, Aadhaar, Permanent Account Number, document image forensics, optical character recognition, checksum validation, evidence fusion
 - supplement anonymity: commit hash and author count removed
 - supplement anonymity: author initials removed
