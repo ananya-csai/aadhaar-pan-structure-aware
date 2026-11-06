@@ -1,6 +1,8 @@
 %======================================================================
 %  Structure-Aware Forgery Detection for Aadhaar and Permanent Account
-%  Number Cards -- manuscript for IET Image Processing (Wiley).
+%  Number Cards -- Wiley-template copy of the manuscript submitted to the
+%  Journal of Forensic Sciences (Wiley / American Academy of Forensic
+%  Sciences). The anonymised JFS submission files are built separately.
 %
 %  Template: Wiley New Journal Design v5 (WileyNJDv5.cls), free format.
 %  Overleaf: Menu -> Compiler: XeLaTeX, TeX Live version: 2022.
@@ -22,6 +24,7 @@
 \usepackage{pifont}
 \usepackage{tcolorbox}
 \usepackage{xurl}
+\usepackage{orcidlink}% ORCID iD logo linked to the author's record
 \usepackage{placeins}
 \usepackage{etoolbox}
 
@@ -74,14 +77,18 @@
 
 % co-first-author mark; \protected so that the class can store author names
 \protected\def\cofirst{\textsuperscript{\textdagger}}
+% ORCID iDs of the authors (logo next to each name, linked to orcid.org)
+\protected\def\orcidAS{\,\orcidlink{0009-0004-9412-5580}}
+\protected\def\orcidSP{\,\orcidlink{0009-0001-8071-1480}}
+\protected\def\orcidDKS{\,\orcidlink{0000-0002-5140-1731}}
 \input{generated/numbers}
 
-\articletype{Research Article}
+\articletype{Original Paper}
 
 \received{Date Month Year}
 \revised{Date Month Year}
 \accepted{Date Month Year}
-\journal{IET Image Processing}
+\journal{Journal of Forensic Sciences}
 \volume{00}
 \copyyear{2026}
 \startpage{1}
@@ -92,27 +99,27 @@
 
 \title{Structure-Aware Forgery Detection for Aadhaar and Permanent Account Number Cards: A Controlled Study of Visual, Structural, and Semantic Evidence Fusion}
 
-\author[1]{Ananya Shukla\cofirst}
-\author[2]{Soham Phulwaria\cofirst}
-\author[3]{Dinesh Kumar Saini}
+\author[1]{Ananya Shukla\cofirst\orcidAS}
+\author[2]{Soham Phulwaria\cofirst\orcidSP}
+\author[3]{Dinesh Kumar Saini\orcidDKS}
 
 \authormark{SHUKLA \textsc{et al.}}
 \titlemark{FORGERY DETECTION FOR AADHAAR AND PAN}
 
-\address[1]{\orgdiv{Department of Computer Science and Engineering}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
+\address[1]{\orgdiv{Department of Computer Science and Engineering}, \orgname{Manipal University Jaipur}, \orgaddress{\city{Jaipur}, \state{Rajasthan} \postcode{303007}, \country{India}}}
 
-\address[2]{\orgdiv{Department of Computer Science and Engineering (AI and ML)}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
+\address[2]{\orgdiv{Department of Computer Science and Engineering (AI and ML)}, \orgname{Manipal University Jaipur}, \orgaddress{\city{Jaipur}, \state{Rajasthan} \postcode{303007}, \country{India}}}
 
-\address[3]{\orgdiv{Department of Computer \& Communication Engineering}, \orgname{Manipal University Jaipur}, \orgaddress{\state{Jaipur, Rajasthan}, \country{India}}}
+\address[3]{\orgdiv{Department of Computer \& Communication Engineering}, \orgname{Manipal University Jaipur}, \orgaddress{\city{Jaipur}, \state{Rajasthan} \postcode{303007}, \country{India}}}
 
-\corres{Dinesh Kumar Saini, Department of Computer \& Communication Engineering, Manipal University Jaipur, Jaipur, Rajasthan, India.
+\corres{Dinesh Kumar Saini, Department of Computer \& Communication Engineering, Manipal University Jaipur, Dehmi Kalan, Off Jaipur-Ajmer Expressway, Jaipur, Rajasthan 303007, India.
 \email{dineshkumar.saini@jaipur.manipal.edu}}
 
 \jnlcitation{\cname{%
 \author{Shukla A},
 \author{Phulwaria S}, and
 \author{Saini DK}}.
-\ctitle{Structure-aware forgery detection for Aadhaar and Permanent Account Number cards: a controlled study of visual, structural, and semantic evidence fusion.} \cjournal{\it IET Image Processing.} \cvol{2026;00(00):1--00}.}
+\ctitle{Structure-aware forgery detection for Aadhaar and Permanent Account Number cards: a controlled study of visual, structural, and semantic evidence fusion.} \cjournal{\it J Forensic Sci.} \cvol{2026;00(00):1--00}.}
 
 \abstract[Abstract]{Most published work on forged Aadhaar (India's 12-digit resident identity number) and Permanent Account Number (PAN) cards that we reviewed
 treats the problem as image classification. That framing misses a practical attack: a card
@@ -137,14 +144,15 @@ of this loss (36.1\%), and a fresh, pre-registered set of 90 unseen
 identities confirms the improvement ($+12.6$ points, 95\% CI
 $[11.2, 14.1]$, with no measurable increase in false positives). When a fabricated number keeps a correct check digit, no configuration catches it noticeably more often than it wrongly flags a genuine card, which suggests that a passed checksum tells us little about whether the card is authentic. }
 
-\keywords{identity document forgery, Aadhaar, Permanent Account Number,
-document image forensics, optical character recognition, checksum validation,
+\keywords{questioned documents, identity document forgery, Aadhaar, Permanent Account Number (PAN),
+document image forensics, optical character recognition (OCR), checksum validation,
 evidence fusion}
 
 \maketitle
 
 \renewcommand\thefootnote{}
 \footnotetext{$^{\dagger}$Ananya Shukla and Soham Phulwaria contributed equally to this work and share first authorship.}
+\footnotetext{\raggedright E-mail addresses: \href{mailto:ananya.2427030029@muj.manipal.edu}{\nolinkurl{ananya.2427030029@muj.manipal.edu}} (A.~Shukla); \href{mailto:soham.2427010107@muj.manipal.edu}{\nolinkurl{soham.2427010107@muj.manipal.edu}} (S.~Phulwaria).}
 
 \renewcommand\thefootnote{\fnsymbol{footnote}}
 \setcounter{footnote}{1}
@@ -2070,6 +2078,12 @@ placeholder emblem and a fictitious authority.
 \bmsection*{Clinical trial registration}
 
 Not applicable.
+
+\bmsection*{ORCID}
+
+\noindent Ananya Shukla \orcidlink{0009-0004-9412-5580} \url{https://orcid.org/0009-0004-9412-5580}\\
+Soham Phulwaria \orcidlink{0009-0001-8071-1480} \url{https://orcid.org/0009-0001-8071-1480}\\
+Dinesh Kumar Saini \orcidlink{0000-0002-5140-1731} \url{https://orcid.org/0000-0002-5140-1731}
 
 \bibliography{references}
 
