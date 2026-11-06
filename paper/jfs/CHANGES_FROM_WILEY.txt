@@ -24,7 +24,7 @@
 - NEW PARAGRAPH: implications for forensic document examination (Discussion 4.1)
 - Introduction: removed the 'Measured findings' bullet (JFS: the Introduction must not include data or conclusions of the study)
 - Methods: manufacturer name and location of the GPU (JFS rule for equipment)
-- generative-AI declaration moved unchanged into Methods (Section 2.5), as the JFS AI statement asks
+- generative-AI declaration moved unchanged into Methods (Section 3.5), as the JFS AI statement asks
 - data availability statement anonymised (repository and Zenodo links moved to the title page)
 - 54 citations now print as [n] after a non-breaking space
 - tables restyled for JFS: internal rules removed, footnote symbols *, dagger; numbered in order of first citation

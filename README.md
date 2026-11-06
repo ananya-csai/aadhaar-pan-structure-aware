@@ -154,11 +154,11 @@ supports.
 The paper declares the use of generative AI as follows:
 
 > During the preparation of this work, the authors used Claude (Anthropic) to
-> assist with drafting and language editing of the manuscript and analysis
-> scripting. The authors designed the study, made all methodological
-> decisions, ran the experiments, and reviewed, revised and verified all text,
-> code and results themselves. The authors take full responsibility for the
-> content of this published article.
+> assist with drafting parts of the text, language improvement and editing of
+> the manuscript, and analysis scripting. The authors designed the study, made
+> all methodological decisions, ran the experiments, and reviewed, revised and
+> verified all text, code and results themselves. The authors take full
+> responsibility for the content of this published article.
 
 Claude was also used for code optimisation and for debugging problems that
 came up in the code.
