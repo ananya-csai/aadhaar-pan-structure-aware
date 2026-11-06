@@ -5,7 +5,7 @@ Sciences* (JFS) submission files in `../jfs/` are generated from it by
 `../jfs/build/make_jfs.sh`, which removes the names, ORCID iDs, e-mail
 addresses and links for double-blind review.
 
-## Current version: v4 (6 Nov 2026)
+## Current version: v6 (6 Nov 2026)
 
 `main.tex` is the Wiley-template copy of the paper submitted to the Journal of
 Forensic Sciences:
@@ -24,12 +24,13 @@ Forensic Sciences:
   acknowledgments, funding, conflict of interest, data availability, ethics,
   permissions.
 
-v4 changed only the title-page information and the end statements; the text
-of the paper is word-for-word the same as v3.
+v4–v6 changed only the title-page information and the end statements; the
+text of the paper is word-for-word the same as v3.
 
 Version history: v1 (IET Image Processing layout), v2 (preamble tidy-up),
 v3 (author details, Section 2 renamed "Search Protocol", Limitations as one
-paragraph), v4 (this version).
+paragraph), v4 (ORCID iDs, e-mails, JFS journal fields), v5 (final
+generative-AI declaration), v6 (official department names).
 
 ## Open in Overleaf
 
