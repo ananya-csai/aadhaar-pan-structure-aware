@@ -149,6 +149,20 @@ supports.
   regenerate exactly.
 * **Paper:** see [`paper/README.md`](paper/README.md).
 
+## AI assistance
+
+During the preparation of this work, the authors used Claude (Anthropic) to
+assist with drafting and language editing of the manuscript and analysis
+scripting. Claude was also used to help optimise code and to debug problems
+that came up in the code. The authors designed the study, made all
+methodological decisions, ran the experiments, and reviewed, revised and
+verified all text, code and results themselves. The authors take full
+responsibility for the content of this work.
+
+Commits whose message ends with `Co-Authored-By: Claude` were made with this
+assistance, which is why Claude appears in the repository's contributor
+graph. The same use is declared in the paper.
+
 ## Citing
 
 See [`CITATION.cff`](CITATION.cff). When citing the dataset, cite the
