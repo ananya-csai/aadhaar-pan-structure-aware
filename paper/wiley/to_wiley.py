@@ -188,12 +188,12 @@ editing).
 \bmsection*{Declaration of generative AI and AI-assisted technologies}
 
 During the preparation of this work, the authors used Claude
-(Anthropic) to assist with drafting and language editing of the
-manuscript and with code development and analysis scripting. The
+(Anthropic) to assist with drafting parts of the text, language
+improvement and editing of the manuscript, and analysis scripting. The
 authors designed the study, made all methodological decisions, ran the
 experiments, and reviewed, revised and verified all text, code and
-results. The authors take full responsibility for the content of the
-published article.
+results themselves. The authors take full responsibility for the content
+of this published article.
 
 \bmsection*{Financial disclosure}
 

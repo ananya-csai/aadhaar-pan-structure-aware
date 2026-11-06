@@ -194,7 +194,7 @@ body = one(body, "NVIDIA GeForce RTX 4060 Laptop GPU\n(8\\,GB)",
 body = one(body, "%" + "=" * 70 + "\n\\section{Results}",
            "\\subsection{Use of Generative AI}\n\\label{subsec:ai}\n\n" + ai_decl.strip() +
            "\n\n%" + "=" * 70 + "\n\\section{Results}",
-           "generative-AI declaration moved unchanged into Methods (Section 2.5), as the JFS AI statement asks")
+           "generative-AI declaration moved unchanged into Methods (Section 3.5), as the JFS AI statement asks")
 
 # data availability (anonymised) after the conclusions
 data_avail = r"""\section*{Data Availability Statement}
