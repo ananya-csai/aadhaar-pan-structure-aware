@@ -30,7 +30,7 @@ in this public repository.
   the supplement; PDF metadata empty. The links are on the title page.
 - **Order:** title / abstract and keywords (own page) / highlights (own page)
   / text / references / tables / figure legends (last pages).
-- **Headings:** INTRODUCTION, MATERIALS AND METHODS, RESULTS, DISCUSSION,
+- **Headings:** INTRODUCTION, SEARCH PROTOCOL, MATERIALS AND METHODS, RESULTS, DISCUSSION,
   CONCLUSIONS (bold capitals); subheadings in italics; sub-subheadings plain.
 - **Abstract:** 245 words (limit 250), unstructured. **Keywords:** eight,
   including the forensic specialty and both spelled-out terms and
@@ -43,8 +43,8 @@ in this public repository.
   internal rules or shading, footnote symbols in the order *, †.
 - **Figures:** not embedded; separate TIFF files at 600 dpi, numbered in
   order of first citation; legends on the last pages.
-- **Generative AI:** the authors' declaration is in Methods (Section 2.5) and
-  repeated in the title-page Acknowledgments, as the JFS AI statement asks.
+- **Generative AI:** the authors' declaration is in Methods (Section 3.5) and
+  repeated in the title-page Acknowledgments, as the JFS AI statement asks. The declaration is in Section 3.5.
 
 ## Rebuild
 

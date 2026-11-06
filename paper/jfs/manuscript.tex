@@ -129,11 +129,11 @@ $[11.2, 14.1]$; no measurable increase in false positives). When a fabricated nu
 % ---------------------------------------------------------------- page 3: highlights
 \noindent\textbf{Highlights}
 \begin{itemize}
-  \item A valid Aadhaar check digit is not evidence that an identity card is genuine.
-  \item Format and cross-field rules expose forged cards that leave no pixel-level trace.
-  \item On genuine cards, every rule failure came from an OCR misread, not from a forger.
-  \item Weighting each rule check separately recovers about half of the loss caused by OCR.
-  \item A synthetic benchmark lets forgery detection be tested without real identity data.
+  \item A valid check digit should not be reported as evidence that an identity card is genuine.
+  \item Field-consistency rules can expose forged ID cards that leave no pixel-level trace.
+  \item OCR misreads must be ruled out before a failed rule is used as forensic evidence.
+  \item Error rates at a fixed false-positive budget make ID-checking tools comparable.
+  \item Synthetic benchmarks allow ID forgery testing without any real personal data.
 \end{itemize}
 
 \clearpage
@@ -241,13 +241,6 @@ data and signed off before the test split was scored once.
 forgery categories, per-field ground truth, three naming conventions and
 audited leakage controls, together with an independent 90-identity
 confirmation set.
-\item \textbf{Measured findings.} The two evidence sources are largely
-complementary: with ground-truth text, fusion raises recall
-from 13.4\% to 48.8\% at an unchanged 4.8\% false-positive rate. OCR
-error removes about three quarters of that gain, and the loss falls mainly on
-PAN, whose rules are both richer and harder to read than Aadhaar's.
-Treating each rule as a separate fusion input recovers about half of
-the loss, a result we confirm prospectively on fresh data.
 \item \textbf{Checked explanations.} Every rule-driven flag names the
 failed check and the field it read. We measure how often that named
 check is the one tied to the field that was actually corrupted, instead
@@ -267,7 +260,7 @@ the experimental protocol (Section~\ref{sec:setup}). Results, discussion
 and conclusions follow in Sections~\ref{sec:results}--\ref{sec:conclusion}.
 
 %======================================================================
-\subsection{Search Protocol}
+\section{Search Protocol}
 \label{sec:related}
 
 The word \emph{structural} is used in two senses in this literature.
@@ -278,7 +271,7 @@ a check digit or a positional code, which hold no matter how the card
 was printed or photographed. Where the two could be confused we write
 \emph{pixel-level} and \emph{format-level}.
 
-\subsubsection{Visual Detection of Document Forgery}
+\subsection{Visual Detection of Document Forgery}
 
 Image-based detection is the dominant approach for identity and
 official documents. Babbar et al.~\cite{babbar} fine-tune VGG16 for
@@ -301,7 +294,7 @@ of identity cards, again from visual embeddings alone. All of these
 methods look for evidence in the image. None of them is
 designed to notice a forgery that was rendered cleanly from false data.
 
-\subsubsection{Field-Level and Hybrid Verification}
+\subsection{Field-Level and Hybrid Verification}
 
 Checking extracted fields against rules or records has been tried both
 in India and elsewhere. Shaikh and Patil~\cite{shaikh} combine a CNN
@@ -339,7 +332,7 @@ under real OCR rather than perfect text.
 
 %FLOAT:1%
 
-\subsubsection{Synthetic Identity-Document Data}
+\subsection{Synthetic Identity-Document Data}
 
 Real identity documents cannot be shared for research, so recent
 benchmarks are synthetic. MIDV-2020~\cite{midv} uses mock documents with
@@ -354,7 +347,7 @@ whether the printed values satisfy the document's own format rules. Our
 generator (Section~\ref{sec:dataset}) follows the same privacy
 rationale but is built around that field-level ground truth.
 
-\subsubsection{Explanations and Evidence Fusion}
+\subsection{Explanations and Evidence Fusion}
 
 Explanations in document forensics are usually model-derived: TruFor and
 DocTamper-trained detectors return a spatial anomaly map, and
@@ -371,7 +364,7 @@ fusion differs only in keeping the two document types, and later each
 individual rule, as separate inputs, so that the Aadhaar--PAN asymmetry
 is not averaged away.
 
-\subsubsection{Literature Search Protocol}
+\subsection{Literature Search Protocol}
 \label{sec:search-protocol}
 
 Claims of the form ``no reviewed study does $X$'' are only as strong as
@@ -1170,7 +1163,7 @@ Table~\ref{tab:weights} shows the fusion weights, which were fitted on the valid
 \label{subsec:implementation}
 
 The visual models were trained on one NVIDIA GeForce RTX 4060 Laptop GPU
-(8\,GB) under Windows~11 with Python 3.12.7, PyTorch 2.14.1 and
+(8\,GB; NVIDIA Corporation, Santa Clara, CA, USA) under Windows~11 with Python 3.12.7, PyTorch 2.14.1 and
 CUDA 13.0; one tile-model seed takes 31--54 minutes. Corpus
 generation, OCR, validation, fusion and evaluation run on CPU. The
 corpus was built with Python 3.13, NumPy 2.4.4, Pillow 12.2.0 and
