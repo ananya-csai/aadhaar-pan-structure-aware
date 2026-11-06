@@ -4,7 +4,8 @@
 # Inputs : paper/wiley/main.tex (master text), paper/generated/, paper/figures/,
 #          paper/wiley/tikzfig/ and paper/wiley/tikz_src/
 # Outputs: the LaTeX sources in paper/jfs/ (committed) and, in a temporary
-#          folder printed at the end, the PDFs and the TIFF figure files.
+#          folder printed at the end, the PDFs, the TIFF figure files and
+#          manuscript.docx (the Word main document uploaded to JFS).
 set -e
 ROOT=$(cd "$(dirname "$0")/../../.." && pwd)
 B=$ROOT/paper/jfs/build
@@ -24,4 +25,4 @@ cp "$OUT/generated/numbers.tex" "$J/generated/"
 cp "$OUT"/figure_pdf/*.pdf "$J/figure_pdf/"
 cp "$OUT/build_log.txt" "$J/CHANGES_FROM_WILEY.txt"
 cp "$OUT/figure_map.txt" "$J/figure_map.txt"
-echo "PDFs and figure_files/*.tif: $OUT"
+echo "PDFs, manuscript.docx and figure_files/*.tif: $OUT"

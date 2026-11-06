@@ -11,27 +11,45 @@ listed in [`CHANGES_FROM_WILEY.txt`](CHANGES_FROM_WILEY.txt).
 
 ## Files
 
-| File | What it is | Upload to JFS? |
-|---|---|---|
-| `manuscript.tex` | anonymised manuscript: title, abstract + keywords, highlights, text, references, tables, figure legends; double-spaced, line-numbered | yes, as the main document (compiled PDF) |
-| `supplementary.tex` | Supplemental Information, Appendix S1 (reproducibility record, Tables S1–S3), anonymised | yes, as Supplemental Information |
-| `figure_pdf/FigureN.pdf` | vector copies of the 12 figures, numbered in order of first citation | no; upload the TIFF files made by the build |
-| `manuscript_with_figures.tex` | reading copy: the manuscript with the figures appended | no |
-| `generated/numbers.tex` | dataset numbers (thousands separators added) | — |
-| `build/` | conversion and figure scripts | — |
+| File | What it is |
+|---|---|
+| `manuscript.tex` | anonymised manuscript: title, abstract + keywords, highlights, text, references, tables, figure legends; double-spaced, line-numbered |
+| `supplementary.tex` | Supplemental Information, Appendix S1 (reproducibility record, Tables S1–S3), anonymised |
+| `figure_pdf/FigureN.pdf` | vector copies of the 12 figures, numbered in order of first citation |
+| `figure_pages.tex`, `figure_map.txt` | figure pages of the reading copy; map from paper figures to JFS figure numbers |
+| `manuscript_with_figures.tex` | reading copy: the manuscript with the figures appended (not for upload) |
+| `generated/numbers.tex` | dataset numbers (thousands separators added) |
+| `build/` | conversion, figure and Word scripts |
 
-The title page and the cover letter contain contact details and are not kept
-in this public repository.
+The build (below) also writes, outside the repository, the compiled PDFs,
+the 600-dpi TIFF figures and `manuscript.docx`, the Word copy of the
+manuscript. The title page, the cover letter and the conflict-of-interest
+statement contain contact details and are not kept in this public
+repository.
+
+## What goes into the JFS submission portal
+
+| Portal item | File |
+|---|---|
+| Anonymized Main Document (MS Word) | `manuscript.docx` (from the build) |
+| Title Page (MS Word) | kept outside the repository |
+| Conflict of Interest (one document for all authors) | kept outside the repository |
+| Figure (TIFF, at least 300 dpi, not embedded) | `figure_files/Figure1.tif` … `Figure12.tif` (from the build) |
+| Supplementary Material for Review | `supplementary.pdf` (from the build) |
+
+Abstract, keywords and highlights are pasted into the submission form exactly
+as they appear in the manuscript.
 
 ## How the JFS rules were applied
 
 - **Double-blind review:** no names, affiliations, e-mail addresses,
   repository links, commit hashes or author initials in the manuscript or
-  the supplement; PDF metadata empty. The links are on the title page.
+  the supplement; file metadata empty. The links are on the title page.
 - **Order:** title / abstract and keywords (own page) / highlights (own page)
   / text / references / tables / figure legends (last pages).
-- **Headings:** INTRODUCTION, SEARCH PROTOCOL, MATERIALS AND METHODS, RESULTS, DISCUSSION,
-  CONCLUSIONS (bold capitals); subheadings in italics; sub-subheadings plain.
+- **Headings:** INTRODUCTION, SEARCH PROTOCOL, MATERIALS AND METHODS,
+  RESULTS, DISCUSSION, CONCLUSIONS (bold capitals); subheadings in italics;
+  sub-subheadings plain.
 - **Abstract:** 245 words (limit 250), unstructured. **Keywords:** eight,
   including the forensic specialty and both spelled-out terms and
   abbreviations. **Highlights:** five sentences, each under 100 characters.
@@ -43,19 +61,24 @@ in this public repository.
   internal rules or shading, footnote symbols in the order *, †.
 - **Figures:** not embedded; separate TIFF files at 600 dpi, numbered in
   order of first citation; legends on the last pages.
-- **Generative AI:** the authors' declaration is in Methods (Section 3.5) and
-  repeated in the title-page Acknowledgments, as the JFS AI statement asks. The declaration is in Section 3.5.
+- **Word copy:** Times New Roman 12 pt, double-spaced, continuous line
+  numbers and page numbers; equations are editable Word equations (they
+  display in Microsoft Word; LibreOffice does not show them).
+- **Generative AI:** the authors' declaration is in Materials and Methods
+  (Section 3.5) and repeated in the title-page Acknowledgments, as the JFS AI
+  statement asks.
 
 ## Rebuild
 
-From the repository root (pdfLaTeX, Python 3 with Pillow and pypdf):
+From the repository root (pdfLaTeX; Python 3 with Pillow and pypdf; for the
+Word copy also pandoc and python-docx):
 
     bash paper/jfs/build/make_jfs.sh
 
-The script rebuilds the files above from the master text and prints the
-folder that holds the PDFs and `figure_files/FigureN.tif`. The build is
-deterministic: the same inputs give identical LaTeX sources and identical
-TIFF files.
+The script rebuilds the LaTeX files above from the master text and prints
+the folder that holds the PDFs, `manuscript.docx` and
+`figure_files/FigureN.tif`. The LaTeX sources and the TIFF files are
+deterministic: the same inputs give identical files.
 
 ## During review
 

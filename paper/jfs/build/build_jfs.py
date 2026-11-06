@@ -105,7 +105,7 @@ def pull(m):
 
 
 body = re.sub(r"\\begin\{(table\*?|figure\*?)\}.*?\\end\{\1\}", pull, body, flags=re.S)
-body = re.sub(r"\n?%%FLOAT:\d+%%\n?", "\n", body)
+body = re.sub(r"\n?%FLOAT:\d+%\n?", "\n", body)
 log.append(f"moved {sum(k=='table' for k,_,_ in floats)} tables after the references and "
            f"{sum(k=='figure' for k,_,_ in floats)} figures to separate files (legends at the end)")
 

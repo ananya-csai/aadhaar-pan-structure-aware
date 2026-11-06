@@ -139,7 +139,6 @@ $[11.2, 14.1]$; no measurable increase in false positives). When a fabricated nu
 \clearpage
 \linenumbers
 % ---------------------------------------------------------------- text
-%FLOAT:0%
 \section{Introduction}
 \label{sec:intro}
 
@@ -330,7 +329,6 @@ an experiment that holds the visual detector fixed and measures the
 detection added by Aadhaar- and PAN-specific rules, by forgery type, and
 under real OCR rather than perfect text.
 
-%FLOAT:1%
 
 \subsection{Synthetic Identity-Document Data}
 
@@ -515,7 +513,6 @@ validator that flagged missing evidence as inconsistency would turn
 extraction failures into false positives.
 Table~\ref{tab:semexamples} applies the rule to typical name forms.
 
-%FLOAT:2%
 
 The tenth character is documented as an alphabetic check
 digit~\cite{itd-pan}, but we could not locate a public description of
@@ -525,14 +522,12 @@ can suggest that a PAN check digit was verified. Fig.~\ref{fig:flows}
 shows both decision flows.
 
 % ---------- FIGURE 2: validation flows --------------------------------
-%FLOAT:3%
 
 \subsubsection{Asymmetry Between the Two Documents}
 \label{sec:asymmetry}
 
 The two validators are different because the two formats are different, not because we took a shortcut when building them (Table~\ref{tab:capability}). When an Aadhaar number fails the checksum, we know for sure that the text that was read is inconsistent. PAN has more checks, including the only semantic one, but none of them can test its check digit. So a ``fully consistent'' result does not mean the same thing for both cards, which is why the fusion stage handles the two document types separately (Section~\ref{sec:fusion}). RQ5 looks at whether this difference also shows up in the measured gain.
 
-%FLOAT:4%
 
 \subsubsection{What a Verdict Does and Does Not Mean}
 \label{sec:limitations}
@@ -595,7 +590,6 @@ identical to its control everywhere outside the changed field
 generation pipeline.
 
 % ---------- FIGURE 3: generation pipeline ------------------------------
-%FLOAT:5%
 
 \subsubsection{Identities, Identifiers and Naming Strata}
 \label{subsec:records}
@@ -624,9 +618,7 @@ one document per forgery category) and each document is captured at
 Table~\ref{tab:forgery} defines the categories and
 Fig.~\ref{fig:specimens} shows one record across all of them.
 
-%FLOAT:6%
 
-%FLOAT:7%
 
 \textbf{C1} is the only category in which the pixels are changed after the card has been rendered. It uses the common document-tampering edits described in DocTamper~\cite{doctamper} and CMID~\cite{cmid}: patch splicing, small shifts of a field, font substitution, local recompression and patch resampling. Since every printed value is still valid, only the visual branch has something to detect. For every image, we save which edit was applied and which region was changed. The parameters are small on purpose: a
 displaced field moves by 5--11 pixels horizontally and 3--8 vertically;
@@ -639,7 +631,6 @@ and resampling \emph{fine-trace} edits, because the characters look
 unchanged, and the other three \emph{coarse} edits
 (Fig.~\ref{fig:c1ops}).
 
-%FLOAT:8%
 
 \textbf{C2--C4} change the identity record and re-render it. C2 breaks a
 structural rule (Aadhaar checksum, or PAN format or category character).
@@ -669,9 +660,7 @@ as the rest of the card, and tiers are drawn from the same distribution
 for every category, so image quality cannot act as a label cue.
 Table~\ref{tab:capture} lists the parameters.
 
-%FLOAT:9%
 
-%FLOAT:10%
 
 Fields are read by cropping each ground-truth box, mapped through the
 capture homography, and running Tesseract~\cite{tesseract} with a
@@ -704,7 +693,6 @@ confusions ($0\!\leftrightarrow\!\mathrm{O}$, $1\!\leftrightarrow\!\mathrm{I}$,
 $5\!\rightarrow\!\mathrm{S}$) and occasional insertions, none of which
 can occur in a purely numeric Aadhaar number.
 
-%FLOAT:11%
 
 These misreads have a direct cost on genuine cards
 (Table~\ref{tab:fpr}). With ground-truth text the rules never fire on
@@ -714,11 +702,8 @@ cards, including \dsFPPanClean\% of clean ones. The same thing that gives PAN mo
 
 Fig.~\ref{fig:perchk} shows which check is responsible. For PAN, nearly all false positives come from the format check, which fails on 17.7\% of genuine cards and on 13.7\% even of clean captures. The category check never fails, and the cross-field check fails only on severe captures (5.8\%), when the name itself has been misread. For Aadhaar, both checks fail only on severe captures. Table~\ref{tab:misreads} shows some typical cases. So, under OCR, the checks for the same document type are far from equally reliable, and the per-check fusion in Section~\ref{sec:fusion} makes use of this difference.
 
-%FLOAT:12%
 
-%FLOAT:13%
 
-%FLOAT:14%
 
 Table~\ref{tab:permstrict} justifies the permissive rule. On genuine
 PANs with ground-truth text it never fails, while the strict variant
@@ -739,7 +724,6 @@ put one identity's genuine and forged cards on opposite sides and let a
 model recognise people instead of forgeries. Table~\ref{tab:leakage}
 lists the audits run on the released splits.
 
-%FLOAT:15%
 
 The rendering audit carries the central assumption of RQ2 and RQ3: that
 C2--C4 contain no visual evidence of forgery. Because those categories
@@ -849,7 +833,6 @@ destroys most of the high-frequency trace left by recompression and
 resampling edits, and tiles keep every pixel that the capture left
 intact.
 
-%FLOAT:16%
 
 \paragraph*{Training labels.} Tile labels exist only during training.
 All tiles of a C0 image are negative. For a C1 image the stored edit
@@ -1006,7 +989,6 @@ Algorithm~\ref{alg:infer} summarises how one document is processed.
 \end{algorithmic}
 \end{algorithm}
 
-%FLOAT:17%
 
 %======================================================================
 \subsection{Experimental Setup}
@@ -1021,7 +1003,6 @@ answers. Every system is evaluated on the same 1{,}620 test images from
 document type and forgery category, and the A4 and A5 hybrids are also
 evaluated on the fresh set.
 
-%FLOAT:18%
 
 The rules-only systems need no threshold and contain nothing that could
 be tuned, so scoring them never consumes the test split. The whole-card
@@ -1053,7 +1034,6 @@ and three secondary replications with Holm correction. The fresh set was
 then generated, checked for leakage, scored by the frozen models and
 evaluated once by a script that refuses a second run.
 
-%FLOAT:19%
 
 \subsubsection{OCR Oracle Design}
 \label{subsec:oracle}
@@ -1137,9 +1117,7 @@ $384{\times}256$ only 26--32\% of the recompression and resampling
 signal remains (3--11\% on clean captures), against 83--86\% at
 $768{\times}512$.
 
-%FLOAT:20%
 
-%FLOAT:21%
 
 Even at $768{\times}512$, the whole-card ResNet-50 memorised its
 training set (training loss 0.002) and reached only 0.578 validation
@@ -1157,7 +1135,6 @@ could not see the fine-trace edits.
 
 Table~\ref{tab:weights} shows the fusion weights, which were fitted on the validation set and then kept fixed. Two patterns can already be seen before looking at any test result. With ground-truth text, every rule that fails at least once gets a large positive weight, since a failure in this setting always comes from a genuinely inconsistent card. With OCR text, A4 gives a PAN failure a net weight of only $2.35-0.73=1.62$, compared with 2.35 for Aadhaar, and A5 treats the PAN checks differently: the cross-field check keeps a weight of 2.53, while the noisy format check drops to 0.98.
 
-%FLOAT:22%
 
 \subsubsection{Implementation Details}
 \label{subsec:implementation}
@@ -1197,9 +1174,7 @@ published article.
 
 All numbers in this section come from scoring the v1 test split once (Section~\ref{sec:protocol}) and, in Section~\ref{subsec:res-a5}, from the fresh set. Nothing was refitted or re-thresholded after either run. Table~\ref{tab:main} lists every system, Table~\ref{tab:tests} lists every paired comparison along with its family-wise correction, and the remaining tables break down the results by the factor each research question is about; Table~\ref{tab:confusion} gives the underlying counts. Intervals are 95\% bootstrap intervals clustered by person, and percentages are out of 270 forged images per category and 540 genuine images unless stated otherwise. The comparisons themselves were taken from lists we wrote before the test run. However, how these comparisons were grouped into families was only written down after the overall test reports had been produced. Appendix~S1 (Supplemental Information) gives this record.
 
-%FLOAT:23%
 
-%FLOAT:24%
 
 \subsection{RQ1: Visual Detection of Pixel-Level Forgery}
 \label{subsec:res-rq1}
@@ -1218,9 +1193,7 @@ an AUROC of 0.536. Font substitution (55.6\%) and patch splicing
 (51.7\%) are detected most often, and field displacement least among
 the coarse edits (21.6\%).
 
-%FLOAT:25%
 
-%FLOAT:26%
 
 Avoiding resizing matters. Against the whole-card CNN at
 $768{\times}512$, the tile model raises C1 recall by 18.7 points
@@ -1317,7 +1290,6 @@ visual one over the whole plotted range; with OCR text the gain builds
 up in steps between about 1\% and 15\% FPR, because genuine documents
 now fail rules as well.
 
-%FLOAT:27%
 
 With OCR text, A4 at the 5\% operating point reaches 21.9\% [20.0, 24.0]
 at an FPR of 4.1\%, 8.5 points [6.3, 10.6] above the visual branch
@@ -1373,7 +1345,6 @@ number is misread always are (10 of 10). For PAN the rates are 2.7\% of
 226 and 97.7\% of 44; the six failures with a correctly read PAN come
 from the cross-field check (exploratory).
 
-%FLOAT:28%
 
 \emph{Answer to RQ4.} About three quarters of the structural and
 semantic branch's incremental value is lost under OCR with the
@@ -1384,7 +1355,6 @@ documents, which force the fusion to discount every rule failure.
 \subsection{RQ5: Aadhaar Versus PAN}
 \label{subsec:res-rq5}
 
-%FLOAT:29%
 
 The gain from adding rules is not the same for the two document types, and the gap between them flips under OCR (Fig.~\ref{fig:delta}; Table~\ref{tab:tests}, RQ5). With ground-truth text, PAN gains 47.4 points [45.9, 48.7] and Aadhaar gains 23.3 [22.2, 24.3], a difference of 24.1 points [22.4, 25.7]. This is because the rules can detect two PAN categories (C2 and C3) but only one Aadhaar category (C2), which is the difference in capability shown in Table~\ref{tab:capability}. With OCR text, Aadhaar keeps 18.9 points [15.4, 22.2] ($\rho=0.81$ [0.67, 0.94]), while PAN keeps nothing: $\Delta=-1.9$ [$-4.4$, 0.9], $\rho=-0.04$ [$-0.09$, 0.02]. Since the PAN interval includes zero, we find no measurable gain from the PAN rules under A4 with OCR text, and any real gain is at most about one point. The small negative value comes from a trade-off. To stay within the 5\% false-positive budget, A4 has to raise the threshold on the visual score, which cuts PAN C1 detection from 40.0\% to 20.0\%, and this loss is slightly larger than what the down-weighted PAN rule failures add back on PAN C2 and C3.
 
@@ -1454,7 +1424,6 @@ the same decisions as A4. At the higher matched-FPR operating point
 there is no gain (48.2\% vs.\ 47.8\%, at a realised FPR of 11.9\% vs.\
 10.9\%).
 
-%FLOAT:30%
 
 On the fresh set of 90 unseen people, the pre-registered primary
 hypothesis H1 is supported: under OCR text at the frozen 5\% thresholds,
