@@ -15,3 +15,10 @@ for f in supplementary titlepage cover_letter manuscript_with_figures; do
   echo "$f: errors $(grep -c '^!' $f.log), pages $(pdfinfo $f.pdf | awk '/Pages/{print $2}'), overfull $(grep -c 'Overfull' $f.log), undefined $(grep -ci 'undefined' $f.log)"
 done
 echo "manuscript: errors $(grep -c '^!' manuscript.log), pages $(pdfinfo manuscript.pdf | awk '/Pages/{print $2}'), overfull $(grep -c 'Overfull' manuscript.log), undefined $(grep -ci 'undefined' manuscript.log)"
+# Word copy of the main document (the JFS portal asks for MS Word); needs
+# pandoc and python-docx, and is skipped when either is missing.
+if command -v pandoc >/dev/null && python3 -c "import docx" 2>/dev/null; then
+  python3 -I "$B/to_docx.py" "$OUT" "$OUT/manuscript.docx" && echo "manuscript.docx written"
+else
+  echo "manuscript.docx skipped (needs pandoc and python-docx)"
+fi
