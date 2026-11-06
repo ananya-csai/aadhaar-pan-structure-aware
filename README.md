@@ -149,6 +149,27 @@ supports.
   regenerate exactly.
 * **Paper:** see [`paper/README.md`](paper/README.md).
 
+## AI assistance
+
+The paper declares the use of generative AI as follows:
+
+> During the preparation of this work, the authors used Claude (Anthropic) to
+> assist with drafting and language editing of the manuscript and analysis
+> scripting. The authors designed the study, made all methodological
+> decisions, ran the experiments, and reviewed, revised and verified all text,
+> code and results themselves. The authors take full responsibility for the
+> content of this published article.
+
+Claude was also used for code optimisation and for debugging problems that
+came up in the code.
+
+**Co-author lines.** Commits whose message ends with
+`Co-Authored-By: Claude <noreply@anthropic.com>` were made in sessions where
+Claude assisted with that change. GitHub credits every such commit to Claude
+as a co-author, which is why "claude" appears in the repository's
+contributors graph. Claude has no account access to this repository; every
+commit was made and pushed by one of the authors.
+
 ## Citing
 
 See [`CITATION.cff`](CITATION.cff). When citing the dataset, cite the
