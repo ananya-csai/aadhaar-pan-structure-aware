@@ -29,6 +29,6 @@
 - 54 citations now print as [n] after a non-breaking space
 - tables restyled for JFS: internal rules removed, footnote symbols *, dagger; numbered in order of first citation
 - NEW: 5 highlights (each <= 100 characters), written as forensic-science implications, not a summary of results
-- keywords: added 'questioned documents' (forensic specialty) and the abbreviations PAN, OCR; was: identity document forgery, Aadhaar, Permanent Account Number, document image forensics, optical character recognition, checksum validation, evidence fusion
+- keywords: same as the Wiley master (includes 'questioned documents', the forensic specialty, and the abbreviations PAN, OCR)
 - supplement anonymity: commit hash and author count removed
 - supplement anonymity: author initials removed

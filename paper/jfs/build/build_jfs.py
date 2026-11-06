@@ -312,7 +312,10 @@ keywords = ("questioned documents, identity document forgery, Aadhaar, "
             "Permanent Account Number (PAN), document image forensics, "
             "optical character recognition (OCR), checksum validation, evidence fusion")
 log.append("NEW: 5 highlights (each <= 100 characters), written as forensic-science implications, not a summary of results")
-log.append(f"keywords: added 'questioned documents' (forensic specialty) and the abbreviations PAN, OCR; was: {' '.join(kw_old.split())}")
+if " ".join(kw_old.split()) == " ".join(keywords.split()):
+    log.append("keywords: same as the Wiley master (includes 'questioned documents', the forensic specialty, and the abbreviations PAN, OCR)")
+else:
+    log.append(f"keywords: added 'questioned documents' (forensic specialty) and the abbreviations PAN, OCR; was: {' '.join(kw_old.split())}")
 
 # ------------------------------------------------------------------ manuscript
 preamble = (Path(__file__).parent / "preamble.tex").read_text(encoding="utf-8")

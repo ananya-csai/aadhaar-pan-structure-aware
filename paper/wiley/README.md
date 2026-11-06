@@ -1,104 +1,81 @@
 # Paper in the Wiley NJD-v5 template (master text)
 
-This folder holds the master text of the paper. The Journal of Forensic Sciences
-version in `../jfs/` is generated from it by `../jfs/build/make_jfs.sh`.
+This folder holds the master text of the paper. The *Journal of Forensic
+Sciences* (JFS) submission files in `../jfs/` are generated from it by
+`../jfs/build/make_jfs.sh`, which removes the names, ORCID iDs, e-mail
+addresses and links for double-blind review.
 
-Same content as paper v15 (IEEE version), moved into Wiley's general
-New Journal Design v5 template.
+## Current version: v4 (6 Nov 2026)
 
-## Target journal: IET Image Processing
+`main.tex` is the Wiley-template copy of the paper submitted to the Journal of
+Forensic Sciences:
 
-The current `main.tex` is prepared for IET Image Processing (Wiley / IET):
+- journal field, page header and "How to cite" line: Journal of Forensic
+  Sciences; article type "Original Paper";
+- authors with ORCID iDs (linked iD logo next to each name, and an "ORCID"
+  section before the references), departments and postal address of
+  Manipal University Jaipur; Ananya Shukla and Soham Phulwaria as equal first
+  authors; corresponding author Dinesh Kumar Saini;
+- e-mail addresses of the first authors in a footnote on page 1, the
+  corresponding author's in the Correspondence box;
+- keywords identical to the JFS submission, including the forensic specialty
+  (questioned documents);
+- back matter: author contributions, generative-AI declaration,
+  acknowledgments, funding, conflict of interest, data availability, ethics,
+  permissions.
 
-- title without abbreviations ("Permanent Account Number Cards");
-- running title under 40 characters; seven keywords;
-- corresponding author: Dinesh Kumar Saini;
-- back matter with every statement the journal asks for (acknowledgments,
-  funding, conflict of interest, data availability, ethics, patient consent,
-  permission to reproduce material, clinical trial registration).
+v4 changed only the title-page information and the end statements; the text
+of the paper is word-for-word the same as v3.
 
-IET Image Processing applies its own reference style at production, so the
-`VANCOUVER` option is kept for review. `graphical_abstract.tex` builds the figure
-for the graphical table-of-contents entry (pdflatex; output
-`graphical_abstract.png`, 600 dpi, within the 50 x 60 mm limit).
+Version history: v1 (IET Image Processing layout), v2 (preamble tidy-up),
+v3 (author details, Section 2 renamed "Search Protocol", Limitations as one
+paragraph), v4 (this version).
 
 ## Open in Overleaf
 
-1. Overleaf home → **New Project → Upload Project** → choose this zip.
-2. **Menu** (or the Settings gear) → **Compiler: XeLaTeX**, **TeX Live version: 2022**.
-   The template does not work with TeX Live 2023 or with pdfLaTeX.
-3. Main document: `main.tex`. Click **Recompile**.
+1. Overleaf home → **New Project → Upload Project** → choose the zip made from
+   this folder plus the Wiley template files (see below).
+2. **Menu** → **Compiler: XeLaTeX**, **TeX Live version: 2022** or later.
+3. Main document: `main.tex`. Click **Recompile** (about 5 seconds).
 
-## Compile time (Overleaf free plan)
-
-Overleaf's free plan stops any compile that takes longer than 10 seconds.
-The 12 TikZ/pgfplots figures are therefore included as ready-made PDFs from
-`tikzfig/`; a full clean build takes about 5 seconds (about 15 before).
-Their TikZ source is in `tikz_src/` (in the Overleaf zip: `figures/tikz_src/`).
-`externalize.py` regenerates the PDFs and the image-based `main.tex` from the
-TikZ version produced by `to_wiley.py`.
+Do not add the old `listings.sty` (v1.8d) that comes with the Wiley template:
+it stops the paper compiling on TeX Live 2023 and later. The standard
+`listings` package of the TeX Live installation is used instead.
 
 ## Files
 
 ```
 main.tex          the paper (edit this)
 references.bib    all 38 references (BibTeX)
-generated/        tables and plots generated from the experiment results
-figures/          image figures
-WileyNJDv5.cls, *.bst, *.sty, Fonts/   Wiley template files (do not edit)
+tikzfig/          the drawn figures as ready-made PDFs (used by main.tex)
+tikz_src/         TikZ source of the drawn figures
+graphical_abstract.tex / .png   graphical abstract (pdflatex, 600 dpi)
+to_wiley.py, externalize.py   scripts that built the first Wiley version
+rerender.py       re-renders the figures in tikzfig/ from tikz_src/ with the current preamble
 ```
+
+The Wiley class, styles and fonts (`WileyNJDv5.cls`, `*.bst`, `*.sty`,
+`Fonts/`) come from the official NJD-v5 template on Overleaf and are not
+stored here, because the fonts are not freely redistributable.
+`orcidlink.sty` is a standard CTAN package included in TeX Live. The tables in
+`../generated/` and the image figures in `../figures/` are shared with the
+other layouts.
 
 ## Reference style
 
-The first line of `main.tex` is
+`\documentclass[VANCOUVER,Times1COL]{WileyNJDv5}`: numbered Vancouver
+citations, single column, Times font.
 
-    \documentclass[VANCOUVER,Times1COL]{WileyNJDv5}
+## Compile time (Overleaf free plan)
 
-- `VANCOUVER`: numbered, superscript citations (the usual Wiley numbered style).
-- When the journal is chosen, replace it with the style in the journal's author
-  guidelines: `AMA`, `APA`, `HARVARD`, `CHICAGO`, `AMS`, `MLA`, `APS`, `MPS`.
-  Author–year styles (APA, Harvard, Chicago) also need sentence-level checks,
-  because the text was written for numbered citations.
-- `Times1COL` = single column, Times font (normal for submission).
+Overleaf's free plan stops any compile that takes longer than 10 seconds. The
+12 TikZ/pgfplots figures are therefore included as ready-made PDFs from
+`tikzfig/`; a full clean build takes about 5 seconds. Their source is in
+`tikz_src/`.
 
-## What changed from the IEEE version (v15)
+## History of the scripts
 
-- Wiley title page: author block, correspondence, abstract box, keywords.
-- Author note: all three authors contributed equally and share first authorship;
-  all three are listed as corresponding authors.
-- Back matter added: Author contributions, Declaration of generative AI and
-  AI-assisted technologies, Financial disclosure, Conflict of interest,
-  Data availability statement, Ethics statement.
-- The "Data and code availability" paragraph of Section 6 moved to the Data
-  availability statement; the Zenodo DOI now reads "will be made publicly
-  available ... upon publication" (the record is still a draft).
-- Bibliography converted from a hand-written list to `references.bib`.
-- Links in the reference list: 31 of 38 references have a clickable
-  `https://doi.org/` link, each checked against Crossref or DataCite (title match);
-  4 have a web link (UIDAI, Income Tax FAQ, PMLR, JSTOR); 3 have no DOI or
-  stable link (Verhoeff 1969 thesis, Income Tax Rules 1962, the IJIRT article).
-- Appendix moved after the references, as the template requires.
-- Figures drawn for one IEEE column scaled to 72–75% of the text width.
-- No result, number, table, equation or citation changed.
-
-## The authors must check before showing or submitting
-
-1. **Author contributions**: the roles listed are a draft based on who did what
-   in the project. Correct them.
-2. **Financial disclosure**: "None reported." Change it if there was any funding.
-3. **Journal fields** (`\journal{Journal}`, dates, "How to cite" box): placeholders
-   filled by Wiley at production; set `\journal{...}` once the journal is chosen.
-4. **Word limit**: about 20,700 words now; most Wiley journals ask for far less.
-   Cut to the chosen journal's limit.
-5. **Double-blind journals** need an anonymised version (no names, affiliations,
-   e-mails or repository link in the manuscript).
-
-## In this repository
-
-`paper/wiley/` holds only the files we wrote: `main.tex`, `references.bib`
-and the converter `to_wiley.py`. The Wiley class, styles and fonts come from
-the official NJD-v5 template on Overleaf and are not stored here (the fonts
-are not freely redistributable). To rebuild `main.tex` and the scaled plot
-files from the IEEE source:
-
-    python paper/wiley/to_wiley.py paper/main.tex paper/generated <out dir>
+`to_wiley.py` converted the IEEE version (paper v15, `../main.tex`) into the
+first Wiley version, and `externalize.py` replaced the TikZ figures by the
+PDFs in `tikzfig/`. `main.tex` has been edited by hand since then (v1–v4), so
+running these scripts again does not reproduce the current file.
